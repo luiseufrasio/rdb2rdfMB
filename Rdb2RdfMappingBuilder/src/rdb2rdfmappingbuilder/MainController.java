@@ -26,6 +26,8 @@ public class MainController implements Initializable {
 
     @FXML
     Button newMapping;
+    
+    public static final Stage secondaryStage = new Stage(StageStyle.UTILITY);
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,7 +45,6 @@ public class MainController implements Initializable {
         System.out.println("chamou");
         AnchorPane page = (AnchorPane) FXMLLoader.load(Rdb2RdfMappingBuilder.class.getResource("NewMapping.fxml"));
 
-        final Stage secondaryStage = new Stage(StageStyle.UTILITY);
         Scene scene = new Scene(page);
         secondaryStage.setScene(scene);
         secondaryStage.setTitle("Config a new Mapping");
