@@ -116,6 +116,6 @@
     </ImageView>
   </children>
   <stylesheets>
-    <URL value="@../../../../IssueTrackingLite/src/issuetrackinglite/IssueTrackingLite.css" />
+    <URL value="@Rdb2RdfMappingBuilder.css" />
   </stylesheets>
 </AnchorPane>

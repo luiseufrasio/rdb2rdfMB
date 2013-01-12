@@ -58,7 +58,7 @@
                                     <VBox prefHeight="430.0" prefWidth="285.0">
                                       <children>
                                         <Label text="Domain Ontology Tree" />
-                                        <TreeView prefHeight="405.0" prefWidth="100.0" />
+                                        <TreeView fx:id="ontologyTree" prefHeight="405.0" prefWidth="100.0" />
                                       </children>
                                     </VBox>
                                   </left>
