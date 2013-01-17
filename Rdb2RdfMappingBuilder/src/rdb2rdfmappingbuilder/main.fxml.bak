@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="theme" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.MainController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="989.0" styleClass="theme" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.MainController">
   <children>
-    <SplitPane id="splitPaneHorizontal1" dividerPositions="0.25125" focusTraversable="true" prefHeight="535.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
+    <SplitPane id="splitPaneHorizontal1" dividerPositions="0.2982810920121335" focusTraversable="true" prefHeight="535.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
       <items>
         <AnchorPane id="anchorPane1" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
@@ -20,6 +20,7 @@
                   <columns>
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="RDF Target" />
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="DB Source" />
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="95.0" text="Date Creation" />
                   </columns>
                 </TableView>
                 <HBox id="HBox" alignment="CENTER" spacing="15.0">
@@ -47,10 +48,10 @@
                               <children>
                                 <BorderPane prefHeight="418.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <bottom>
-                                    <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                                    <HBox id="HBox" alignment="TOP_LEFT" spacing="5.0">
                                       <children>
                                         <Label id="label2" text="Correspondence Assertion:" />
-                                        <TextField id="textField1" fx:id="synopsis" prefHeight="22.0" prefWidth="425.0" text="" />
+                                        <TextField id="textField1" fx:id="synopsis" prefHeight="25.0" prefWidth="543.0" text="" />
                                       </children>
                                     </HBox>
                                   </bottom>
@@ -116,6 +117,6 @@
     </ImageView>
   </children>
   <stylesheets>
-    <URL value="@../../../../IssueTrackingLite/src/issuetrackinglite/IssueTrackingLite.css" />
+    <URL value="@Rdb2RdfMappingBuilder.css" />
   </stylesheets>
 </AnchorPane>
