@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 
 public class Rdb2RdfMappingBuilder extends Application {
 
+    public static Stage pStage;
     /**
      * @param args the command line arguments
      */
@@ -22,6 +23,7 @@ public class Rdb2RdfMappingBuilder extends Application {
         try {
             AnchorPane page = (AnchorPane) FXMLLoader.load(Rdb2RdfMappingBuilder.class.getResource("main.fxml"));
             Scene scene = new Scene(page);
+            pStage = primaryStage;
             primaryStage.setScene(scene);
             primaryStage.setTitle("rdb2RDF Mapping Builder");
             primaryStage.show();

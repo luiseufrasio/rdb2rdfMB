@@ -10,7 +10,6 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfigurationEntry;
 import br.ufc.mcc.arida.rdb2rdfmb.sqlite.dao.MappingConfigurationDAO;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -64,6 +63,7 @@ public class NewMappingController implements Initializable {
     TextField passwd;
     @FXML
     ComboBox<String> comboDrivers;
+    public static NewMappingController nm;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -74,6 +74,8 @@ public class NewMappingController implements Initializable {
         assert comboDrivers != null : "fx:id=\"comboDrivers\" was not injected: check your FXML file 'NewMapping.fxml'.";
 
         comboDrivers.getSelectionModel().select(0);
+        nm = this;
+
         System.out.println(this.getClass().getSimpleName() + ".initialize");
     }
 
@@ -154,19 +156,22 @@ public class NewMappingController implements Initializable {
             }
             in.close();
 
-            mc = new MappingConfiguration(ontoAlias.getText(), dbAlias.getText(), ontoUrl.getText(), 1, ontoContent.toString(), comboDrivers.getValue(), url.getText(), user.getText(), passwd.getText());
+            mc = new MappingConfiguration(ontoAlias.getText(), dbAlias.getText(), ontoUrl.getText(), 2, ontoContent.toString(), comboDrivers.getValue(), url.getText(), user.getText(), passwd.getText());
         }
-
-        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        mc.setCreationDate(formatDate.format(new Date()));
 
         MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
         try {
-            mcDAO.add(mc);
+            if (ontoAlias.isDisable()) {
+                mcDAO.update(mc);
+            } else {
+                SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                mc.setCreationDate(formatDate.format(new Date()));
+                mcDAO.add(mc);
+                MainController.addRowMcTable(new MappingConfigurationEntry(mc));
+            }
 
             JOptionPane.showMessageDialog(null, "Mapping Configuration Saved!", "Success", JOptionPane.INFORMATION_MESSAGE);
             MainController.secondaryStage.close();
-            MainController.addRowMcTable(new MappingConfigurationEntry(mc));
         } catch (SQLException ex) {
             Logger.getLogger(NewMappingController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

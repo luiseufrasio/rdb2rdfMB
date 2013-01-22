@@ -16,18 +16,18 @@
           <children>
             <VBox prefHeight="535.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <children>
-                <TableView prefHeight="494.0" prefWidth="198.0">
+                <TableView fx:id="mcTable" prefHeight="494.0" prefWidth="198.0">
                   <columns>
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="RDF Target" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="DB Source" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="95.0" text="Date Creation" />
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="RDF Target" fx:id="itemOntoName" />
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="DB Source" fx:id="itemDbName" />
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="95.0" text="Date Creation" fx:id="itemDateCreation" />
                   </columns>
                 </TableView>
-                <HBox id="HBox" alignment="CENTER" spacing="15.0">
+                <HBox id="HBox" alignment="BOTTOM_CENTER" spacing="15.0">
                   <children>
                     <Button id="button1" fx:id="newMapping" onAction="#newMappingFired" text="New" />
-                    <Button id="button1" fx:id="saveIssue" disable="true" text="Edit" />
-                    <Button id="button1" fx:id="deleteIssue" disable="true" text="Delete" />
+                    <Button id="button1" fx:id="edit" disable="true" onAction="#editMappingFired" text="Edit" />
+                    <Button id="button1" fx:id="delete" disable="true" onAction="#deleteMappingFired" text="Delete" />
                   </children>
                 </HBox>
               </children>
@@ -48,7 +48,7 @@
                               <children>
                                 <BorderPane prefHeight="418.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <bottom>
-                                    <HBox id="HBox" alignment="TOP_LEFT" spacing="5.0">
+                                    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">
                                       <children>
                                         <Label id="label2" text="Correspondence Assertion:" />
                                         <TextField id="textField1" fx:id="synopsis" prefHeight="25.0" prefWidth="543.0" text="" />
