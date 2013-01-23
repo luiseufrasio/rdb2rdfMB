@@ -16,7 +16,7 @@ public class MappingConfiguration {
     private String creationDate;
     private String ontologyFilePath;
     private String ontologyURL;
-    private String ontologyContent;
+    private String ontologyLang;
     private String databaseDriver;
     private String databaseUrl;
     private String databaseUser;
@@ -29,7 +29,7 @@ public class MappingConfiguration {
         this.creationDate = creationDate;
     }
 
-    public MappingConfiguration(String ontologyAlias, String databaseAlias, String ontologyLocation, int locationType, String ontologyContent, String databaseDriver, String databaseUrl, String databaseUser, String databasePassword) {
+    public MappingConfiguration(String ontologyAlias, String databaseAlias, String ontologyLocation, int locationType, String ontologyLang, String databaseDriver, String databaseUrl, String databaseUser, String databasePassword) {
         this.ontologyAlias = ontologyAlias;
         this.databaseAlias = databaseAlias;
         if (locationType == 1) {
@@ -37,13 +37,21 @@ public class MappingConfiguration {
         } else {
             this.ontologyURL = ontologyLocation;
         }
-        this.ontologyContent = ontologyContent;
         this.databaseDriver = databaseDriver;
         this.databaseUrl = databaseUrl;
         this.databaseUser = databaseUser;
         this.databasePassword = databasePassword;
+        this.ontologyLang = ontologyLang;
     }
-    
+
+    public String getOntologyLang() {
+        return ontologyLang;
+    }
+
+    public void setOntologyLang(String ontologyLang) {
+        this.ontologyLang = ontologyLang;
+    }
+
     public String getCreationDate() {
         return creationDate;
     }
@@ -90,14 +98,6 @@ public class MappingConfiguration {
 
     public void setOntologyURL(String ontologyURL) {
         this.ontologyURL = ontologyURL;
-    }
-
-    public String getOntologyContent() {
-        return ontologyContent;
-    }
-
-    public void setOntologyContent(String ontologyContent) {
-        this.ontologyContent = ontologyContent;
     }
 
     public String getDatabaseDriver() {

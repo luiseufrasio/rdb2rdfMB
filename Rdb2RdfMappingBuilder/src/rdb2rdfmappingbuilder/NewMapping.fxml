@@ -24,7 +24,44 @@
         </AnchorPane>
         <Accordion prefHeight="335.0" prefWidth="500.0">
           <expandedPane>
-            <TitledPane id="x3" fx:id="x1" animated="true" expanded="true" text="General">
+            <TitledPane fx:id="x2" animated="true" expanded="true" text="Ontology Schema">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="11.0" spacing="5.0">
+                      <children>
+                        <Label text="Choose a File:" />
+                        <TextField fx:id="filePath" prefWidth="290.9998779296875" />
+                        <Button mnemonicParsing="false" onAction="#searchFired" text="Search" />
+                      </children>
+                    </HBox>
+                    <Label layoutX="215.0" layoutY="45.0" text="OR" />
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="76.0" spacing="5.0">
+                      <children>
+                        <Label text="Type an URL: " />
+                        <TextField fx:id="ontoUrl" prefWidth="291.0" />
+                      </children>
+                    </HBox>
+                    <ComboBox fx:id="comboOntoLangs" layoutX="93.0" layoutY="133.0" prefHeight="21.0" prefWidth="289.0">
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="RDF/XML" />
+                          <String fx:value="RDF/XML-ABBREV" />
+                          <String fx:value="N-TRIPLE" />
+                          <String fx:value="TURTLE" />
+                          <String fx:value="TTL" />
+                          <String fx:value="N3" />
+                        </FXCollections>
+                      </items>
+                    </ComboBox>
+                    <Label layoutX="14.0" layoutY="136.0" text="Language:" />
+                  </children>
+                </AnchorPane>
+              </content>
+            </TitledPane>
+          </expandedPane>
+          <panes>
+            <TitledPane id="x3" fx:id="x1" animated="true" expanded="false" text="General">
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -44,31 +81,7 @@
                 </AnchorPane>
               </content>
             </TitledPane>
-          </expandedPane>
-          <panes>
-            <fx:reference source="x1" />
-            <TitledPane id="x2" animated="true" expanded="false" text="Ontology Schema">
-              <content>
-                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="11.0" spacing="5.0">
-                      <children>
-                        <Label text="Choose a File:" />
-                        <TextField fx:id="filePath" prefWidth="290.9998779296875" />
-                        <Button mnemonicParsing="false" onAction="#searchFired" text="Search" />
-                      </children>
-                    </HBox>
-                    <Label layoutX="215.0" layoutY="59.0" text="OR" />
-                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="104.0" spacing="5.0">
-                      <children>
-                        <Label text="Ontology URL:" />
-                        <TextField fx:id="ontoUrl" prefWidth="291.0" />
-                      </children>
-                    </HBox>
-                  </children>
-                </AnchorPane>
-              </content>
-            </TitledPane>
+            <fx:reference source="x2" />
             <TitledPane id="x1" animated="true" expanded="false" text="Database Configuration">
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

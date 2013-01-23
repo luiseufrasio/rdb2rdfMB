@@ -21,8 +21,8 @@ public class MappingConfigurationDAO {
     public int add(MappingConfiguration mc) throws SQLException {
         Statement stm = DbConnection.connSQLite.createStatement();
 
-        stm.executeUpdate("INSERT INTO MappingConfiguration(ontologyAlias,databaseAlias,creationDate,ontologyFilePath,ontologyURL,ontologyContent,databaseDriver,databaseUrl,databaseUser,databasePassword ) VALUES ('"
-                + mc.getOntologyAlias() + "','" + mc.getDatabaseAlias() + "','" + mc.getCreationDate() + "','" + mc.getOntologyFilePath() + "','" + mc.getOntologyURL() + "','" + mc.getOntologyContent() + "','" + mc.getDatabaseDriver() + "','" + mc.getDatabaseUrl() + "','" + mc.getDatabaseUser() + "','" + mc.getDatabasePassword() + "')");
+        stm.executeUpdate("INSERT INTO MappingConfiguration(ontologyAlias,databaseAlias,creationDate,ontologyFilePath,ontologyURL,ontologyLang,databaseDriver,databaseUrl,databaseUser,databasePassword ) VALUES ('"
+                + mc.getOntologyAlias() + "','" + mc.getDatabaseAlias() + "','" + mc.getCreationDate() + "','" + mc.getOntologyFilePath() + "','" + mc.getOntologyURL() + "','" + mc.getOntologyLang() + "','" + mc.getDatabaseDriver() + "','" + mc.getDatabaseUrl() + "','" + mc.getDatabaseUser() + "','" + mc.getDatabasePassword() + "')");
 
         ResultSet rs = stm.executeQuery("SELECT id FROM MappingConfiguration WHERE ontologyAlias='"
                 + mc.getOntologyAlias() + "' AND databaseAlias='" + mc.getDatabaseAlias() + "'");
@@ -72,7 +72,7 @@ public class MappingConfigurationDAO {
         mc.setDatabasePassword(rs.getString("databasePassword"));
         mc.setDatabaseUrl(rs.getString("databaseUrl"));
         mc.setDatabaseUser(rs.getString("databaseUser"));
-        mc.setOntologyContent(rs.getString("ontologyContent"));
+        mc.setOntologyLang(rs.getString("ontologyLang"));
         String oFp = rs.getString("ontologyFilePath");
         mc.setOntologyFilePath("null".equals(oFp) ? "" : oFp);
         String oURL = rs.getString("ontologyURL");
@@ -90,7 +90,7 @@ public class MappingConfigurationDAO {
         stm.executeUpdate("UPDATE MappingConfiguration "+
                 " SET ontologyFilePath='" + mc.getOntologyFilePath() + "'" +
                 ", ontologyURL='" + mc.getOntologyURL() + "'" +
-                ", ontologyContent='" + mc.getOntologyContent() + "'" +
+                ", ontologyLang='" + mc.getOntologyLang() + "'" +
                 ", databaseDriver='" + mc.getDatabaseDriver() + "'" +
                 ", databaseUrl='" + mc.getDatabaseUrl() + "'" +
                 ", databaseUser='" + mc.getDatabaseUser() + "'" +

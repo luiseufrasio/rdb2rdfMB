@@ -1,0 +1,162 @@
+@prefix dc:      <http://purl.org/dc/elements/1.1/> .
+@prefix :        <vocab/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:produto  a       owl:Class , rdfs:Class ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "produto" .
+      
+:idProduto
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :produto ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "idProduto" ;
+      rdfs:range xsd:integer .
+
+:titulo
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :produto ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "titulo" ;
+      rdfs:range xsd:string .
+
+:preco
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :produto ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "preco" ;
+      rdfs:range xsd:decimal .
+
+:video  a       owl:Class , rdfs:Class ;
+      rdfs:isDefinedBy : ;
+      rdfs:subClassOf :produto ;
+      rdfs:label "video" .
+      
+:diretor
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :video ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "diretor" ;
+      rdfs:range xsd:string .
+
+:genero
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :video ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "genero" ;
+      rdfs:range xsd:string .
+
+:musica
+      a       owl:Class , rdfs:Class ;
+      rdfs:isDefinedBy : ;
+      rdfs:subClassOf :produto ;
+      rdfs:label "musica" .
+
+:dataLancamento
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :musica ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "dataLancamento" ;
+      rdfs:range xsd:date .
+
+:interprete
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :musica ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "interprete" ;
+      rdfs:range xsd:string .
+
+:idGravadora
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain :musica ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "idGravadora" ;
+      rdfs:range :gravadora .
+
+:gravadora
+      a       owl:Class , rdfs:Class ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "gravadora" .
+
+:nomeGravadora
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :gravadora ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "nomeGravadora" ;
+      rdfs:range xsd:string .
+
+:cidadeMatriz
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :gravadora ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "cidadeMatriz" ;
+      rdfs:range xsd:string .      
+
+:publicacao
+      a       owl:Class , rdfs:Class ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "publicacao" .
+
+:isbn
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :publicacao ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "isbn" ;
+      rdfs:range xsd:string .
+
+:autor
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :publicacao ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "autor" ;
+      rdfs:range xsd:string .
+
+:edicao
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :publicacao ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "edicao" ;
+      rdfs:range xsd:integer .
+
+:tipo
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :publicacao ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "tipo" ;
+      rdfs:range xsd:string .
+
+:publicacao_idEditora
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain :publicacao ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "idEditora" ;
+      rdfs:range :editora .
+
+:editora
+      a       owl:Class , rdfs:Class ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "editora" .
+
+:idEditora
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :editora ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "idEditora" ;
+      rdfs:range xsd:integer .
+
+:nomeEditora
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :editora ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "nomeEditora" ;
+      rdfs:range xsd:string .
+
+:endereco
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain :editora ;
+      rdfs:isDefinedBy : ;
+      rdfs:label "endereco" ;
+      rdfs:range xsd:string .

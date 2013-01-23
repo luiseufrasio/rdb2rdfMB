@@ -60,18 +60,18 @@
                                     </HBox>
                                   </bottom>
                                   <left>
-                                    <VBox prefHeight="430.0" prefWidth="285.0">
+                                    <VBox prefHeight="427.0" prefWidth="320.0">
                                       <children>
                                         <Label text="Domain Ontology Tree" />
-                                        <TreeView fx:id="ontologyTree" prefHeight="405.0" prefWidth="100.0" />
+                                        <TreeView id="ontologyTree" fx:id="ontoTree" prefHeight="405.0" prefWidth="320.0" showRoot="false" />
                                       </children>
                                     </VBox>
                                   </left>
                                   <right>
-                                    <VBox prefHeight="430.0" prefWidth="284.0">
+                                    <VBox prefHeight="427.0" prefWidth="320.0">
                                       <children>
                                         <Label text="Database Schema Tree" />
-                                        <TreeView prefHeight="405.0" prefWidth="100.0" />
+                                        <TreeView fx:id="dbTree" prefHeight="405.0" prefWidth="100.0" showRoot="false" />
                                       </children>
                                     </VBox>
                                   </right>

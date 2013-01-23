@@ -35,20 +35,30 @@
                         <Button mnemonicParsing="false" onAction="#searchFired" text="Search" />
                       </children>
                     </HBox>
-                    <Label layoutX="215.0" layoutY="59.0" text="OR" />
-                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="104.0" spacing="5.0">
+                    <Label layoutX="215.0" layoutY="45.0" text="OR" />
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="76.0" spacing="5.0">
                       <children>
-                        <Label text="Ontology URL:" />
+                        <Label text="Type an URL: " />
                         <TextField fx:id="ontoUrl" prefWidth="291.0" />
                       </children>
                     </HBox>
+                    <ComboBox layoutX="93.0" layoutY="133.0" prefHeight="21.0" prefWidth="289.0">
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Item 1" />
+                          <String fx:value="Item 2" />
+                          <String fx:value="Item 3" />
+                        </FXCollections>
+                      </items>
+                    </ComboBox>
+                    <Label layoutX="14.0" layoutY="136.0" text="Language:" />
                   </children>
                 </AnchorPane>
               </content>
             </TitledPane>
           </expandedPane>
           <panes>
-            <TitledPane fx:id="x3" animated="true" expanded="false" text="General">
+            <TitledPane id="x3" fx:id="x1" animated="true" expanded="false" text="General">
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -69,7 +79,7 @@
               </content>
             </TitledPane>
             <fx:reference source="x2" />
-            <TitledPane fx:id="x1" animated="true" expanded="false" text="Database Configuration">
+            <TitledPane id="x1" animated="true" expanded="false" text="Database Configuration">
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>

@@ -63,6 +63,9 @@ public class NewMappingController implements Initializable {
     TextField passwd;
     @FXML
     ComboBox<String> comboDrivers;
+    @FXML
+    ComboBox<String> comboOntoLangs;
+
     public static NewMappingController nm;
 
     @Override
@@ -136,27 +139,11 @@ public class NewMappingController implements Initializable {
      */
     public void saveFired(ActionEvent event) throws IOException {
         MappingConfiguration mc;
-        StringBuilder ontoContent = new StringBuilder("");
 
         if (!("".equals(filePath.getText().trim()))) {
-            List<String> lines = Files.readAllLines(Paths.get(filePath.getText()), StandardCharsets.UTF_8);
-            for (String lineContent : lines) {
-                ontoContent.append(" ");
-                ontoContent.append(lineContent);
-            }
-
-            mc = new MappingConfiguration(ontoAlias.getText(), dbAlias.getText(), filePath.getText(), 1, ontoContent.toString(), comboDrivers.getValue(), url.getText(), user.getText(), passwd.getText());
+            mc = new MappingConfiguration(ontoAlias.getText(), dbAlias.getText(), filePath.getText(), 1, comboOntoLangs.getValue(), comboDrivers.getValue(), url.getText(), user.getText(), passwd.getText());
         } else {
-            URL urlOntology = new URL(ontoUrl.getText());
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlOntology.openStream()));
-            String line;
-            while ((line = in.readLine()) != null) {
-                ontoContent.append(" ");
-                ontoContent.append(line);
-            }
-            in.close();
-
-            mc = new MappingConfiguration(ontoAlias.getText(), dbAlias.getText(), ontoUrl.getText(), 2, ontoContent.toString(), comboDrivers.getValue(), url.getText(), user.getText(), passwd.getText());
+            mc = new MappingConfiguration(ontoAlias.getText(), dbAlias.getText(), ontoUrl.getText(), 2, comboOntoLangs.getValue(), comboDrivers.getValue(), url.getText(), user.getText(), passwd.getText());
         }
 
         MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();

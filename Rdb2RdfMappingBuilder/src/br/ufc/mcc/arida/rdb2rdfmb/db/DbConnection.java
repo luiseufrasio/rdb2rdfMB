@@ -4,7 +4,9 @@
  */
 package br.ufc.mcc.arida.rdb2rdfmb.db;
 
-import java.io.IOException;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
+import de.fuberlin.wiwiss.d2rq.dbschema.DatabaseSchemaInspector;
+import de.fuberlin.wiwiss.d2rq.map.Database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -39,7 +41,7 @@ public class DbConnection {
                     + "creationDate text NOT NULL,"
                     + "ontologyFilePath text,"
                     + "ontologyURL text,"
-                    + "ontologyContent NOT NULL,"
+                    + "ontologyLang text NOT NULL,"
                     + "databaseDriver text NOT NULL,"
                     + "databaseUrl text NOT NULL,"
                     + "databaseUser text NOT NULL,"
@@ -47,64 +49,6 @@ public class DbConnection {
                     + "UNIQUE(ontologyAlias,databaseAlias));");
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static void createSQLiteDB() throws SQLException, ClassNotFoundException,
-            IOException {
-        try (Statement stm = connSQLite.createStatement()) {
-            stm.executeUpdate("CREATE TABLE IF NOT EXISTS MappingConfiguration ("
-                    + "id integer PRIMARY KEY NOT NULL,"
-                    + "ontologyAlias text NOT NULL,"
-                    + "databaseAlias text NOT NULL,"
-                    + "ontologyFilePath varchar(255),"
-                    + "ontologyURL varchar(255),"
-                    + "ontologyContent none NOT NULL,"
-                    + "databaseDriver text NOT NULL,"
-                    + "databaseUrl text NOT NULL,"
-                    + "databaseUser text NOT NULL,"
-                    + "databasePassword text NOT NULL,"
-                    + "UNIQUE(ontologyAlias,databaseAlias));");
-
-            /*
-             stm.executeUpdate("CREATE TABLE IF NOT EXISTS RdfClass ("
-             + "id integer PRIMARY KEY NOT NULL,"
-             + "prefix varchar(20),"
-             + "name varchar(50),"
-             + "FOREIGN KEY(prefix) REFERENCES Ontology(prefix) ON DELETE CASCADE,"
-             + "UNIQUE(prefix,name));");
-
-             stm.executeUpdate("CREATE TABLE IF NOT EXISTS DataProperty ("
-             + "id integer PRIMARY KEY NOT NULL,"
-             + "prefix varchar(20),"
-             + "name varchar(50),"
-             + "FOREIGN KEY(prefix) REFERENCES Ontology(prefix) ON DELETE CASCADE,"
-             + "UNIQUE(prefix,name));");
-
-             stm.executeUpdate("CREATE TABLE IF NOT EXISTS ObjectProperty ("
-             + "id integer PRIMARY KEY NOT NULL,"
-             + "prefix varchar(20),"
-             + "name varchar(50),"
-             + "FOREIGN KEY(prefix) REFERENCES Ontology(prefix) ON DELETE CASCADE,"
-             + "UNIQUE(prefix,name));");
-
-             stm.executeUpdate("CREATE TABLE IF NOT EXISTS DomainLiteral ("
-             + "id integer PRIMARY KEY NOT NULL,"
-             + "idDataProperty integer,"
-             + "class integer,"
-             + "literalType varchar(20),"
-             + "FOREIGN KEY(class) REFERENCES RdfClass(id) ON DELETE CASCADE,"
-             + "FOREIGN KEY(idDataProperty) REFERENCES DataProperty(id) ON DELETE CASCADE);");
-
-             stm.executeUpdate("CREATE TABLE IF NOT EXISTS DomainRange ("
-             + "id integer PRIMARY KEY NOT NULL,"
-             + "idObjectProperty integer,"
-             + "classDomain integer,"
-             + "classRange integer,"
-             + "FOREIGN KEY(classDomain) REFERENCES RdfClass(id) ON DELETE CASCADE,"
-             + "FOREIGN KEY(classRange) REFERENCES RdfClass(id) ON DELETE CASCADE,"
-             + "FOREIGN KEY(idObjectProperty) REFERENCES ObjectProperty(id) ON DELETE CASCADE);");
-             */
         }
     }
 
@@ -116,6 +60,16 @@ public class DbConnection {
         } catch (ClassNotFoundException | SQLException e) {
             throw e;
         }
+    }
+
+    public static DatabaseSchemaInspector getSchemaInspector(String driverName, String url, String user, String passwd) {
+        Database database = new Database(ResourceFactory.createResource());
+        database.setJDBCDSN(url);
+        database.setJDBCDriver(getDriverClass(driverName));
+        database.setUsername(user);
+        database.setPassword(passwd);
+        
+        return database.connectedDB().schemaInspector();
     }
 
     public static String getDriverClass(String v) {
