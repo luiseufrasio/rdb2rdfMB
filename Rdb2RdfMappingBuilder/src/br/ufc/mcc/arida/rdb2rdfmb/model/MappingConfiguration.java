@@ -22,6 +22,10 @@ public class MappingConfiguration {
     private String databaseUser;
     private String databasePassword;
 
+    public MappingConfiguration(int id) {
+        this.id = id;
+    }
+    
     public MappingConfiguration(int id, String ontologyAlias, String databaseAlias, String creationDate) {
         this.id = id;
         this.ontologyAlias = ontologyAlias;

@@ -47,6 +47,13 @@ public class DbConnection {
                     + "databaseUser text NOT NULL,"
                     + "databasePassword text NOT NULL,"
                     + "UNIQUE(ontologyAlias,databaseAlias));");
+            
+            stm.executeUpdate("CREATE TABLE IF NOT EXISTS CorrespondenceAssertion ("
+                    + "id integer PRIMARY KEY NOT NULL,"
+                    + "toString text NOT NULL,"
+                    + "type text NOT NULL,"
+                    + "idMappingConfiguration integer NOT NULL,"
+                    + "FOREIGN KEY(idMappingConfiguration) REFERENCES MappingConfiguration(id) ON DELETE CASCADE);");
         } catch (SQLException ex) {
             Logger.getLogger(DbConnection.class.getName()).log(Level.SEVERE, null, ex);
         }

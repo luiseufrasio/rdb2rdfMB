@@ -56,9 +56,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.JOptionPane;
-import model.Class_;
-import model.DataProperty;
-import model.ObjProperty;
+import br.ufc.mcc.arida.rdb2rdfmb.model.Class_;
+import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
+import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 
 /**
  *
@@ -219,7 +219,6 @@ public class MainController implements Initializable {
         ExtendedIterator<OntClass> i = ontModel.listClasses();
         while (i.hasNext()) {
             OntClass ontClass = (OntClass) i.next();
-
             String name = ontClass.getLocalName();
 
             if (classes.get(name) == null) {
@@ -246,28 +245,37 @@ public class MainController implements Initializable {
         while (i2.hasNext()) {
             DatatypeProperty datatypeProperty = (DatatypeProperty) i2.next();
 
-            String dClassName = datatypeProperty.getDomain().getLocalName();
-            Class_ dClass = classes.get(dClassName);
-            String dpName = datatypeProperty.getLocalName();
-            String rangeName = datatypeProperty.getRange().getLocalName();
+            if (datatypeProperty.getDomain() != null && datatypeProperty.getRange() != null) {
+                String dClassName = datatypeProperty.getDomain().getLocalName();
+                Class_ dClass = classes.get(dClassName);
+                String dpName = datatypeProperty.getLocalName();
+                String rangeName = datatypeProperty.getRange().getLocalName();
 
-            DataProperty dp = new DataProperty(dpName, dClass, rangeName);
-            dClass.getdProperties().add(dp);
+                DataProperty dp = new DataProperty(dpName, dClass, rangeName);
+
+                if (dClass != null) {
+                    dClass.getdProperties().add(dp);
+                }
+            }
         }
 
         ExtendedIterator<com.hp.hpl.jena.ontology.ObjectProperty> i3 = ontModel.listObjectProperties();
         while (i3.hasNext()) {
             ObjectProperty objectProperty = (ObjectProperty) i3.next();
 
-            String dClassName = objectProperty.getDomain().getLocalName();
-            String rClassName = objectProperty.getRange().getLocalName();
-            String opName = objectProperty.getLocalName();
+            if (objectProperty.getDomain() != null && objectProperty.getRange() != null) {
+                String dClassName = objectProperty.getDomain().getLocalName();
+                String rClassName = objectProperty.getRange().getLocalName();
+                String opName = objectProperty.getLocalName();
 
-            Class_ dClass = classes.get(dClassName);
-            Class_ rClass = classes.get(rClassName);
+                Class_ dClass = classes.get(dClassName);
+                Class_ rClass = classes.get(rClassName);
 
-            ObjProperty op = new ObjProperty(opName, dClass, rClass);
-            dClass.getoProperties().add(op);
+                ObjProperty op = new ObjProperty(opName, dClass, rClass);
+                if (dClass != null) {
+                    dClass.getoProperties().add(op);
+                }
+            }
         }
     }
 
@@ -344,8 +352,13 @@ public class MainController implements Initializable {
             NewMappingController.nm.user.setText(mc.getDatabaseUser());
 
             NewMappingController.nm.comboDrivers.setValue(mc.getDatabaseDriver());
+
+
+
+
         } catch (SQLException ex) {
-            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -367,8 +380,13 @@ public class MainController implements Initializable {
                 mcDAO.delete(selectedItem.getId());
                 dataMc.remove(selectedItem);
                 JOptionPane.showMessageDialog(null, "Mapping Configuration Deleted!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+
+
+
             } catch (SQLException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainController.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
