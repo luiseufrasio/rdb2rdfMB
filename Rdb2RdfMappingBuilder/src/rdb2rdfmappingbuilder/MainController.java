@@ -5,6 +5,7 @@
 package rdb2rdfmappingbuilder;
 
 import br.ufc.mcc.arida.rdb2rdfmb.db.DbConnection;
+import br.ufc.mcc.arida.rdb2rdfmb.model.CA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfiguration;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfigurationEntry;
 import br.ufc.mcc.arida.rdb2rdfmb.sqlite.dao.MappingConfigurationDAO;
@@ -59,6 +60,13 @@ import javax.swing.JOptionPane;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Class_;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
+import de.fuberlin.wiwiss.d2rq.algebra.Join;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -67,7 +75,7 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 public class MainController implements Initializable {
 
     @FXML //  fx:id="dbTree"
-    private TreeView<String> dbTree;
+    private TreeView<Text> dbTree;
     @FXML //  fx:id="ontoTree"
     private TreeView<String> ontoTree;
     @FXML
@@ -88,6 +96,10 @@ public class MainController implements Initializable {
     public static MainController m;
     ObservableList<MappingConfigurationEntry> dataMc = FXCollections.observableArrayList();
     MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
+    HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
+    HashMap<String, Class_> classes = new HashMap<String, Class_>();
+    HashMap<String, DataProperty> dProperties = new HashMap<String, DataProperty>();
+    HashMap<String, ObjProperty> oProperties = new HashMap<String, ObjProperty>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -150,14 +162,13 @@ public class MainController implements Initializable {
 
     public void buildOntoTree(MappingConfiguration mc) {
         try {
-            HashMap<String, Class_> hm = new HashMap<String, Class_>();
-            loadOntology(mc, hm);
+            loadOntology(mc);
 
             // Crio o nó pai que será o nome da ontologia
             TreeItem<String> ontoRoot = new TreeItem<>(mc.getOntologyAlias());
 
             // Crio nós filhos com os nomes das classes
-            Collection<Class_> cClasses = hm.values();
+            Collection<Class_> cClasses = classes.values();
             for (Class_ class_ : cClasses) {
                 TreeItem<String> item = new TreeItem<>(class_.getName());
 
@@ -177,6 +188,16 @@ public class MainController implements Initializable {
             }
             // Insiro o nó raiz na TreeView
             ontoTree.setRoot(ontoRoot);
+            ontoTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+            ontoTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+
+                @Override
+                public void changed(ObservableValue ov, Object t, Object t1) {
+                    TreeItem<String> item = (TreeItem) t1;
+                    item.getValue();
+                }
+                
+            });
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -184,27 +205,80 @@ public class MainController implements Initializable {
 
     public void buildDBTree(MappingConfiguration mc) {
         /* Crio o nó pai que será o nome do banco */
-        TreeItem<String> dataBase = new TreeItem<>(mc.getDatabaseAlias());
+        TreeItem<Text> dataBase = new TreeItem<>(new Text(mc.getDatabaseAlias()));
         dataBase.setExpanded(false);
 
         DatabaseSchemaInspector schema = DbConnection.getSchemaInspector(mc.getDatabaseDriver(), mc.getDatabaseUrl(), mc.getDatabaseUser(), mc.getDatabasePassword());
         List<RelationName> tables = schema.listTableNames();
         for (RelationName relationName : tables) {
-            TreeItem<String> tableItem = new TreeItem<>(relationName.tableName());
-            dataBase.getChildren().add(tableItem);
+            TreeItem<Text> treeItem = new TreeItem<>(new Text(relationName.tableName()));
+            dataBase.getChildren().add(treeItem);
 
             List<Attribute> listCols = schema.listColumns(relationName);
             for (Attribute attribute : listCols) {
-                TreeItem<String> colItem = new TreeItem<>(attribute.attributeName());
-                tableItem.getChildren().add(colItem);
+                TreeItem<Text> colItem = new TreeItem<>(new Text(attribute.attributeName()));
+                treeItem.getChildren().add(colItem);
+            }
+            
+            List<Join> listFks0 = schema.foreignKeys(relationName, 0);
+            int iRef = 0;
+            String tableRef = "";
+            for (Join fk0 : listFks0) {
+                String fkName = "";
+                if (iRef == 0) {
+                    fkName  = "fk_TO_" + fk0.table2().tableName();
+                    iRef++;
+                    tableRef = fk0.table2().tableName();
+                } else {
+                    if (tableRef.equals(fk0.table2().tableName())) {
+                        iRef++;
+                        fkName  = "fk" + iRef + "_TO_" + fk0.table2().tableName();
+                    } else {
+                        fkName  = "fk_TO_" + fk0.table2().tableName();
+                        tableRef = fk0.table2().tableName();
+                        iRef = 1;
+                    }
+                }
+                
+                Text t = new Text(fkName);
+                t.setFill(Color.RED);
+                TreeItem<Text> fk0Item = new TreeItem<>(t);
+                treeItem.getChildren().add(fk0Item);
+            }
+            
+            List<Join> listFks1 = schema.foreignKeys(relationName, 1);
+            iRef = 0;
+            tableRef = "";
+            for (Join fk1 : listFks1) {
+                String fkName = "";
+                if (iRef == 0) {
+                    fkName  = "fk_FROM_" + fk1.table1().tableName();
+                    iRef++;
+                    tableRef = fk1.table1().tableName();
+                } else {
+                    if (tableRef.equals(fk1.table1().tableName())) {
+                        iRef++;
+                        fkName  = "fk" + iRef + "_FROM_" + fk1.table1().tableName();
+                    } else {
+                        fkName  = "fk_FROM_" + fk1.table1().tableName();
+                        tableRef = fk1.table1().tableName();
+                        iRef = 1;
+                    }
+                }
+                
+                Text t = new Text(fkName);
+                t.setFill(Color.RED);
+                TreeItem<Text> fk1Item = new TreeItem<>(t);
+                treeItem.getChildren().add(fk1Item);
             }
         }
 
         // Insiro o nó raiz na TreeView
         dbTree.setRoot(dataBase);
+        dbTree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
-    private static void loadOntology(MappingConfiguration mc, Map<String, Class_> classes)
+    private void loadOntology(MappingConfiguration mc)
             throws FileNotFoundException {
         OntModel ontModel = ModelFactory
                 .createOntologyModel(OntModelSpec.OWL_MEM);
