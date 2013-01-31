@@ -6,7 +6,7 @@ import java.util.List;
 public class OCA extends CA {
 
     private ObjProperty oProperty;
-    private List<String> fks;
+    private List<String> fks = new ArrayList<String>();
 
     public OCA(ObjProperty oProperty, List<String> fks) {
         this.oProperty = oProperty;
@@ -40,17 +40,19 @@ public class OCA extends CA {
             strOCA += fks.get(0);
         } else {
             strOCA += "[";
-            int i = 0;
-            for (String fk : fks) {
-                if (i > 0) {
-                    strOCA += ", " + fk;
-                } else {
-                    strOCA += fk;
+            if (fks.size() > 1) {
+                int i = 0;
+                for (String fk : fks) {
+                    if (i++ > 0) {
+                        strOCA += ", " + fk;
+                    } else {
+                        strOCA += fk;
+                    }
                 }
             }
             strOCA += "]";
         }
-        
+
         return strOCA;
     }
 

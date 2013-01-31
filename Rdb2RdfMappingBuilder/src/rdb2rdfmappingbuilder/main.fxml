@@ -55,7 +55,7 @@
                                     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">
                                       <children>
                                         <Label id="label2" text="Correspondence Assertion:" />
-                                        <TextField id="textField1" fx:id="synopsis" prefHeight="25.0" prefWidth="543.0" text="" />
+                                        <TextField id="textField1" fx:id="txtAssertion" prefHeight="25.0" prefWidth="543.0" text="" />
                                       </children>
                                     </HBox>
                                   </bottom>

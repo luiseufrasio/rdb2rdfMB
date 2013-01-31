@@ -15,7 +15,7 @@ public abstract class Property {
 
     @Override
     public String toString() {
-        return name + " (" + getRangeName() + ")";
+        return name;
     }
 
     public abstract String getRangeName();

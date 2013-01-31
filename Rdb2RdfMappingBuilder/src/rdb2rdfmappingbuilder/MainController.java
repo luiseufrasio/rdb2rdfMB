@@ -6,6 +6,7 @@ package rdb2rdfmappingbuilder;
 
 import br.ufc.mcc.arida.rdb2rdfmb.db.DbConnection;
 import br.ufc.mcc.arida.rdb2rdfmb.model.CA;
+import br.ufc.mcc.arida.rdb2rdfmb.model.CCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfiguration;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfigurationEntry;
 import br.ufc.mcc.arida.rdb2rdfmb.sqlite.dao.MappingConfigurationDAO;
@@ -24,17 +25,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,13 +52,20 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.JOptionPane;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Class_;
+import br.ufc.mcc.arida.rdb2rdfmb.model.DCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
+import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
+import java.util.Iterator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.Label;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -78,6 +79,8 @@ public class MainController implements Initializable {
     private TreeView<Text> dbTree;
     @FXML //  fx:id="ontoTree"
     private TreeView<String> ontoTree;
+    @FXML
+    TextField txtAssertion;
     @FXML
     Button newMapping;
     @FXML
@@ -98,8 +101,7 @@ public class MainController implements Initializable {
     MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
     HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
     HashMap<String, Class_> classes = new HashMap<String, Class_>();
-    HashMap<String, DataProperty> dProperties = new HashMap<String, DataProperty>();
-    HashMap<String, ObjProperty> oProperties = new HashMap<String, ObjProperty>();
+    HashMap<TreeItem, Object> dbMap = new HashMap<TreeItem, Object>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -113,7 +115,100 @@ public class MainController implements Initializable {
         mcTable.setItems(dataMc);
 
         final ObservableList<MappingConfigurationEntry> tableSelection = mcTable.getSelectionModel().getSelectedItems();
-        tableSelection.addListener(tableSelectionChanged);
+
+        mcTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    updateDeleteButtonState();
+                    updateEditButtonState();
+                    if (mouseEvent.getClickCount() == 2) {
+                        final MappingConfigurationEntry selectedItem = mcTable.getSelectionModel().getSelectedItem();
+                        if (selectedItem != null) {
+                            MappingConfiguration mc;
+                            try {
+                                mc = mcDAO.findById(selectedItem.getId());
+
+                                buildDBTree(mc);
+                                buildOntoTree(mc);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        ontoTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    final TreeItem selectedItem = ontoTree.getSelectionModel().getSelectedItem();
+                    if (selectedItem != null) {
+                        txtAssertion.setText(assertions.get(selectedItem).toString());
+                    } else {
+                        txtAssertion.setText("");
+                    }
+                    if (mouseEvent.getClickCount() == 2) {
+                        //TODO
+                    }
+                }
+            }
+        });
+
+        dbTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    ObservableList<TreeItem<Text>> dbItens = dbTree.getSelectionModel().getSelectedItems();
+                    if (dbItens != null) {
+                        TreeItem ontoItem = ontoTree.getSelectionModel().getSelectedItem();
+                        CA ca = assertions.get(ontoItem);
+
+                        for (Iterator<TreeItem<Text>> it = dbItens.iterator(); it.hasNext();) {
+                            TreeItem<Text> dbItem = it.next();
+                            Object o = dbMap.get(dbItem);
+
+                            if (o instanceof RelationName) {
+                                RelationName rn = (RelationName) o;
+                                ca.setRelationName(rn.tableName());
+                            } else if (o instanceof Attribute) {
+                                Attribute att = (Attribute) o;
+                                if (ca instanceof CCA) {
+                                    CCA cca = (CCA) ca;
+                                    if (!cca.getAttributes().contains(att.attributeName())) {
+                                        cca.getAttributes().add(att.attributeName());
+                                    }
+                                } else if (ca instanceof DCA) {
+                                    DCA dca = (DCA) ca;
+                                    if (!dca.getAttributes().contains(att.attributeName())) {
+                                        dca.getAttributes().add(att.attributeName());
+                                    }
+                                }
+                            } else if (o instanceof Join) {
+                                if (ca instanceof OCA) {
+                                    OCA oca = (OCA) ca;
+                                    if (!oca.getFks().contains(dbItem.getValue().getText())) {
+                                        oca.getFks().add(dbItem.getValue().getText());
+                                    }
+                                } else if (ca instanceof DCA) {
+                                    DCA dca = (DCA) ca;
+                                    if (!dca.getFks().contains(dbItem.getValue().getText())) {
+                                        dca.getFks().add(dbItem.getValue().getText());
+                                    }
+                                }
+                            }
+                        }
+
+                        txtAssertion.setText(ca.toString());
+                    }
+                    if (mouseEvent.getClickCount() == 2) {
+                        //TODO
+                    }
+                }
+            }
+        });
 
         try {
             List<MappingConfiguration> listMc = mcDAO.findAll();
@@ -138,27 +233,6 @@ public class MainController implements Initializable {
 
         System.out.println(this.getClass().getSimpleName() + ".initialize");
     }
-    private final ListChangeListener<MappingConfigurationEntry> tableSelectionChanged =
-            new ListChangeListener<MappingConfigurationEntry>() {
-                @Override
-                public void onChanged(ListChangeListener.Change<? extends MappingConfigurationEntry> c) {
-                    updateDeleteButtonState();
-                    updateEditButtonState();
-
-                    final MappingConfigurationEntry selectedItem = mcTable.getSelectionModel().getSelectedItem();
-                    if (selectedItem != null) {
-                        MappingConfiguration mc;
-                        try {
-                            mc = mcDAO.findById(selectedItem.getId());
-
-                            buildDBTree(mc);
-                            buildOntoTree(mc);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            };
 
     public void buildOntoTree(MappingConfiguration mc) {
         try {
@@ -171,17 +245,31 @@ public class MainController implements Initializable {
             Collection<Class_> cClasses = classes.values();
             for (Class_ class_ : cClasses) {
                 TreeItem<String> item = new TreeItem<>(class_.getName());
+                CCA cca = new CCA();
+                cca.setPrefixName(mc.getOntologyAlias().toLowerCase());
+                cca.setClass_(class_);
+                assertions.put(item, cca);
 
                 /* Cria os data properties da classe */
                 for (int i = 0; i < class_.getdProperties().size(); i++) {
                     TreeItem<String> subItem = new TreeItem<>(class_.getdProperties().get(i).getName());
                     item.getChildren().add(subItem);
+
+                    DCA dca = new DCA();
+                    dca.setPrefixName(mc.getOntologyAlias().toLowerCase());
+                    dca.setdProperty(class_.getdProperties().get(i));
+                    assertions.put(subItem, dca);
                 }
 
                 /* Cria os object properties da classe */
                 for (int i = 0; i < class_.getoProperties().size(); i++) {
                     TreeItem<String> subItem = new TreeItem<>(class_.getoProperties().get(i).getName());
                     item.getChildren().add(subItem);
+
+                    OCA oca = new OCA();
+                    oca.setPrefixName(mc.getOntologyAlias().toLowerCase());
+                    oca.setoProperty(class_.getoProperties().get(i));
+                    assertions.put(subItem, oca);
                 }
 
                 ontoRoot.getChildren().add(item);
@@ -189,15 +277,6 @@ public class MainController implements Initializable {
             // Insiro o nó raiz na TreeView
             ontoTree.setRoot(ontoRoot);
             ontoTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-            ontoTree.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
-
-                @Override
-                public void changed(ObservableValue ov, Object t, Object t1) {
-                    TreeItem<String> item = (TreeItem) t1;
-                    item.getValue();
-                }
-                
-            });
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -213,63 +292,67 @@ public class MainController implements Initializable {
         for (RelationName relationName : tables) {
             TreeItem<Text> treeItem = new TreeItem<>(new Text(relationName.tableName()));
             dataBase.getChildren().add(treeItem);
+            dbMap.put(treeItem, relationName);
 
             List<Attribute> listCols = schema.listColumns(relationName);
             for (Attribute attribute : listCols) {
                 TreeItem<Text> colItem = new TreeItem<>(new Text(attribute.attributeName()));
                 treeItem.getChildren().add(colItem);
+                dbMap.put(colItem, attribute);
             }
-            
+
             List<Join> listFks0 = schema.foreignKeys(relationName, 0);
             int iRef = 0;
             String tableRef = "";
             for (Join fk0 : listFks0) {
                 String fkName = "";
                 if (iRef == 0) {
-                    fkName  = "fk_TO_" + fk0.table2().tableName();
+                    fkName = "fk_TO_" + fk0.table2().tableName();
                     iRef++;
                     tableRef = fk0.table2().tableName();
                 } else {
                     if (tableRef.equals(fk0.table2().tableName())) {
                         iRef++;
-                        fkName  = "fk" + iRef + "_TO_" + fk0.table2().tableName();
+                        fkName = "fk" + iRef + "_TO_" + fk0.table2().tableName();
                     } else {
-                        fkName  = "fk_TO_" + fk0.table2().tableName();
+                        fkName = "fk_TO_" + fk0.table2().tableName();
                         tableRef = fk0.table2().tableName();
                         iRef = 1;
                     }
                 }
-                
+
                 Text t = new Text(fkName);
                 t.setFill(Color.RED);
                 TreeItem<Text> fk0Item = new TreeItem<>(t);
                 treeItem.getChildren().add(fk0Item);
+                dbMap.put(fk0Item, fk0);
             }
-            
+
             List<Join> listFks1 = schema.foreignKeys(relationName, 1);
             iRef = 0;
             tableRef = "";
             for (Join fk1 : listFks1) {
                 String fkName = "";
                 if (iRef == 0) {
-                    fkName  = "fk_FROM_" + fk1.table1().tableName();
+                    fkName = "fk_FROM_" + fk1.table1().tableName();
                     iRef++;
                     tableRef = fk1.table1().tableName();
                 } else {
                     if (tableRef.equals(fk1.table1().tableName())) {
                         iRef++;
-                        fkName  = "fk" + iRef + "_FROM_" + fk1.table1().tableName();
+                        fkName = "fk" + iRef + "_FROM_" + fk1.table1().tableName();
                     } else {
-                        fkName  = "fk_FROM_" + fk1.table1().tableName();
+                        fkName = "fk_FROM_" + fk1.table1().tableName();
                         tableRef = fk1.table1().tableName();
                         iRef = 1;
                     }
                 }
-                
+
                 Text t = new Text(fkName);
                 t.setFill(Color.RED);
                 TreeItem<Text> fk1Item = new TreeItem<>(t);
                 treeItem.getChildren().add(fk1Item);
+                dbMap.put(fk1Item, fk1);
             }
         }
 
@@ -326,7 +409,6 @@ public class MainController implements Initializable {
                 String rangeName = datatypeProperty.getRange().getLocalName();
 
                 DataProperty dp = new DataProperty(dpName, dClass, rangeName);
-
                 if (dClass != null) {
                     dClass.getdProperties().add(dp);
                 }

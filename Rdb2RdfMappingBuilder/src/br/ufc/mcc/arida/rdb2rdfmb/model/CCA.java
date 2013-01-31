@@ -6,7 +6,7 @@ import java.util.List;
 public class CCA extends CA {
 
     private Class_ class_;
-    private List<String> attributes;
+    private List<String> attributes = new ArrayList<String>();
     private String selCondition;
 
     public CCA() {
@@ -22,8 +22,9 @@ public class CCA extends CA {
     public String toString() {
         String strCCA = prefixName + " : " + class_ + " ≡ " + relationName + "[";
         int i = 0;
+        
         for (String att : attributes) {
-            if (i > 0) {
+            if (i++ > 0) {
                 strCCA += ", " + att;
             } else {
                 strCCA += att;

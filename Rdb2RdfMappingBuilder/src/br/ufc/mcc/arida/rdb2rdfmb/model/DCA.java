@@ -6,18 +6,18 @@ import java.util.List;
 public class DCA extends CA {
 
     private DataProperty dProperty;
-    private List<String> fks;
-    private List<String> attributes;
+    private List<String> fks = new ArrayList<String>();
+    private List<String> attributes = new ArrayList<String>();
 
     @Override
     public String toString() {
         String strDCA = prefixName + " : " + dProperty.getName() + " ≡ " + relationName + " / ";
 
-        if (fks != null && fks.size() > 0) {
+        if (fks.size() > 0) {
             strDCA += "[";
             int i = 0;
             for (String fk : fks) {
-                if (i > 0) {
+                if (i++ > 0) {
                     strDCA += ", " + fk;
                 } else {
                     strDCA += fk;
@@ -30,16 +30,18 @@ public class DCA extends CA {
             strDCA += "{";
             int i = 0;
             for (String a : attributes) {
-                if (i > 0) {
+                if (i++ > 0) {
                     strDCA += ", " + a;
                 } else {
                     strDCA += a;
                 }
             }
             strDCA += "}";
-        } else {
+        } else if (attributes.size() == 1) {
             String a = attributes.get(0);
             strDCA += a;
+        } else {
+            strDCA += "null";
         }
 
         return strDCA;
