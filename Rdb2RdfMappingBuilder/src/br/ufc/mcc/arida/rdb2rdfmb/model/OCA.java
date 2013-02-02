@@ -39,7 +39,7 @@ public class OCA extends CA {
         if (fks.size() == 1) {
             strOCA += fks.get(0);
         } else {
-            strOCA += "[";
+            strOCA += " [";
             if (fks.size() > 1) {
                 int i = 0;
                 for (String fk : fks) {

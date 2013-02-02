@@ -8,6 +8,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="989.0" styleClass="theme" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.MainController">
   <children>
@@ -40,7 +41,7 @@
         </AnchorPane>
         <AnchorPane id="anchorPane2" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
-            <SplitPane id="splitPaneVertical1" dividerPositions="0.9214953271028037" focusTraversable="true" orientation="VERTICAL" prefHeight="598.0" prefWidth="595.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane id="splitPaneVertical1" dividerPositions="" focusTraversable="true" orientation="VERTICAL" prefHeight="598.0" prefWidth="595.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane id="anchorPane3" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                   <children>
@@ -52,18 +53,26 @@
                               <children>
                                 <BorderPane prefHeight="418.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <bottom>
-                                    <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">
+                                    <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="691.0">
                                       <children>
-                                        <Label id="label2" text="Correspondence Assertion:" />
-                                        <TextField id="textField1" fx:id="synopsis" prefHeight="25.0" prefWidth="543.0" text="" />
+                                        <Label text="Correspondence Assertion (CA):" />
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: darkgray;-fx-border-width: 1;-fx-border-style: dashed;">
+                                          <children>
+                                            <Text fx:id="txtAssertion" strokeType="OUTSIDE" strokeWidth="0.0" text="">
+                                              <font>
+                                                <Font name="Verdana Bold" size="14.0" />
+                                              </font>
+                                            </Text>
+                                          </children>
+                                        </HBox>
                                       </children>
-                                    </HBox>
+                                    </VBox>
                                   </bottom>
                                   <left>
                                     <VBox prefHeight="427.0" prefWidth="320.0">
                                       <children>
                                         <Label text="Domain Ontology Tree" />
-                                        <TreeView id="ontologyTree" fx:id="ontoTree" prefHeight="405.0" prefWidth="320.0" showRoot="false" />
+                                        <TreeView id="ontologyTree" fx:id="ontoTree" prefHeight="440.0" prefWidth="320.0" showRoot="false" />
                                       </children>
                                     </VBox>
                                   </left>
@@ -71,7 +80,7 @@
                                     <VBox prefHeight="427.0" prefWidth="320.0">
                                       <children>
                                         <Label text="Database Schema Tree" />
-                                        <TreeView fx:id="dbTree" prefHeight="405.0" prefWidth="100.0" showRoot="false" />
+                                        <TreeView fx:id="dbTree" prefHeight="440.0" prefWidth="320.0" showRoot="false" />
                                       </children>
                                     </VBox>
                                   </right>
@@ -86,16 +95,15 @@
                               <children>
                                 <VBox id="VBox" alignment="CENTER" prefHeight="418.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <children>
-                                    <ListView prefHeight="389.0" prefWidth="596.0" />
-                                    <HBox prefHeight="39.0" prefWidth="596.0">
+                                    <ListView prefHeight="452.0" prefWidth="691.0" />
+                                    <HBox id="HBox" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="691.0" spacing="15.0">
                                       <children>
-                                        <HBox id="HBox" alignment="CENTER" spacing="5.0">
-                                          <children>
-                                            <Button disable="true" mnemonicParsing="false" text="Create Views" />
-                                            <Button disable="true" mnemonicParsing="false" text="Generate Mapping" />
-                                          </children>
-                                        </HBox>
+                                        <Button id="button1" disable="true" mnemonicParsing="false" text="Build Views" />
+                                        <Button id="button1" disable="true" mnemonicParsing="false" text="Create R2RML" />
                                       </children>
+                                      <padding>
+                                        <Insets right="5.0" />
+                                      </padding>
                                     </HBox>
                                   </children>
                                 </VBox>
@@ -107,7 +115,6 @@
                     </TabPane>
                   </children>
                 </AnchorPane>
-                <AnchorPane id="anchorPane4" fx:id="details" minHeight="0.0" minWidth="0.0" prefHeight="41.0" prefWidth="596.0" />
               </items>
             </SplitPane>
           </children>

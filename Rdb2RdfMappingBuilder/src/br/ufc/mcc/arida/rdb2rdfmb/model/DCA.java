@@ -14,7 +14,7 @@ public class DCA extends CA {
         String strDCA = prefixName + " : " + dProperty.getName() + " ≡ " + relationName + " / ";
 
         if (fks.size() > 0) {
-            strDCA += "[";
+            strDCA += " [";
             int i = 0;
             for (String fk : fks) {
                 if (i++ > 0) {
@@ -27,7 +27,7 @@ public class DCA extends CA {
         }
 
         if (attributes.size() > 1) {
-            strDCA += "{";
+            strDCA += " {";
             int i = 0;
             for (String a : attributes) {
                 if (i++ > 0) {

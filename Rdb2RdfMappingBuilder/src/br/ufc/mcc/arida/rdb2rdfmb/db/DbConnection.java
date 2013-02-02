@@ -20,8 +20,6 @@ import java.util.logging.Logger;
  */
 public class DbConnection {
 
-    public static Connection connSQLite;
-
     static {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -31,8 +29,8 @@ public class DbConnection {
 
         Statement stm;
         try {
-            connSQLite = DriverManager.getConnection("jdbc:sqlite:db2rdf.db");
-
+            Connection connSQLite = getConnSQLite();
+            
             stm = connSQLite.createStatement();
             stm.executeUpdate("CREATE TABLE IF NOT EXISTS MappingConfiguration ("
                     + "id integer PRIMARY KEY NOT NULL,"
@@ -88,5 +86,12 @@ public class DbConnection {
             default:
                 return "";
         }
+    }
+
+    public static Connection getConnSQLite() throws SQLException {
+        Connection connSQLite = DriverManager.getConnection("jdbc:sqlite:db2rdf.db");
+        connSQLite.setAutoCommit(true);
+        
+        return connSQLite;
     }
 }

@@ -20,7 +20,7 @@ public class CCA extends CA {
 
     @Override
     public String toString() {
-        String strCCA = prefixName + " : " + class_ + " ≡ " + relationName + "[";
+        String strCCA = prefixName + " : " + class_ + " ≡ " + relationName + " [";
         int i = 0;
         
         for (String att : attributes) {

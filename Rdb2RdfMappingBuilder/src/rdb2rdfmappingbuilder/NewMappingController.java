@@ -8,19 +8,13 @@ import br.ufc.mcc.arida.rdb2rdfmb.db.DbConnection;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfiguration;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfigurationEntry;
 import br.ufc.mcc.arida.rdb2rdfmb.sqlite.dao.MappingConfigurationDAO;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -153,7 +147,8 @@ public class NewMappingController implements Initializable {
             } else {
                 SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 mc.setCreationDate(formatDate.format(new Date()));
-                mcDAO.add(mc);
+                int id = mcDAO.add(mc);
+                mc.setId(id);
                 MainController.addRowMcTable(new MappingConfigurationEntry(mc));
             }
 

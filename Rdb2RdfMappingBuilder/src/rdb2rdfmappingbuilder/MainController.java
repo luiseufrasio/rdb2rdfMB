@@ -57,11 +57,13 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
+import java.util.ArrayList;
 import java.util.Iterator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
@@ -80,7 +82,7 @@ public class MainController implements Initializable {
     @FXML //  fx:id="ontoTree"
     private TreeView<String> ontoTree;
     @FXML
-    TextField txtAssertion;
+    Text txtAssertion;
     @FXML
     Button newMapping;
     @FXML
@@ -102,12 +104,15 @@ public class MainController implements Initializable {
     HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
     HashMap<String, Class_> classes = new HashMap<String, Class_>();
     HashMap<TreeItem, Object> dbMap = new HashMap<TreeItem, Object>();
+    HashMap<String, List<Attribute>> mapTableCols = new HashMap<String, List<Attribute>>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         assert newMapping != null : "fx:id=\"newMapping\" was not injected: check your FXML file 'main.fxml'.";
         m = this;
 
+        txtAssertion.setFill(Color.BLACK);
+        
         itemDateCreation.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("creationDate"));
         itemDbName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("databaseAlias"));
         itemOntoName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("ontologyAlias"));
@@ -176,9 +181,12 @@ public class MainController implements Initializable {
                             } else if (o instanceof Attribute) {
                                 Attribute att = (Attribute) o;
                                 if (ca instanceof CCA) {
-                                    CCA cca = (CCA) ca;
-                                    if (!cca.getAttributes().contains(att.attributeName())) {
-                                        cca.getAttributes().add(att.attributeName());
+                                    String txtParent = dbItem.getParent().getValue().getText();
+                                    if (!txtParent.startsWith("fk")) {
+                                        CCA cca = (CCA) ca;
+                                        if (!cca.getAttributes().contains(att.attributeName())) {
+                                            cca.getAttributes().add(att.attributeName());
+                                        }
                                     }
                                 } else if (ca instanceof DCA) {
                                     DCA dca = (DCA) ca;
@@ -198,13 +206,23 @@ public class MainController implements Initializable {
                                         dca.getFks().add(dbItem.getValue().getText());
                                     }
                                 }
+                                if (mouseEvent.getClickCount() == 2 && dbItem.getChildren().size() == 0) {
+                                    Join fk = (Join) o;
+                                    String txtItem = dbItem.getValue().getText();
+                                    RelationName refTable = txtItem.startsWith("fk_TO") ? fk.table2() : fk.table1();
+                                    List<Attribute> cols = mapTableCols.get(refTable.tableName());
+                                    for (Attribute column : cols) {
+                                        TreeItem<Text> colItem = new TreeItem<>(new Text(column.attributeName()));
+                                        dbItem.getChildren().add(colItem);
+                                        dbMap.put(colItem, column);
+                                    }
+                                }
                             }
                         }
 
-                        txtAssertion.setText(ca.toString());
-                    }
-                    if (mouseEvent.getClickCount() == 2) {
-                        //TODO
+                        if (ca != null) {
+                            txtAssertion.setText(ca.toString());
+                        }
                     }
                 }
             }
@@ -300,6 +318,7 @@ public class MainController implements Initializable {
                 treeItem.getChildren().add(colItem);
                 dbMap.put(colItem, attribute);
             }
+            mapTableCols.put(relationName.tableName(), listCols);
 
             List<Join> listFks0 = schema.foreignKeys(relationName, 0);
             int iRef = 0;

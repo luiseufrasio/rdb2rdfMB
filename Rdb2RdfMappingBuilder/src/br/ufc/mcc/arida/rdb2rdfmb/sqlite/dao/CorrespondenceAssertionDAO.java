@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import br.ufc.mcc.arida.rdb2rdfmb.model.*;
+import java.sql.Connection;
 
 /**
  *
@@ -20,7 +21,8 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.*;
 public class CorrespondenceAssertionDAO {
 
     public int add(CA ca) throws SQLException {
-        Statement stm = DbConnection.connSQLite.createStatement();
+        Connection connSQLite = DbConnection.getConnSQLite();
+        Statement stm = connSQLite.createStatement();
 
         stm.executeUpdate("INSERT INTO CorrespondenceAssertion(toString,type,idMappingConfiguration) " 
                 + "VALUES ('" + ca.toString() + "','" + ca.getClass().getName() + "'," + ca.getMc().getId() + ")");
@@ -33,20 +35,24 @@ public class CorrespondenceAssertionDAO {
 
         rs.close();
         stm.close();
+        connSQLite.close();
 
         return id;
     }
 
     public void remove(int id) throws SQLException {
-        Statement stm = DbConnection.connSQLite.createStatement();
+        Connection connSQLite = DbConnection.getConnSQLite();
+        Statement stm = connSQLite.createStatement();
 
         stm.executeUpdate("DELETE FROM CorrespondenceAssertion WHERE id=\"" + id
                 + "\"");
         stm.close();
+        connSQLite.close();
     }
 
     public List<CA> findAllByMC(int idMappingConfiguration) throws SQLException {
-        Statement stm = DbConnection.connSQLite.createStatement();
+        Connection connSQLite = DbConnection.getConnSQLite();
+        Statement stm = connSQLite.createStatement();
         List<CA> cList = new ArrayList<>();
         ResultSet rs;
         rs = stm.executeQuery("SELECT * FROM CorrespondenceAssertion WHERE idMappingConfiguration = " + idMappingConfiguration);
@@ -60,11 +66,13 @@ public class CorrespondenceAssertionDAO {
         }
         rs.close();
         stm.close();
+        connSQLite.close();
         return cList;
     }
 
     public MappingConfiguration findById(int id) throws SQLException {
-        Statement stm = DbConnection.connSQLite.createStatement();
+        Connection connSQLite = DbConnection.getConnSQLite();
+        Statement stm = connSQLite.createStatement();
 
         ResultSet rs = stm.executeQuery("SELECT * FROM MappingConfiguration Where id =" + id);
         rs.next();
@@ -85,15 +93,17 @@ public class CorrespondenceAssertionDAO {
         
         rs.close();
         stm.close();
-
+        connSQLite.close();
         return mc;
     }
     
     public void delete(int id) throws SQLException {
-        Statement stm = DbConnection.connSQLite.createStatement();
+        Connection connSQLite = DbConnection.getConnSQLite();
+        Statement stm = connSQLite.createStatement();
 
         stm.executeUpdate("DELETE FROM MappingConfiguration " +
                 " WHERE id=" + id);
         stm.close();
+        connSQLite.close();
     }
 }
