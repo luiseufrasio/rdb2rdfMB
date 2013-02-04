@@ -88,4 +88,9 @@ public class CCA extends CA {
 
         return ca;
     }
+
+    @Override
+    public String key() {
+        return class_.getName();
+    }
 }

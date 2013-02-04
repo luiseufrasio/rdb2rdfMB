@@ -3,10 +3,9 @@ package br.ufc.mcc.arida.rdb2rdfmb.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OCA extends CA {
+public class OCA extends PCA {
 
     private ObjProperty oProperty;
-    private List<String> fks = new ArrayList<String>();
 
     public OCA(ObjProperty oProperty, List<String> fks) {
         this.oProperty = oProperty;
@@ -24,32 +23,26 @@ public class OCA extends CA {
         this.oProperty = oProperty;
     }
 
-    public List<String> getFks() {
-        return fks;
-    }
-
-    public void setFks(List<String> fks) {
-        this.fks = fks;
-    }
-
     @Override
     public String toString() {
         String strOCA = prefixName + " : " + oProperty + " ≡ " + relationName + " / ";
 
         if (fks.size() == 1) {
             strOCA += fks.get(0);
+        } else if (fks.size() == 0) {
+            strOCA += "NULL";
         } else {
-            strOCA += " [";
-            if (fks.size() > 1) {
-                int i = 0;
-                for (String fk : fks) {
-                    if (i++ > 0) {
-                        strOCA += ", " + fk;
-                    } else {
-                        strOCA += fk;
-                    }
+            strOCA += "[";
+
+            int i = 0;
+            for (String fk : fks) {
+                if (i++ > 0) {
+                    strOCA += ", " + fk;
+                } else {
+                    strOCA += fk;
                 }
             }
+
             strOCA += "]";
         }
 
@@ -87,5 +80,10 @@ public class OCA extends CA {
         }
 
         return ca;
+    }
+
+    @Override
+    public String key() {
+        return oProperty.getName();
     }
 }

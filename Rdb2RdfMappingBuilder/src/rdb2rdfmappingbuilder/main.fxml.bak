@@ -10,7 +10,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="989.0" styleClass="theme" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.MainController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="989.0" styleClass="theme" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.MainController">
   <children>
     <SplitPane id="splitPaneHorizontal1" dividerPositions="0.2982810920121335" focusTraversable="true" prefHeight="535.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
       <items>
@@ -22,7 +22,7 @@
                   <columns>
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="RDF Target" fx:id="itemOntoName" />
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="DB Source" fx:id="itemDbName" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="95.0" text="Date Creation" fx:id="itemDateCreation" />
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="95.0" text="Creation Date" fx:id="itemDateCreation" />
                   </columns>
                 </TableView>
                 <HBox id="HBox" alignment="BOTTOM_CENTER" spacing="15.0">
@@ -45,7 +45,7 @@
               <items>
                 <AnchorPane id="anchorPane3" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                   <children>
-                    <TabPane prefHeight="456.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <TabPane fx:id="tabPane" prefHeight="456.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                       <tabs>
                         <Tab text="Design">
                           <content>
@@ -53,16 +53,13 @@
                               <children>
                                 <BorderPane prefHeight="418.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <bottom>
-                                    <VBox alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="691.0">
+                                    <VBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="691.0">
                                       <children>
                                         <Label text="Correspondence Assertion (CA):" />
-                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: darkgray;-fx-border-width: 1;-fx-border-style: dashed;">
+                                        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">
                                           <children>
-                                            <Text fx:id="txtAssertion" strokeType="OUTSIDE" strokeWidth="0.0" text="">
-                                              <font>
-                                                <Font name="Verdana Bold" size="14.0" />
-                                              </font>
-                                            </Text>
+                                            <TextField fx:id="txtAssertion" prefWidth="631.0" />
+                                            <Button mnemonicParsing="false" onAction="#saveAssertionFired" text="Save" />
                                           </children>
                                         </HBox>
                                       </children>
@@ -93,9 +90,9 @@
                           <content>
                             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
-                                <VBox id="VBox" alignment="CENTER" prefHeight="418.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <VBox id="VBox" alignment="TOP_LEFT" prefHeight="418.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <children>
-                                    <ListView prefHeight="452.0" prefWidth="691.0" />
+                                    <ListView fx:id="assertionsList" prefHeight="456.0" prefWidth="691.0" />
                                     <HBox id="HBox" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="691.0" spacing="15.0">
                                       <children>
                                         <Button id="button1" disable="true" mnemonicParsing="false" text="Build Views" />

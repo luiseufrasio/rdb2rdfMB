@@ -3,10 +3,9 @@ package br.ufc.mcc.arida.rdb2rdfmb.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DCA extends CA {
+public class DCA extends PCA {
 
     private DataProperty dProperty;
-    private List<String> fks = new ArrayList<String>();
     private List<String> attributes = new ArrayList<String>();
 
     @Override
@@ -14,7 +13,7 @@ public class DCA extends CA {
         String strDCA = prefixName + " : " + dProperty.getName() + " ≡ " + relationName + " / ";
 
         if (fks.size() > 0) {
-            strDCA += " [";
+            strDCA += "[";
             int i = 0;
             for (String fk : fks) {
                 if (i++ > 0) {
@@ -27,7 +26,7 @@ public class DCA extends CA {
         }
 
         if (attributes.size() > 1) {
-            strDCA += " {";
+            strDCA += "{";
             int i = 0;
             for (String a : attributes) {
                 if (i++ > 0) {
@@ -110,19 +109,16 @@ public class DCA extends CA {
         this.dProperty = dProperty;
     }
 
-    public List<String> getFks() {
-        return fks;
-    }
-
-    public void setFks(List<String> fks) {
-        this.fks = fks;
-    }
-
     public List<String> getAttributes() {
         return attributes;
     }
 
     public void setAttributes(List<String> attributes) {
         this.attributes = attributes;
+    }
+
+    @Override
+    public String key() {
+        return dProperty.getName();
     }
 }

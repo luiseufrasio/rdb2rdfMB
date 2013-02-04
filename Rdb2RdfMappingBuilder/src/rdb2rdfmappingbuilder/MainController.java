@@ -33,7 +33,6 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,20 +55,22 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.DCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
+import br.ufc.mcc.arida.rdb2rdfmb.model.PCA;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
 import java.util.ArrayList;
 import java.util.Iterator;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 /**
  *
@@ -78,11 +79,11 @@ import javafx.scene.text.Text;
 public class MainController implements Initializable {
 
     @FXML //  fx:id="dbTree"
-    private TreeView<Text> dbTree;
+    private TreeView<String> dbTree;
     @FXML //  fx:id="ontoTree"
     private TreeView<String> ontoTree;
     @FXML
-    Text txtAssertion;
+    TextField txtAssertion;
     @FXML
     Button newMapping;
     @FXML
@@ -97,136 +98,40 @@ public class MainController implements Initializable {
     TableColumn itemDbName;
     @FXML
     TableColumn itemDateCreation;
+    @FXML
+    ListView<CA> assertionsList;
+    @FXML
+    TabPane tabPane;
     public static final Stage secondaryStage = new Stage(StageStyle.UTILITY);
     public static MainController m;
     ObservableList<MappingConfigurationEntry> dataMc = FXCollections.observableArrayList();
+    ObservableList<CA> dataAssertions = FXCollections.observableArrayList();
     MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
     HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
     HashMap<String, Class_> classes = new HashMap<String, Class_>();
     HashMap<TreeItem, Object> dbMap = new HashMap<TreeItem, Object>();
     HashMap<String, List<Attribute>> mapTableCols = new HashMap<String, List<Attribute>>();
+    HashMap<String, List<Join>> mapTableFks = new HashMap<String, List<Join>>();
+    HashMap<String, List<Join>> mapTableFksInv = new HashMap<String, List<Join>>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         assert newMapping != null : "fx:id=\"newMapping\" was not injected: check your FXML file 'main.fxml'.";
         m = this;
 
-        txtAssertion.setFill(Color.BLACK);
-        
         itemDateCreation.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("creationDate"));
         itemDbName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("databaseAlias"));
         itemOntoName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("ontologyAlias"));
 
         mcTable.setItems(dataMc);
+        assertionsList.setItems(dataAssertions);
 
         final ObservableList<MappingConfigurationEntry> tableSelection = mcTable.getSelectionModel().getSelectedItems();
 
-        mcTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    updateDeleteButtonState();
-                    updateEditButtonState();
-                    if (mouseEvent.getClickCount() == 2) {
-                        final MappingConfigurationEntry selectedItem = mcTable.getSelectionModel().getSelectedItem();
-                        if (selectedItem != null) {
-                            MappingConfiguration mc;
-                            try {
-                                mc = mcDAO.findById(selectedItem.getId());
-
-                                buildDBTree(mc);
-                                buildOntoTree(mc);
-                            } catch (SQLException ex) {
-                                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        ontoTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    final TreeItem selectedItem = ontoTree.getSelectionModel().getSelectedItem();
-                    if (selectedItem != null) {
-                        txtAssertion.setText(assertions.get(selectedItem).toString());
-                    } else {
-                        txtAssertion.setText("");
-                    }
-                    if (mouseEvent.getClickCount() == 2) {
-                        //TODO
-                    }
-                }
-            }
-        });
-
-        dbTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-                    ObservableList<TreeItem<Text>> dbItens = dbTree.getSelectionModel().getSelectedItems();
-                    if (dbItens != null) {
-                        TreeItem ontoItem = ontoTree.getSelectionModel().getSelectedItem();
-                        CA ca = assertions.get(ontoItem);
-
-                        for (Iterator<TreeItem<Text>> it = dbItens.iterator(); it.hasNext();) {
-                            TreeItem<Text> dbItem = it.next();
-                            Object o = dbMap.get(dbItem);
-
-                            if (o instanceof RelationName) {
-                                RelationName rn = (RelationName) o;
-                                ca.setRelationName(rn.tableName());
-                            } else if (o instanceof Attribute) {
-                                Attribute att = (Attribute) o;
-                                if (ca instanceof CCA) {
-                                    String txtParent = dbItem.getParent().getValue().getText();
-                                    if (!txtParent.startsWith("fk")) {
-                                        CCA cca = (CCA) ca;
-                                        if (!cca.getAttributes().contains(att.attributeName())) {
-                                            cca.getAttributes().add(att.attributeName());
-                                        }
-                                    }
-                                } else if (ca instanceof DCA) {
-                                    DCA dca = (DCA) ca;
-                                    if (!dca.getAttributes().contains(att.attributeName())) {
-                                        dca.getAttributes().add(att.attributeName());
-                                    }
-                                }
-                            } else if (o instanceof Join) {
-                                if (ca instanceof OCA) {
-                                    OCA oca = (OCA) ca;
-                                    if (!oca.getFks().contains(dbItem.getValue().getText())) {
-                                        oca.getFks().add(dbItem.getValue().getText());
-                                    }
-                                } else if (ca instanceof DCA) {
-                                    DCA dca = (DCA) ca;
-                                    if (!dca.getFks().contains(dbItem.getValue().getText())) {
-                                        dca.getFks().add(dbItem.getValue().getText());
-                                    }
-                                }
-                                if (mouseEvent.getClickCount() == 2 && dbItem.getChildren().size() == 0) {
-                                    Join fk = (Join) o;
-                                    String txtItem = dbItem.getValue().getText();
-                                    RelationName refTable = txtItem.startsWith("fk_TO") ? fk.table2() : fk.table1();
-                                    List<Attribute> cols = mapTableCols.get(refTable.tableName());
-                                    for (Attribute column : cols) {
-                                        TreeItem<Text> colItem = new TreeItem<>(new Text(column.attributeName()));
-                                        dbItem.getChildren().add(colItem);
-                                        dbMap.put(colItem, column);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (ca != null) {
-                            txtAssertion.setText(ca.toString());
-                        }
-                    }
-                }
-            }
-        });
+        tratarEventoMcTable();
+        tratarEventoOntoTree();
+        tratarEventoDbTree();
+        tratarEventoAssertionsList();
 
         try {
             List<MappingConfiguration> listMc = mcDAO.findAll();
@@ -262,7 +167,9 @@ public class MainController implements Initializable {
             // Crio nós filhos com os nomes das classes
             Collection<Class_> cClasses = classes.values();
             for (Class_ class_ : cClasses) {
-                TreeItem<String> item = new TreeItem<>(class_.getName());
+                Node classIcon = new ImageView(
+                        new Image(getClass().getResourceAsStream("img/ontology/class.gif")));
+                TreeItem<String> item = new TreeItem<>(class_.getName(), classIcon);
                 CCA cca = new CCA();
                 cca.setPrefixName(mc.getOntologyAlias().toLowerCase());
                 cca.setClass_(class_);
@@ -270,7 +177,9 @@ public class MainController implements Initializable {
 
                 /* Cria os data properties da classe */
                 for (int i = 0; i < class_.getdProperties().size(); i++) {
-                    TreeItem<String> subItem = new TreeItem<>(class_.getdProperties().get(i).getName());
+                    Node datatypePIcon = new ImageView(
+                            new Image(getClass().getResourceAsStream("img/ontology/datatypeP.gif")));
+                    TreeItem<String> subItem = new TreeItem<>(class_.getdProperties().get(i).getName(), datatypePIcon);
                     item.getChildren().add(subItem);
 
                     DCA dca = new DCA();
@@ -281,7 +190,9 @@ public class MainController implements Initializable {
 
                 /* Cria os object properties da classe */
                 for (int i = 0; i < class_.getoProperties().size(); i++) {
-                    TreeItem<String> subItem = new TreeItem<>(class_.getoProperties().get(i).getName());
+                    Node objectPIcon = new ImageView(
+                            new Image(getClass().getResourceAsStream("img/ontology/objectP.gif")));
+                    TreeItem<String> subItem = new TreeItem<>(class_.getoProperties().get(i).getName(), objectPIcon);
                     item.getChildren().add(subItem);
 
                     OCA oca = new OCA();
@@ -302,77 +213,60 @@ public class MainController implements Initializable {
 
     public void buildDBTree(MappingConfiguration mc) {
         /* Crio o nó pai que será o nome do banco */
-        TreeItem<Text> dataBase = new TreeItem<>(new Text(mc.getDatabaseAlias()));
+        TreeItem<String> dataBase = new TreeItem<>(mc.getDatabaseAlias());
         dataBase.setExpanded(false);
 
         DatabaseSchemaInspector schema = DbConnection.getSchemaInspector(mc.getDatabaseDriver(), mc.getDatabaseUrl(), mc.getDatabaseUser(), mc.getDatabasePassword());
         List<RelationName> tables = schema.listTableNames();
         for (RelationName relationName : tables) {
-            TreeItem<Text> treeItem = new TreeItem<>(new Text(relationName.tableName()));
+            Node tableIcon = new ImageView(
+                    new Image(getClass().getResourceAsStream("img/database/table.gif")));
+            TreeItem<String> treeItem = new TreeItem<>(relationName.tableName(), tableIcon);
             dataBase.getChildren().add(treeItem);
             dbMap.put(treeItem, relationName);
 
             List<Attribute> listCols = schema.listColumns(relationName);
             for (Attribute attribute : listCols) {
-                TreeItem<Text> colItem = new TreeItem<>(new Text(attribute.attributeName()));
+                TreeItem<String> colItem = colItem = new TreeItem<>(attribute.attributeName());
+                List<Attribute> listPk = schema.primaryKeyColumns(relationName);
+                if (listPk.contains(attribute)) {
+                    Node pkIcon = new ImageView(
+                            new Image(getClass().getResourceAsStream("img/database/pk.gif")));
+                    colItem.setGraphic(pkIcon);
+                } else {
+                    Node attIcon = new ImageView(
+                            new Image(getClass().getResourceAsStream("img/database/attribute.gif")));
+                    colItem.setGraphic(attIcon);
+                }
                 treeItem.getChildren().add(colItem);
                 dbMap.put(colItem, attribute);
             }
             mapTableCols.put(relationName.tableName(), listCols);
 
             List<Join> listFks0 = schema.foreignKeys(relationName, 0);
-            int iRef = 0;
-            String tableRef = "";
             for (Join fk0 : listFks0) {
-                String fkName = "";
-                if (iRef == 0) {
-                    fkName = "fk_TO_" + fk0.table2().tableName();
-                    iRef++;
-                    tableRef = fk0.table2().tableName();
-                } else {
-                    if (tableRef.equals(fk0.table2().tableName())) {
-                        iRef++;
-                        fkName = "fk" + iRef + "_TO_" + fk0.table2().tableName();
-                    } else {
-                        fkName = "fk_TO_" + fk0.table2().tableName();
-                        tableRef = fk0.table2().tableName();
-                        iRef = 1;
-                    }
-                }
-
-                Text t = new Text(fkName);
-                t.setFill(Color.RED);
-                TreeItem<Text> fk0Item = new TreeItem<>(t);
+                String fkName = "fk_" + fk0.table1() + "2" + fk0.table2();
+                Node fkIcon = new ImageView(
+                        new Image(getClass().getResourceAsStream("img/database/fk.gif")));
+                fkIcon.setId("FK_TO_" + fk0.table1() + "2" + fk0.table2());
+                TreeItem<String> fk0Item = new TreeItem<>(fkName, fkIcon);
                 treeItem.getChildren().add(fk0Item);
                 dbMap.put(fk0Item, fk0);
             }
+            mapTableFks.put(relationName.tableName(), listFks0);
 
             List<Join> listFks1 = schema.foreignKeys(relationName, 1);
-            iRef = 0;
-            tableRef = "";
             for (Join fk1 : listFks1) {
                 String fkName = "";
-                if (iRef == 0) {
-                    fkName = "fk_FROM_" + fk1.table1().tableName();
-                    iRef++;
-                    tableRef = fk1.table1().tableName();
-                } else {
-                    if (tableRef.equals(fk1.table1().tableName())) {
-                        iRef++;
-                        fkName = "fk" + iRef + "_FROM_" + fk1.table1().tableName();
-                    } else {
-                        fkName = "fk_FROM_" + fk1.table1().tableName();
-                        tableRef = fk1.table1().tableName();
-                        iRef = 1;
-                    }
-                }
-
-                Text t = new Text(fkName);
-                t.setFill(Color.RED);
-                TreeItem<Text> fk1Item = new TreeItem<>(t);
+                fkName = "fk_" + fk1.table1() + "2" + fk1.table2();
+                Node fkIcon = new ImageView(
+                        new Image(getClass().getResourceAsStream("img/database/fkInv.gif")));
+                fkIcon.setId("FK_FROM_" + fk1.table1() + "2" + fk1.table2());
+                TreeItem<String> fk1Item = new TreeItem<>(fkName, fkIcon);
                 treeItem.getChildren().add(fk1Item);
                 dbMap.put(fk1Item, fk1);
             }
+            mapTableFksInv.put(relationName.tableName(), listFks1);
         }
 
         // Insiro o nó raiz na TreeView
@@ -527,10 +421,6 @@ public class MainController implements Initializable {
             NewMappingController.nm.user.setText(mc.getDatabaseUser());
 
             NewMappingController.nm.comboDrivers.setValue(mc.getDatabaseDriver());
-
-
-
-
         } catch (SQLException ex) {
             Logger.getLogger(MainController.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -568,5 +458,247 @@ public class MainController implements Initializable {
 
     public static void addRowMcTable(MappingConfigurationEntry mc) {
         m.dataMc.add(mc);
+    }
+
+    /**
+     * Called when the Save button is fired.
+     *
+     * @param event the action event.
+     */
+    public void saveAssertionFired(ActionEvent event) throws IOException {
+        final TreeItem selectedItem = ontoTree.getSelectionModel().getSelectedItem();
+        CA ca = assertions.get(selectedItem);
+
+        int pos = dataAssertions.indexOf(ca);
+        if (pos >= 0) {
+            dataAssertions.remove(pos);
+        }
+        dataAssertions.add(ca);
+
+        tabPane.getSelectionModel().select(1);
+        assertionsList.getSelectionModel().select(ca);
+    }
+
+    private void tratarEventoMcTable() {
+        mcTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    updateDeleteButtonState();
+                    updateEditButtonState();
+                    if (mouseEvent.getClickCount() == 2) {
+                        final MappingConfigurationEntry selectedItem = mcTable.getSelectionModel().getSelectedItem();
+                        if (selectedItem != null) {
+                            MappingConfiguration mc;
+                            try {
+                                mc = mcDAO.findById(selectedItem.getId());
+
+                                txtAssertion.setText("");
+                                assertions.clear();
+                                classes.clear();
+                                dbMap.clear();
+                                mapTableCols.clear();
+                                buildDBTree(mc);
+                                buildOntoTree(mc);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void tratarEventoOntoTree() {
+        ontoTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    final TreeItem selectedItem = ontoTree.getSelectionModel().getSelectedItem();
+                    if (selectedItem != null) {
+                        txtAssertion.setText(assertions.get(selectedItem).toString());
+                    } else {
+                        txtAssertion.setText("");
+                    }
+                    if (mouseEvent.getClickCount() == 2) {
+                        //TODO
+                    }
+                }
+            }
+        });
+    }
+
+    private void tratarEventoDbTree() {
+        dbTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    ObservableList<TreeItem<String>> dbItens = dbTree.getSelectionModel().getSelectedItems();
+                    if (dbItens != null) {
+                        TreeItem ontoItem = ontoTree.getSelectionModel().getSelectedItem();
+                        CA ca = assertions.get(ontoItem);
+
+                        int iAtt = 0;
+                        for (Iterator<TreeItem<String>> it = dbItens.iterator(); it.hasNext();) {
+                            TreeItem<String> dbItem = it.next();
+                            Object o = dbMap.get(dbItem);
+
+                            if (o instanceof RelationName) {
+                                RelationName rn = (RelationName) o;
+                                ca.setRelationName(rn.tableName());
+                            } else if (o instanceof Attribute) {
+                                Attribute att = (Attribute) o;
+                                String txtGrandParent = dbItem.getParent().getParent().getValue();
+                                if (ca instanceof CCA) {
+                                    if (!txtGrandParent.startsWith("fk")) {
+                                        CCA cca = (CCA) ca;
+                                        if (iAtt == 0) {
+                                            cca.getAttributes().clear();
+                                            iAtt++;
+                                        }
+                                        if (!cca.getAttributes().contains(att.attributeName())) {
+                                            cca.getAttributes().add(att.attributeName());
+                                        }
+                                    }
+                                } else if (ca instanceof DCA) {
+                                    DCA dca = (DCA) ca;
+                                    if (iAtt == 0) {
+                                        dca.getAttributes().clear();
+                                        iAtt++;
+                                    }
+                                    if (!dca.getAttributes().contains(att.attributeName())) {
+                                        dca.getAttributes().add(att.attributeName());
+                                    }
+                                }
+                                if (!txtGrandParent.startsWith("fk")) {
+                                    ca.setRelationName(dbItem.getParent().getValue());
+                                }
+                            } else if (o instanceof Join) {
+                                if (ca instanceof PCA) {
+                                    PCA pca = (PCA) ca;
+                                    if (!pca.getFks().contains(dbItem.getValue())) {
+                                        if (!pca.getFks().contains(dbItem.getParent().getParent().getValue())) {
+                                            pca.getFks().clear();
+                                            if (pca instanceof DCA) {
+                                                ((DCA) pca).getAttributes().clear();
+                                            }
+
+                                            // Adicionando todas as Fks da hierarquia
+                                            int i = 0;
+                                            List<String> fksHierarquy = new ArrayList<String>();
+                                            TreeItem<String> currItem = dbItem;
+                                            while (true) {
+                                                if (i % 2 == 1) {
+                                                    if (!currItem.getParent().getValue().startsWith("fk")) {
+                                                        pca.setRelationName(currItem.getValue());
+                                                        break;
+                                                    }
+                                                } else {
+                                                    fksHierarquy.add(currItem.getValue());
+                                                }
+                                                i++;
+                                                currItem = currItem.getParent();
+                                            }
+
+                                            i = fksHierarquy.size() - 1;
+                                            while (i >= 0) {
+                                                pca.getFks().add(fksHierarquy.get(i));
+                                                i--;
+                                            }
+                                        } else {
+                                            pca.getFks().add(dbItem.getValue());
+                                        }
+                                    }
+                                }
+
+                                if (mouseEvent.getClickCount() == 2 && dbItem.getChildren().size() == 0) {
+                                    Join fk = (Join) o;
+                                    String txtItem = dbItem.getGraphic().getId();
+                                    RelationName refTable = txtItem.startsWith("FK_TO") ? fk.table2() : fk.table1();
+                                    Node tableIcon = new ImageView(
+                                            new Image(getClass().getResourceAsStream("img/database/table.gif")));
+                                    TreeItem<String> tableRefItem = new TreeItem<>(refTable.tableName(), tableIcon);
+                                    dbItem.getChildren().add(tableRefItem);
+
+                                    List<Attribute> cols = mapTableCols.get(refTable.tableName());
+                                    for (Attribute column : cols) {
+                                        Node attIcon = new ImageView(
+                                                new Image(getClass().getResourceAsStream("img/database/attribute.gif")));
+                                        TreeItem<String> colItem = new TreeItem<>(column.attributeName(), attIcon);
+                                        tableRefItem.getChildren().add(colItem);
+                                        dbMap.put(colItem, column);
+                                    }
+
+                                    List<Join> fks = mapTableFks.get(refTable.tableName());
+                                    for (Join join : fks) {
+                                        String tName = join.table2().tableName();
+                                        TreeItem<String> currItem = tableRefItem;
+                                        boolean include = true;
+                                        while (currItem != null) {
+                                            if (tName.equals(currItem.getValue())) {
+                                                include = false;
+                                                break;
+                                            }
+                                            currItem = currItem.getParent();
+                                        }
+
+                                        if (include) {
+                                            String fkName = "fk_" + join.table1() + "2" + join.table2();
+                                            Node fkIcon = new ImageView(
+                                                    new Image(getClass().getResourceAsStream("img/database/fk.gif")));
+                                            fkIcon.setId("FK_TO_" + join.table1() + "2" + join.table2());
+                                            TreeItem<String> fk0Item = new TreeItem<>(fkName, fkIcon);
+                                            tableRefItem.getChildren().add(fk0Item);
+                                            dbMap.put(fk0Item, join);
+                                        }
+                                    }
+
+                                    List<Join> fksInv = mapTableFksInv.get(refTable.tableName());
+                                    for (Join joinInv : fksInv) {
+                                        String tName = joinInv.table2().tableName();
+                                        TreeItem<String> currItem = tableRefItem;
+                                        boolean include = true;
+                                        while (currItem != null) {
+                                            if (tName.equals(currItem.getValue())) {
+                                                include = false;
+                                                break;
+                                            }
+                                            currItem = currItem.getParent();
+                                        }
+
+                                        if (include) {
+                                            String fkName = "fk_" + joinInv.table1() + "2" + joinInv.table2();
+                                            Node fkIcon = new ImageView(
+                                                    new Image(getClass().getResourceAsStream("img/database/fk.gif")));
+                                            fkIcon.setId("FK_TO_" + joinInv.table1() + "2" + joinInv.table2());
+                                            TreeItem<String> fk1Item = new TreeItem<>(fkName, fkIcon);
+                                            tableRefItem.getChildren().add(fk1Item);
+                                            dbMap.put(fk1Item, joinInv);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (ca != null) {
+                            txtAssertion.setText(ca.toString());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void tratarEventoAssertionsList() {
+        assertionsList.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
+            @Override
+            public void handle(KeyEvent t) {
+                if (t.getCode() == KeyCode.DELETE) {
+                    dataAssertions.remove(assertionsList.getSelectionModel().getSelectedIndex());
+                }
+            }
+        });
     }
 }
