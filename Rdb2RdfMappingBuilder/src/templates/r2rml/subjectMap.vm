@@ -1,0 +1,8 @@
+
+
+<#TriplesMap${className}>
+    rr:logicalTable [ rr:tableName "${table}" ];
+    rr:subjectMap [
+        rr:template "${classUri}/#foreach ( $att in $atts ){$att}/#end";
+        rr:class ${prefixClass}:${className};
+    ];

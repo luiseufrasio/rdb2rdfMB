@@ -1,0 +1,9 @@
+
+    rr:predicateObjectMap [
+        rr:predicate ${prefix}:${propertyName};
+        rr:objectMap [#if ( ${type} == 1 ) #parse ( "/templates/r2rml/datatypeMap.vm" ) ];
+#else
+            #parse ( "/templates/r2rml/objectMap.vm" )
+        ];
+#end
+    ];

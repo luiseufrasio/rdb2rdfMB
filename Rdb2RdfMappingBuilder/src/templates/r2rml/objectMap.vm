@@ -1,0 +1,8 @@
+
+            rr:parentTriplesMap <#TriplesMap${rangeClass}>;
+#foreach ( $pair in $pairs )
+            rr:joinCondition [
+                rr:child "$pair.child";
+                rr:parent "$pair.parent";
+            ];
+#end

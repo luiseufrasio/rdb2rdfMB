@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="611.0" prefWidth="989.0" styleClass="theme" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.MainController">
   <children>
@@ -86,7 +87,7 @@
                             </AnchorPane>
                           </content>
                         </Tab>
-                        <Tab text="Assertions">
+                        <Tab disable="false" text="Assertions">
                           <content>
                             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
@@ -100,7 +101,7 @@
                                     <HBox id="HBox" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="691.0" spacing="15.0">
                                       <children>
                                         <Button id="button1" disable="true" mnemonicParsing="false" text="Build Views" />
-                                        <Button id="button1" disable="true" mnemonicParsing="false" text="Create R2RML" />
+                                        <Button id="button1" fx:id="createR2rml" disable="true" mnemonicParsing="false" onAction="#createR2rmlFired" text="Create R2RML" />
                                       </children>
                                       <padding>
                                         <Insets right="5.0" />
@@ -108,6 +109,15 @@
                                     </HBox>
                                   </children>
                                 </VBox>
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab disable="true" text="R2RML">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                <WebView fx:id="r2rmlContent" prefHeight="508.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               </children>
                             </AnchorPane>
                           </content>

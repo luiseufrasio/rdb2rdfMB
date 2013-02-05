@@ -53,12 +53,15 @@ import javax.swing.JOptionPane;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Class_;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
+import br.ufc.mcc.arida.rdb2rdfmb.model.Fk;
 import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.PCA;
+import br.ufc.mcc.arida.rdb2rdfmb.model.Pair;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;
@@ -71,6 +74,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebView;
 
 /**
  *
@@ -91,6 +95,8 @@ public class MainController implements Initializable {
     @FXML
     Button delete;
     @FXML
+    Button createR2rml;
+    @FXML
     TableView<MappingConfigurationEntry> mcTable;
     @FXML
     TableColumn itemOntoName;
@@ -102,6 +108,8 @@ public class MainController implements Initializable {
     ListView<CA> assertionsList;
     @FXML
     TabPane tabPane;
+    @FXML
+    WebView r2rmlContent;
     public static final Stage secondaryStage = new Stage(StageStyle.UTILITY);
     public static MainController m;
     ObservableList<MappingConfigurationEntry> dataMc = FXCollections.observableArrayList();
@@ -113,6 +121,7 @@ public class MainController implements Initializable {
     HashMap<String, List<Attribute>> mapTableCols = new HashMap<String, List<Attribute>>();
     HashMap<String, List<Join>> mapTableFks = new HashMap<String, List<Join>>();
     HashMap<String, List<Join>> mapTableFksInv = new HashMap<String, List<Join>>();
+    HashMap<String, Fk> mapFks = new HashMap<String, Fk>();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -125,6 +134,12 @@ public class MainController implements Initializable {
 
         mcTable.setItems(dataMc);
         assertionsList.setItems(dataAssertions);
+
+        if (dataAssertions.size() == 0) {
+            createR2rml.setDisable(true);
+        } else {
+            createR2rml.setDisable(false);
+        }
 
         final ObservableList<MappingConfigurationEntry> tableSelection = mcTable.getSelectionModel().getSelectedItems();
 
@@ -186,6 +201,7 @@ public class MainController implements Initializable {
                     dca.setPrefixName(mc.getOntologyAlias().toLowerCase());
                     dca.setdProperty(class_.getdProperties().get(i));
                     assertions.put(subItem, dca);
+                    cca.getDcaList().add(dca);
                 }
 
                 /* Cria os object properties da classe */
@@ -199,6 +215,7 @@ public class MainController implements Initializable {
                     oca.setPrefixName(mc.getOntologyAlias().toLowerCase());
                     oca.setoProperty(class_.getoProperties().get(i));
                     assertions.put(subItem, oca);
+                    cca.getOcaList().add(oca);
                 }
 
                 ontoRoot.getChildren().add(item);
@@ -245,7 +262,10 @@ public class MainController implements Initializable {
 
             List<Join> listFks0 = schema.foreignKeys(relationName, 0);
             for (Join fk0 : listFks0) {
-                String fkName = "fk_" + fk0.table1() + "2" + fk0.table2();
+                String fkName = "fk0_" + fk0.table1() + "2" + fk0.table2();
+                if (!mapFks.keySet().contains(fkName)) {
+                    mapFks.put(fkName, new Fk(false, fk0));
+                }
                 Node fkIcon = new ImageView(
                         new Image(getClass().getResourceAsStream("img/database/fk.gif")));
                 fkIcon.setId("FK_TO_" + fk0.table1() + "2" + fk0.table2());
@@ -258,7 +278,10 @@ public class MainController implements Initializable {
             List<Join> listFks1 = schema.foreignKeys(relationName, 1);
             for (Join fk1 : listFks1) {
                 String fkName = "";
-                fkName = "fk_" + fk1.table1() + "2" + fk1.table2();
+                fkName = "fk1_" + fk1.table1() + "2" + fk1.table2();
+                if (!mapFks.keySet().contains(fkName)) {
+                    mapFks.put(fkName, new Fk(true, fk1));
+                }
                 Node fkIcon = new ImageView(
                         new Image(getClass().getResourceAsStream("img/database/fkInv.gif")));
                 fkIcon.setId("FK_FROM_" + fk1.table1() + "2" + fk1.table2());
@@ -445,10 +468,6 @@ public class MainController implements Initializable {
                 mcDAO.delete(selectedItem.getId());
                 dataMc.remove(selectedItem);
                 JOptionPane.showMessageDialog(null, "Mapping Configuration Deleted!", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-
-
-
             } catch (SQLException ex) {
                 Logger.getLogger(MainController.class
                         .getName()).log(Level.SEVERE, null, ex);
@@ -477,6 +496,84 @@ public class MainController implements Initializable {
 
         tabPane.getSelectionModel().select(1);
         assertionsList.getSelectionModel().select(ca);
+
+        createR2rml.setDisable(false);
+    }
+
+    /**
+     * Called when the CreateR2RML button is fired.
+     *
+     * @param event the action event.
+     */
+    public void createR2rmlFired(ActionEvent event) throws IOException, Exception {
+        tabPane.getTabs().get(2).setDisable(false);
+        tabPane.getSelectionModel().select(2);
+        
+        StringBuilder r2rml = new StringBuilder("<pre>@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt;.");
+        for (CA ca : assertionsList.getItems()) {
+            if (ca instanceof CCA) {
+                CCA cca = (CCA) ca;
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("className", cca.getClass_());
+		param.put("prefixClass", cca.getPrefixName());
+		param.put("classUri", "http://www.example.com/" + cca.getClass_().toString().toLowerCase());
+		param.put("table", cca.getRelationName());
+		param.put("atts", cca.getAttributes());
+		
+		r2rml.append(TemplateUtil.applyTemplate("subjectMap", param));
+                
+                for (DCA dca : cca.getDcaList()) {
+                    if (assertionsList.getItems().contains(dca)) {
+                        param.clear();
+                        param.put("prefix", dca.getPrefixName());
+                        param.put("propertyName", dca.getdProperty().getName());
+                        param.put("type", 1);
+                        param.put("columnName", dca.getAttributes().get(0));
+
+                        r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
+                    }
+                }
+                
+                for (OCA oca : cca.getOcaList()) {
+                    if (assertionsList.getItems().contains(oca)) {
+                        param.clear();
+                        param.put("prefix", oca.getPrefixName());
+                        param.put("propertyName", oca.getoProperty().getName());
+                        param.put("type", 2);
+                        param.put("rangeClass", oca.getoProperty().getRange());
+                        List<Pair> pairs = new ArrayList<Pair>();
+                        for (String fkStr : oca.getFks()) {
+                            Fk fk = mapFks.get(fkStr);
+                            Join j = fk.getJoin();
+                            int i = 0;
+                            while (i < j.attributes1().size()) {                                
+                                Pair p = null;
+                                Attribute a1 = (Attribute) j.attributes1().get(i);
+                                Attribute a2 = (Attribute) j.attributes2().get(i);
+                                if (!fk.isInverse()) {
+                                    p = new Pair(a1.attributeName(), a2.attributeName());
+                                } else {
+                                    p = new Pair(a2.attributeName(), a1.attributeName());
+                                }
+                                
+                                pairs.add(p);
+                                i++;
+                            }
+                        }
+                        param.put("pairs", pairs);
+
+                        r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
+                    }
+                }
+                
+                int idx = r2rml.lastIndexOf(";");
+                r2rml.replace(idx, idx + 1, ".");
+            }
+        }
+
+        r2rml.append("</pre>");
+        r2rmlContent.getEngine().loadContent(r2rml.toString());
     }
 
     private void tratarEventoMcTable() {
@@ -692,11 +789,14 @@ public class MainController implements Initializable {
 
     private void tratarEventoAssertionsList() {
         assertionsList.setOnKeyReleased(new EventHandler<KeyEvent>() {
-
             @Override
             public void handle(KeyEvent t) {
                 if (t.getCode() == KeyCode.DELETE) {
                     dataAssertions.remove(assertionsList.getSelectionModel().getSelectedIndex());
+                    if (dataAssertions.size() == 0) {
+                        createR2rml.setDisable(true);
+                        tabPane.getTabs().get(2).setDisable(true);
+                    }
                 }
             }
         });

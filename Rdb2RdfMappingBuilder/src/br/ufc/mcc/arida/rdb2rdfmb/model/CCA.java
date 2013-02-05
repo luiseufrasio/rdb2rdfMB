@@ -8,6 +8,8 @@ public class CCA extends CA {
     private Class_ class_;
     private List<String> attributes = new ArrayList<String>();
     private String selCondition;
+    private List<DCA> dcaList = new ArrayList<DCA>();
+    private List<OCA> ocaList = new ArrayList<OCA>();
 
     public CCA() {
     }
@@ -22,7 +24,7 @@ public class CCA extends CA {
     public String toString() {
         String strCCA = prefixName + " : " + class_ + " ≡ " + relationName + " [";
         int i = 0;
-        
+
         for (String att : attributes) {
             if (i++ > 0) {
                 strCCA += ", " + att;
@@ -37,6 +39,22 @@ public class CCA extends CA {
         }
 
         return strCCA;
+    }
+
+    public List<DCA> getDcaList() {
+        return dcaList;
+    }
+
+    public void setDcaList(List<DCA> dcaList) {
+        this.dcaList = dcaList;
+    }
+
+    public List<OCA> getOcaList() {
+        return ocaList;
+    }
+
+    public void setOcaList(List<OCA> ocaList) {
+        this.ocaList = ocaList;
     }
 
     public Class_ getClass_() {
@@ -79,7 +97,7 @@ public class CCA extends CA {
             String att = v2[i].replaceAll(",", "");
             if (att.indexOf('[') != -1) {
                 att = att.substring(1);
-            }   
+            }
             if (att.indexOf(']') != -1) {
                 att = att.substring(0, att.length() - 1);
             }

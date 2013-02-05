@@ -86,17 +86,21 @@
                             </AnchorPane>
                           </content>
                         </Tab>
-                        <Tab text="Assertions">
+                        <Tab disable="false" text="Assertions">
                           <content>
                             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                               <children>
                                 <VBox id="VBox" alignment="TOP_LEFT" prefHeight="418.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <children>
-                                    <ListView fx:id="assertionsList" prefHeight="456.0" prefWidth="691.0" />
+                                    <ListView fx:id="assertionsList" prefHeight="456.0" prefWidth="691.0">
+                                      <tooltip>
+                                        <Tooltip text="Select a row and press DELETE to remove it." />
+                                      </tooltip>
+                                    </ListView>
                                     <HBox id="HBox" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="691.0" spacing="15.0">
                                       <children>
                                         <Button id="button1" disable="true" mnemonicParsing="false" text="Build Views" />
-                                        <Button id="button1" disable="true" mnemonicParsing="false" text="Create R2RML" />
+                                        <Button id="button1" fx:id="createR2rml" disable="true" mnemonicParsing="false" onAction="#createR2rmlFired" text="Create R2RML" />
                                       </children>
                                       <padding>
                                         <Insets right="5.0" />
@@ -106,6 +110,11 @@
                                 </VBox>
                               </children>
                             </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab disable="true" text="R2RML">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                           </content>
                         </Tab>
                       </tabs>
