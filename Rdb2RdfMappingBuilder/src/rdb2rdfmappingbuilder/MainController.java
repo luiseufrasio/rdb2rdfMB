@@ -58,7 +58,10 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.PCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Pair;
+import d2rq.server;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -75,6 +78,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebView;
+import org.apache.commons.io.FileUtils;
 
 /**
  *
@@ -122,6 +126,8 @@ public class MainController implements Initializable {
     HashMap<String, List<Join>> mapTableFks = new HashMap<String, List<Join>>();
     HashMap<String, List<Join>> mapTableFksInv = new HashMap<String, List<Join>>();
     HashMap<String, Fk> mapFks = new HashMap<String, Fk>();
+    StringBuilder r2rml = new StringBuilder("");
+    MappingConfiguration mc = null;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -190,32 +196,29 @@ public class MainController implements Initializable {
                 cca.setClass_(class_);
                 assertions.put(item, cca);
 
+                Class_ superClass = class_.getSuperClass();
+                if (superClass != null) {
+                    /* Cria os data properties da super classe */
+                    for (int i = 0; i < superClass.getdProperties().size(); i++) {
+                        createDpItem(item, superClass.getdProperties().get(i), cca);
+                    }
+                }
+
                 /* Cria os data properties da classe */
                 for (int i = 0; i < class_.getdProperties().size(); i++) {
-                    Node datatypePIcon = new ImageView(
-                            new Image(getClass().getResourceAsStream("img/ontology/datatypeP.gif")));
-                    TreeItem<String> subItem = new TreeItem<>(class_.getdProperties().get(i).getName(), datatypePIcon);
-                    item.getChildren().add(subItem);
+                    createDpItem(item, class_.getdProperties().get(i), cca);
+                }
 
-                    DCA dca = new DCA();
-                    dca.setPrefixName(mc.getOntologyAlias().toLowerCase());
-                    dca.setdProperty(class_.getdProperties().get(i));
-                    assertions.put(subItem, dca);
-                    cca.getDcaList().add(dca);
+                if (superClass != null) {
+                    /* Cria os object properties da super classe */
+                    for (int i = 0; i < superClass.getoProperties().size(); i++) {
+                        createOpItem(item, superClass.getoProperties().get(i), cca);
+                    }
                 }
 
                 /* Cria os object properties da classe */
                 for (int i = 0; i < class_.getoProperties().size(); i++) {
-                    Node objectPIcon = new ImageView(
-                            new Image(getClass().getResourceAsStream("img/ontology/objectP.gif")));
-                    TreeItem<String> subItem = new TreeItem<>(class_.getoProperties().get(i).getName(), objectPIcon);
-                    item.getChildren().add(subItem);
-
-                    OCA oca = new OCA();
-                    oca.setPrefixName(mc.getOntologyAlias().toLowerCase());
-                    oca.setoProperty(class_.getoProperties().get(i));
-                    assertions.put(subItem, oca);
-                    cca.getOcaList().add(oca);
+                    createOpItem(item, class_.getoProperties().get(i), cca);
                 }
 
                 ontoRoot.getChildren().add(item);
@@ -234,7 +237,7 @@ public class MainController implements Initializable {
         dataBase.setExpanded(false);
 
         DatabaseSchemaInspector schema = DbConnection.getSchemaInspector(mc.getDatabaseDriver(), mc.getDatabaseUrl(), mc.getDatabaseUser(), mc.getDatabasePassword());
-        List<RelationName> tables = schema.listTableNames();
+        List<RelationName> tables = schema.listTableNames(null);
         for (RelationName relationName : tables) {
             Node tableIcon = new ImageView(
                     new Image(getClass().getResourceAsStream("img/database/table.gif")));
@@ -501,6 +504,26 @@ public class MainController implements Initializable {
     }
 
     /**
+     * Called when the PublishR2RML button is fired.
+     *
+     * @param event the action event.
+     */
+    public void publishR2rmlFired(ActionEvent event) throws IOException, Exception {
+        File f = new File("r2rml.ttl");
+        FileUtils.writeStringToFile(f, r2rml.toString().replaceAll("&lt;", "<").replaceAll("&gt;", ">"));
+
+        server s = new server();
+        try {
+            s.process(new String[]{"-u", mc.getDatabaseUser(), "-pass", mc.getDatabasePassword(), "-d", DbConnection.getDriverClass(mc.getDatabaseDriver()), "-j", mc.getDatabaseUrl(), "r2rml.ttl"});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        URI u = new URI("http://localhost:2020");
+        Desktop.getDesktop().browse(u);
+    }
+
+    /**
      * Called when the CreateR2RML button is fired.
      *
      * @param event the action event.
@@ -508,21 +531,31 @@ public class MainController implements Initializable {
     public void createR2rmlFired(ActionEvent event) throws IOException, Exception {
         tabPane.getTabs().get(2).setDisable(false);
         tabPane.getSelectionModel().select(2);
-        
-        StringBuilder r2rml = new StringBuilder("<pre>@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt;.");
+        String baseUri = "".equals(mc.getOntologyURL()) ? "http://www.example.com#" : mc.getOntologyURL();
+
+        r2rml = new StringBuilder("");
+        r2rml.append("@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt; .\n");
+        r2rml.append("@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .\n");
+        r2rml.append("@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .\n");
+        r2rml.append("@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .\n");
+        r2rml.append("@prefix "
+                + mc.getOntologyAlias().toLowerCase()
+                + ": &lt;" + (baseUri)
+                + "&gt; .");
+
         for (CA ca : assertionsList.getItems()) {
             if (ca instanceof CCA) {
                 CCA cca = (CCA) ca;
-		
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("className", cca.getClass_());
-		param.put("prefixClass", cca.getPrefixName());
-		param.put("classUri", "http://www.example.com/" + cca.getClass_().toString().toLowerCase());
-		param.put("table", cca.getRelationName());
-		param.put("atts", cca.getAttributes());
-		
-		r2rml.append(TemplateUtil.applyTemplate("subjectMap", param));
-                
+
+                Map<String, Object> param = new HashMap<String, Object>();
+                param.put("className", cca.getClass_());
+                param.put("prefixClass", cca.getPrefixName());
+                param.put("classUri", cca.getClass_().toString().toLowerCase());
+                param.put("table", cca.getRelationName());
+                param.put("atts", cca.getAttributes());
+
+                r2rml.append(TemplateUtil.applyTemplate("subjectMap", param));
+
                 for (DCA dca : cca.getDcaList()) {
                     if (assertionsList.getItems().contains(dca)) {
                         param.clear();
@@ -534,7 +567,7 @@ public class MainController implements Initializable {
                         r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
                     }
                 }
-                
+
                 for (OCA oca : cca.getOcaList()) {
                     if (assertionsList.getItems().contains(oca)) {
                         param.clear();
@@ -547,7 +580,7 @@ public class MainController implements Initializable {
                             Fk fk = mapFks.get(fkStr);
                             Join j = fk.getJoin();
                             int i = 0;
-                            while (i < j.attributes1().size()) {                                
+                            while (i < j.attributes1().size()) {
                                 Pair p = null;
                                 Attribute a1 = (Attribute) j.attributes1().get(i);
                                 Attribute a2 = (Attribute) j.attributes2().get(i);
@@ -556,7 +589,7 @@ public class MainController implements Initializable {
                                 } else {
                                     p = new Pair(a2.attributeName(), a1.attributeName());
                                 }
-                                
+
                                 pairs.add(p);
                                 i++;
                             }
@@ -566,14 +599,13 @@ public class MainController implements Initializable {
                         r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
                     }
                 }
-                
+
                 int idx = r2rml.lastIndexOf(";");
                 r2rml.replace(idx, idx + 1, ".");
             }
         }
 
-        r2rml.append("</pre>");
-        r2rmlContent.getEngine().loadContent(r2rml.toString());
+        r2rmlContent.getEngine().loadContent("<pre>" + r2rml.toString() + "</pre>");
     }
 
     private void tratarEventoMcTable() {
@@ -586,7 +618,6 @@ public class MainController implements Initializable {
                     if (mouseEvent.getClickCount() == 2) {
                         final MappingConfigurationEntry selectedItem = mcTable.getSelectionModel().getSelectedItem();
                         if (selectedItem != null) {
-                            MappingConfiguration mc;
                             try {
                                 mc = mcDAO.findById(selectedItem.getId());
 
@@ -800,5 +831,31 @@ public class MainController implements Initializable {
                 }
             }
         });
+    }
+
+    private void createDpItem(TreeItem<String> item, DataProperty dp, CCA cca) {
+        Node datatypePIcon = new ImageView(
+                new Image(getClass().getResourceAsStream("img/ontology/datatypeP.gif")));
+        TreeItem<String> subItem = new TreeItem<>(dp.getName(), datatypePIcon);
+        item.getChildren().add(subItem);
+
+        DCA dca = new DCA();
+        dca.setPrefixName(mc.getOntologyAlias().toLowerCase());
+        dca.setdProperty(dp);
+        assertions.put(subItem, dca);
+        cca.getDcaList().add(dca);
+    }
+
+    private void createOpItem(TreeItem<String> item, ObjProperty op, CCA cca) {
+        Node objectPIcon = new ImageView(
+                new Image(getClass().getResourceAsStream("img/ontology/objectP.gif")));
+        TreeItem<String> subItem = new TreeItem<>(op.getName(), objectPIcon);
+        item.getChildren().add(subItem);
+
+        OCA oca = new OCA();
+        oca.setPrefixName(mc.getOntologyAlias().toLowerCase());
+        oca.setoProperty(op);
+        assertions.put(subItem, oca);
+        cca.getOcaList().add(oca);
     }
 }

@@ -69,7 +69,7 @@ public class DbConnection {
 
     public static DatabaseSchemaInspector getSchemaInspector(String driverName, String url, String user, String passwd) {
         Database database = new Database(ResourceFactory.createResource());
-        database.setJDBCDSN(url);
+        database.setJdbcURL(url);
         database.setJDBCDriver(getDriverClass(driverName));
         database.setUsername(user);
         database.setPassword(passwd);
