@@ -560,6 +560,10 @@ public class MainController implements Initializable {
 
                 for (DCA dca : cca.getDcaList()) {
                     if (assertionsList.getItems().contains(dca)) {
+                        if (dca.getFks().size() > 0) {
+                            dcaViews.add(dca);
+                            continue;
+                        }
                         param.clear();
                         param.put("prefix", dca.getPrefixName());
                         param.put("propertyName", dca.getdProperty().getName());
@@ -606,6 +610,56 @@ public class MainController implements Initializable {
                 int idx = r2rml.lastIndexOf(";");
                 r2rml.replace(idx, idx + 1, ".");
 
+                // Criando as Datatype Properties que necessitam de VISÕES
+                for (DCA dca : dcaViews) {
+                    param.clear();
+                    String pName = dca.getdProperty().getName();
+                    param.put("propertyName", pName.substring(0, 1).toUpperCase() + pName.substring(1));
+                    param.put("subjectAtts", cca.getAttributes());
+                    param.put("atts", dca.getAttributes());
+
+                    List<String> tables = new ArrayList<String>();
+                    List<Pair> pairs = new ArrayList<Pair>();
+                    for (String fkStr : dca.getFks()) {
+                        Fk fk = mapFks.get(fkStr);
+                        Join j = fk.getJoin();
+                        int i = 0;
+                        while (i < j.attributes1().size()) {
+                            Pair p = null;
+                            Attribute a1 = (Attribute) j.attributes1().get(i);
+                            Attribute a2 = (Attribute) j.attributes2().get(i);
+                            if (!fk.isInverse()) {
+                                p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
+                                if (!tables.contains(a1.tableName())) {
+                                    tables.add(a1.tableName());
+                                }
+                                if (!tables.contains(a2.tableName())) {
+                                    tables.add(a2.tableName());
+                                }
+                            } else {
+                                p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
+                                if (!tables.contains(a2.tableName())) {
+                                    tables.add(a2.tableName());
+                                }
+                                if (!tables.contains(a1.tableName())) {
+                                    tables.add(a1.tableName());
+                                }
+                            }
+
+                            pairs.add(p);
+                            i++;
+                        }
+                    }
+                    param.put("pairs", pairs);
+                    param.put("tables", tables);
+                    param.put("childTable", tables.get(0));
+                    param.put("parentTable", tables.get(tables.size() - 1));
+                    param.put("domainClassUri", cca.getClass_().getName().toLowerCase());
+                    param.put("prefix", dca.getPrefixName());
+
+                    r2rml.append(TemplateUtil.applyTemplate("datatypeKeyPathMap", param));
+                }
+
                 // Criando as Object Properties que necessitam de VISÕES
                 for (OCA oca : ocaViews) {
                     param.clear();
@@ -618,7 +672,7 @@ public class MainController implements Initializable {
 
                     List<String> tables = new ArrayList<String>();
                     List<Pair> pairs = new ArrayList<Pair>();
-                    for (String fkStr  : oca.getFks()) {
+                    for (String fkStr : oca.getFks()) {
                         Fk fk = mapFks.get(fkStr);
                         Join j = fk.getJoin();
                         int i = 0;
@@ -628,18 +682,18 @@ public class MainController implements Initializable {
                             Attribute a2 = (Attribute) j.attributes2().get(i);
                             if (!fk.isInverse()) {
                                 p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
-                                if(!tables.contains(a1.tableName())) {
+                                if (!tables.contains(a1.tableName())) {
                                     tables.add(a1.tableName());
                                 }
-                                if(!tables.contains(a2.tableName())) {
+                                if (!tables.contains(a2.tableName())) {
                                     tables.add(a2.tableName());
                                 }
                             } else {
                                 p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
-                                if(!tables.contains(a2.tableName())) {
+                                if (!tables.contains(a2.tableName())) {
                                     tables.add(a2.tableName());
                                 }
-                                if(!tables.contains(a1.tableName())) {
+                                if (!tables.contains(a1.tableName())) {
                                     tables.add(a1.tableName());
                                 }
                             }
@@ -678,6 +732,16 @@ public class MainController implements Initializable {
                             try {
                                 mc = mcDAO.findById(selectedItem.getId());
 
+                                dataAssertions.clear();
+                                createR2rml.setDisable(true);
+                                tabPane.getTabs().get(2).setDisable(true);
+                                dbTree.setRoot(null);
+                                ontoTree.setRoot(null);
+                                assertions.clear();
+                                mapClassAssertion.clear();
+                                mapTableFks.clear();
+                                mapTableFksInv.clear();
+                                mapFks.clear();
                                 txtAssertion.setText("");
                                 assertions.clear();
                                 classes.clear();
@@ -685,8 +749,7 @@ public class MainController implements Initializable {
                                 mapTableCols.clear();
                                 buildDBTree(mc);
                                 buildOntoTree(mc);
-
-
+                                tabPane.getSelectionModel().select(0);
                             } catch (SQLException ex) {
                                 Logger.getLogger(MainController.class
                                         .getName()).log(Level.SEVERE, null, ex);

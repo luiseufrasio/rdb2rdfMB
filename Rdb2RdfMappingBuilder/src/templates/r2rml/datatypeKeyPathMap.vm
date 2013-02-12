@@ -2,7 +2,7 @@
 
 <#TriplesMap${propertyName}View>
     rr:logicalTable [ rr:sqlQuery """
-        SELECT#foreach ( $att in $subjectAtts )#if ($velocityCount > 1),#end ${childTable}.$att#end#foreach ( $att in $objectAtts ), ${parentTable}.$att#end
+        SELECT#foreach ( $att in $subjectAtts )#if ($velocityCount > 1),#end ${childTable}.$att#end#foreach ( $att in $atts ), ${parentTable}.$att#end
 
         FROM#foreach ( $table in $tables )#if ($velocityCount > 1),#end $table#end       
 
@@ -14,5 +14,8 @@
     rr:subjectMap [ rr:template "${domainClassUri}/#foreach ( $att in $subjectAtts ){$att}/#end"; ];
     rr:predicateObjectMap [
         rr:predicate ${prefix}:${propertyName.toLowerCase()};
-        rr:objectMap [ rr:template "${rangeClassUri}/#foreach ( $att in $objectAtts ){$att}/#end"; ];
+        rr:objectMap [ 
+            rr:template "#foreach ( $att in $atts )#if ($velocityCount > 1) #end{$att}#end"; 
+            rr:termType rr:Literal;
+        ];
     ].
