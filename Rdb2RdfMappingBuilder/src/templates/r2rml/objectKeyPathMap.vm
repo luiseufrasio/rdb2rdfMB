@@ -1,0 +1,18 @@
+
+
+<#TriplesMap${propertyName}View>
+    rr:logicalTable [ rr:sqlQuery """
+        SELECT#foreach ( $att in $subjectAtts )#if ($velocityCount > 1),#end ${childTable}.$att#end#foreach ( $att in $objectAtts ), ${parentTable}.$att#end
+
+        FROM#foreach ( $table in $tables )#if ($velocityCount > 1),#end $table#end       
+
+        WHERE#foreach ( $pair in $pairs )
+#if ($velocityCount > 1)
+        AND#end ${pair.childTable}.${pair.child} = ${pair.parentTable}.${pair.parent}
+#end
+    """ ];
+    rr:subjectMap [ rr:template "${domainClassUri}/#foreach ( $att in $subjectAtts ){$att}/#end"; ];
+    rr:predicateObjectMap [
+        rr:predicate ${prefix}:${propertyName.toLowerCase()};
+        rr:objectMap [ rr:template "${rangeClassUri}/#foreach ( $att in $objectAtts ){$att}/#end"; ];
+    ].

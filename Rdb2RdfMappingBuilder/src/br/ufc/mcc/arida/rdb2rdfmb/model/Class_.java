@@ -33,7 +33,10 @@ public class Class_ {
     }
 
     public String getName() {
-        return ("" + name.charAt(0)).toUpperCase() + name.substring(1);
+        if (name != null) {
+            return ("" + name.charAt(0)).toUpperCase() + name.substring(1);
+        }
+        return "";
     }
 
     public void setName(String name) {

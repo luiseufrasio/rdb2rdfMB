@@ -120,6 +120,7 @@ public class MainController implements Initializable {
     ObservableList<CA> dataAssertions = FXCollections.observableArrayList();
     MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
     HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
+    HashMap<Class_, CCA> mapClassAssertion = new HashMap<Class_, CCA>();
     HashMap<String, Class_> classes = new HashMap<String, Class_>();
     HashMap<TreeItem, Object> dbMap = new HashMap<TreeItem, Object>();
     HashMap<String, List<Attribute>> mapTableCols = new HashMap<String, List<Attribute>>();
@@ -195,6 +196,7 @@ public class MainController implements Initializable {
                 cca.setPrefixName(mc.getOntologyAlias().toLowerCase());
                 cca.setClass_(class_);
                 assertions.put(item, cca);
+                mapClassAssertion.put(class_, cca);
 
                 Class_ superClass = class_.getSuperClass();
                 if (superClass != null) {
@@ -271,7 +273,6 @@ public class MainController implements Initializable {
                 }
                 Node fkIcon = new ImageView(
                         new Image(getClass().getResourceAsStream("img/database/fk.gif")));
-                fkIcon.setId("FK_TO_" + fk0.table1() + "2" + fk0.table2());
                 TreeItem<String> fk0Item = new TreeItem<>(fkName, fkIcon);
                 treeItem.getChildren().add(fk0Item);
                 dbMap.put(fk0Item, fk0);
@@ -287,7 +288,6 @@ public class MainController implements Initializable {
                 }
                 Node fkIcon = new ImageView(
                         new Image(getClass().getResourceAsStream("img/database/fkInv.gif")));
-                fkIcon.setId("FK_FROM_" + fk1.table1() + "2" + fk1.table2());
                 TreeItem<String> fk1Item = new TreeItem<>(fkName, fkIcon);
                 treeItem.getChildren().add(fk1Item);
                 dbMap.put(fk1Item, fk1);
@@ -546,6 +546,8 @@ public class MainController implements Initializable {
         for (CA ca : assertionsList.getItems()) {
             if (ca instanceof CCA) {
                 CCA cca = (CCA) ca;
+                List<DCA> dcaViews = new ArrayList<DCA>();
+                List<OCA> ocaViews = new ArrayList<OCA>();
 
                 Map<String, Object> param = new HashMap<String, Object>();
                 param.put("className", cca.getClass_());
@@ -570,13 +572,14 @@ public class MainController implements Initializable {
 
                 for (OCA oca : cca.getOcaList()) {
                     if (assertionsList.getItems().contains(oca)) {
-                        param.clear();
-                        param.put("prefix", oca.getPrefixName());
-                        param.put("propertyName", oca.getoProperty().getName());
-                        param.put("type", 2);
-                        param.put("rangeClass", oca.getoProperty().getRange());
-                        List<Pair> pairs = new ArrayList<Pair>();
-                        for (String fkStr : oca.getFks()) {
+                        if (oca.getFks().size() == 1) {
+                            param.clear();
+                            param.put("prefix", oca.getPrefixName());
+                            param.put("propertyName", oca.getoProperty().getName());
+                            param.put("type", 2);
+                            param.put("rangeClass", oca.getoProperty().getRange());
+                            List<Pair> pairs = new ArrayList<Pair>();
+                            String fkStr = oca.getFks().get(0);
                             Fk fk = mapFks.get(fkStr);
                             Join j = fk.getJoin();
                             int i = 0;
@@ -593,19 +596,73 @@ public class MainController implements Initializable {
                                 pairs.add(p);
                                 i++;
                             }
+                            param.put("pairs", pairs);
+                            r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
+                        } else if (oca.getFks().size() > 1) {
+                            ocaViews.add(oca);
                         }
-                        param.put("pairs", pairs);
-
-                        r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
                     }
                 }
-
                 int idx = r2rml.lastIndexOf(";");
                 r2rml.replace(idx, idx + 1, ".");
+
+                // Criando as Object Properties que necessitam de VISÕES
+                for (OCA oca : ocaViews) {
+                    param.clear();
+                    String pName = oca.getoProperty().getName();
+                    param.put("propertyName", pName.substring(0, 1).toUpperCase() + pName.substring(1));
+                    param.put("subjectAtts", cca.getAttributes());
+                    Class_ rangeClass = oca.getoProperty().getRange();
+                    CCA rangeCca = mapClassAssertion.get(rangeClass);
+                    param.put("objectAtts", rangeCca.getAttributes());
+
+                    List<String> tables = new ArrayList<String>();
+                    List<Pair> pairs = new ArrayList<Pair>();
+                    for (String fkStr  : oca.getFks()) {
+                        Fk fk = mapFks.get(fkStr);
+                        Join j = fk.getJoin();
+                        int i = 0;
+                        while (i < j.attributes1().size()) {
+                            Pair p = null;
+                            Attribute a1 = (Attribute) j.attributes1().get(i);
+                            Attribute a2 = (Attribute) j.attributes2().get(i);
+                            if (!fk.isInverse()) {
+                                p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
+                                if(!tables.contains(a1.tableName())) {
+                                    tables.add(a1.tableName());
+                                }
+                                if(!tables.contains(a2.tableName())) {
+                                    tables.add(a2.tableName());
+                                }
+                            } else {
+                                p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
+                                if(!tables.contains(a2.tableName())) {
+                                    tables.add(a2.tableName());
+                                }
+                                if(!tables.contains(a1.tableName())) {
+                                    tables.add(a1.tableName());
+                                }
+                            }
+
+                            pairs.add(p);
+                            i++;
+                        }
+                    }
+                    param.put("pairs", pairs);
+                    param.put("tables", tables);
+                    param.put("childTable", tables.get(0));
+                    param.put("parentTable", tables.get(tables.size() - 1));
+                    param.put("domainClassUri", cca.getClass_().getName().toLowerCase());
+                    param.put("prefix", oca.getPrefixName());
+                    param.put("rangeClassUri", rangeCca.getClass_().getName().toLowerCase());
+
+                    r2rml.append(TemplateUtil.applyTemplate("objectKeyPathMap", param));
+                }
             }
         }
 
-        r2rmlContent.getEngine().loadContent("<pre>" + r2rml.toString() + "</pre>");
+        r2rmlContent.getEngine()
+                .loadContent("<pre>" + r2rml.toString() + "</pre>");
     }
 
     private void tratarEventoMcTable() {
@@ -628,8 +685,11 @@ public class MainController implements Initializable {
                                 mapTableCols.clear();
                                 buildDBTree(mc);
                                 buildOntoTree(mc);
+
+
                             } catch (SQLException ex) {
-                                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                                Logger.getLogger(MainController.class
+                                        .getName()).log(Level.SEVERE, null, ex);
                             }
                         }
                     }
@@ -742,8 +802,7 @@ public class MainController implements Initializable {
 
                                 if (mouseEvent.getClickCount() == 2 && dbItem.getChildren().size() == 0) {
                                     Join fk = (Join) o;
-                                    String txtItem = dbItem.getGraphic().getId();
-                                    RelationName refTable = txtItem.startsWith("FK_TO") ? fk.table2() : fk.table1();
+                                    RelationName refTable = dbItem.getValue().startsWith("fk0") ? fk.table2() : fk.table1();
                                     Node tableIcon = new ImageView(
                                             new Image(getClass().getResourceAsStream("img/database/table.gif")));
                                     TreeItem<String> tableRefItem = new TreeItem<>(refTable.tableName(), tableIcon);
@@ -772,10 +831,9 @@ public class MainController implements Initializable {
                                         }
 
                                         if (include) {
-                                            String fkName = "fk_" + join.table1() + "2" + join.table2();
+                                            String fkName = "fk0_" + join.table1() + "2" + join.table2();
                                             Node fkIcon = new ImageView(
                                                     new Image(getClass().getResourceAsStream("img/database/fk.gif")));
-                                            fkIcon.setId("FK_TO_" + join.table1() + "2" + join.table2());
                                             TreeItem<String> fk0Item = new TreeItem<>(fkName, fkIcon);
                                             tableRefItem.getChildren().add(fk0Item);
                                             dbMap.put(fk0Item, join);
@@ -796,10 +854,9 @@ public class MainController implements Initializable {
                                         }
 
                                         if (include) {
-                                            String fkName = "fk_" + joinInv.table1() + "2" + joinInv.table2();
+                                            String fkName = "fk1_" + joinInv.table1() + "2" + joinInv.table2();
                                             Node fkIcon = new ImageView(
                                                     new Image(getClass().getResourceAsStream("img/database/fk.gif")));
-                                            fkIcon.setId("FK_TO_" + joinInv.table1() + "2" + joinInv.table2());
                                             TreeItem<String> fk1Item = new TreeItem<>(fkName, fkIcon);
                                             tableRefItem.getChildren().add(fk1Item);
                                             dbMap.put(fk1Item, joinInv);
