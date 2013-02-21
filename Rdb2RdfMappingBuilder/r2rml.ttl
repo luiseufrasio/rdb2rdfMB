@@ -7,14 +7,17 @@
 <#TriplesMapPerson>
     rr:logicalTable [ rr:tableName "persons" ];
     rr:subjectMap [
-        rr:template "person/{PerID}/";
+        rr:template "person/{PerID}/{Type}/";
         rr:class foaf:Person;
     ];
     rr:predicateObjectMap [
         rr:predicate rdfs:label;
-        rr:objectMap [ rr:template "person #{PerID}"; ];
+        rr:objectMap [ rr:template "person #{PerID} {Type}"; ];
     ];
     rr:predicateObjectMap [
         rr:predicate foaf:name;
-        rr:objectMap [ rr:column "LastName" ];
+        rr:objectMap [            
+            rr:template "{FirstName} {LastName}"; 
+            rr:termType rr:Literal;
+        ];
     ].
