@@ -10,7 +10,7 @@ public class DCA extends PCA {
 
     @Override
     public String toString() {
-        String strDCA = prefixName + " : " + dProperty.getName() + " ≡ " + relationName + " / ";
+        String strDCA = dProperty + " ≡ " + relationName + " / ";
 
         if (fks.size() > 0) {
             strDCA += "[";
@@ -51,15 +51,14 @@ public class DCA extends PCA {
         DCA ca = new DCA();
         /*
          * Formats: 
-         * 1. prefixName : dProperty ≡ relationName / attribute
-         * 2. prefixName : dProperty ≡ relationName / {attList}
-         * 3. prefixName : dProperty ≡ relationName / [FksList] / attribute
-         * 4. prefixName : dProperty ≡ relationName / [FksList] / {attList}
+         * 1. prefix : dProperty ≡ relationName / attribute
+         * 2. prefix : dProperty ≡ relationName / {attList}
+         * 3. prefix : dProperty ≡ relationName / [FksList] / attribute
+         * 4. prefix : dProperty ≡ relationName / [FksList] / {attList}
          */
         String v1[] = toString.split(":");
-        ca.setPrefixName(v1[0].trim());
         String v2[] = v1[1].split(" ");
-        ca.setdProperty(new DataProperty(v2[1]));
+        ca.setdProperty(new DataProperty(v1[0].trim(), v2[1]));
         ca.setRelationName(v2[3]);
 
         List<String> atts = new ArrayList<>();

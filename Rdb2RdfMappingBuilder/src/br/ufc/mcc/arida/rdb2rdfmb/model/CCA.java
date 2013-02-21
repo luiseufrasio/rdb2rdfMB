@@ -22,7 +22,7 @@ public class CCA extends CA {
 
     @Override
     public String toString() {
-        String strCCA = prefixName + " : " + class_ + " ≡ " + relationName + " [";
+        String strCCA = class_ + " ≡ " + relationName + " [";
         int i = 0;
 
         for (String att : attributes) {
@@ -86,9 +86,8 @@ public class CCA extends CA {
         CCA ca = new CCA();
         //Format prefixName : class ≡ relationName [attList]
         String v1[] = toString.split(":");
-        ca.setPrefixName(v1[0].trim());
         String v2[] = v1[1].split(" ");
-        ca.setClass_(new Class_(v2[1]));
+        ca.setClass_(new Class_(v1[0].trim(), v2[1]));
         ca.setRelationName(v2[3]);
 
         List<String> atts = new ArrayList<>();

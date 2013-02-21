@@ -13,7 +13,7 @@
     <div id="rdficon"><a href="$rdf_link" title="RDF data"><img src="${home_link}snorql/rdf_flyer.24.gif" alt="[RDF data]" /></a></div>
     <div id="header">
       <h1 id="title">
-        All $classmap
+        All $classmap.replaceAll('TriplesMap','')
       </h1>
       <div class="subtitle">&nbsp;</div>
     </div>
@@ -27,9 +27,9 @@
 #end
 #foreach ($aClassMap in $classmap_links.keySet())
 #if ($aClassMap == $classmap)
-      <strong>$aClassMap</strong>
+      <strong>$aClassMap.replaceAll('TriplesMap','')</strong>
 #else
-      <strong><a href="$classmap_links.get($aClassMap)">$aClassMap</a></strong>
+      <strong><a href="$classmap_links.get($aClassMap)">$aClassMap.replaceAll('TriplesMap','')</a></strong>
 #end
 #end
 #end

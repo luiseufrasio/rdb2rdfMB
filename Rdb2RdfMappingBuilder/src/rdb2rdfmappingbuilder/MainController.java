@@ -127,6 +127,7 @@ public class MainController implements Initializable {
     HashMap<String, List<Join>> mapTableFks = new HashMap<String, List<Join>>();
     HashMap<String, List<Join>> mapTableFksInv = new HashMap<String, List<Join>>();
     HashMap<String, Fk> mapFks = new HashMap<String, Fk>();
+    HashMap<String, String> mapPrefixes = new HashMap<String, String>();
     StringBuilder r2rml = new StringBuilder("");
     MappingConfiguration mc = null;
 
@@ -191,9 +192,8 @@ public class MainController implements Initializable {
             for (Class_ class_ : cClasses) {
                 Node classIcon = new ImageView(
                         new Image(getClass().getResourceAsStream("img/ontology/class.gif")));
-                TreeItem<String> item = new TreeItem<>(class_.getName(), classIcon);
+                TreeItem<String> item = new TreeItem<>(class_.toString(), classIcon);
                 CCA cca = new CCA();
-                cca.setPrefixName(mc.getOntologyAlias().toLowerCase());
                 cca.setClass_(class_);
                 assertions.put(item, cca);
                 mapClassAssertion.put(class_, cca);
@@ -315,20 +315,24 @@ public class MainController implements Initializable {
         ExtendedIterator<OntClass> i = ontModel.listClasses();
         while (i.hasNext()) {
             OntClass ontClass = (OntClass) i.next();
+            String prefix = ontModel.getNsURIPrefix(ontClass.getNameSpace());
             String name = ontClass.getLocalName();
 
             if (classes.get(name) == null) {
-                Class_ c = new Class_(name);
-                classes.put(name, c);
+                Class_ c = new Class_(prefix, name);
+                classes.put(prefix + name, c);
+                mapPrefixes.put(prefix, ontClass.getNameSpace());
 
                 OntClass superClass = ontClass.getSuperClass();
                 if (superClass != null) {
                     String superName = superClass.getLocalName();
-                    Class_ superC = classes.get(superName);
+                    String superPrefix = ontModel.getNsURIPrefix(superClass.getNameSpace());
+                    Class_ superC = classes.get(superPrefix + superName);
 
                     if (superC == null) {
-                        superC = new Class_(superName);
-                        classes.put(superName, superC);
+                        superC = new Class_(superPrefix, superName);
+                        classes.put(superPrefix + superName, superC);
+                        mapPrefixes.put(superPrefix, superClass.getNameSpace());
                     }
 
                     c.setSuperClass(superC);
@@ -342,14 +346,17 @@ public class MainController implements Initializable {
             DatatypeProperty datatypeProperty = (DatatypeProperty) i2.next();
 
             if (datatypeProperty.getDomain() != null && datatypeProperty.getRange() != null) {
+                String dClassPrefix = ontModel.getNsURIPrefix(datatypeProperty.getDomain().getNameSpace());
                 String dClassName = datatypeProperty.getDomain().getLocalName();
-                Class_ dClass = classes.get(dClassName);
+                Class_ dClass = classes.get(dClassPrefix + dClassName);
                 String dpName = datatypeProperty.getLocalName();
+                String dpPrefix = ontModel.getNsURIPrefix(datatypeProperty.getNameSpace());
                 String rangeName = datatypeProperty.getRange().getLocalName();
 
-                DataProperty dp = new DataProperty(dpName, dClass, rangeName);
+                DataProperty dp = new DataProperty(dpPrefix, dpName, dClass, rangeName);
                 if (dClass != null) {
                     dClass.getdProperties().add(dp);
+                    mapPrefixes.put(dpPrefix, datatypeProperty.getNameSpace());
                 }
             }
         }
@@ -359,16 +366,20 @@ public class MainController implements Initializable {
             ObjectProperty objectProperty = (ObjectProperty) i3.next();
 
             if (objectProperty.getDomain() != null && objectProperty.getRange() != null) {
+                String dClassPrefix = ontModel.getNsURIPrefix(objectProperty.getDomain().getNameSpace());
                 String dClassName = objectProperty.getDomain().getLocalName();
+                String rClassPrefix = ontModel.getNsURIPrefix(objectProperty.getDomain().getNameSpace());
                 String rClassName = objectProperty.getRange().getLocalName();
                 String opName = objectProperty.getLocalName();
+                String opPrefix = ontModel.getNsURIPrefix(objectProperty.getNameSpace());
 
-                Class_ dClass = classes.get(dClassName);
-                Class_ rClass = classes.get(rClassName);
+                Class_ dClass = classes.get(dClassPrefix + dClassName);
+                Class_ rClass = classes.get(rClassPrefix + rClassName);
 
-                ObjProperty op = new ObjProperty(opName, dClass, rClass);
+                ObjProperty op = new ObjProperty(opPrefix, opName, dClass, rClass);
                 if (dClass != null) {
                     dClass.getoProperties().add(op);
+                    mapPrefixes.put(opPrefix, objectProperty.getNameSpace());
                 }
             }
         }
@@ -442,6 +453,7 @@ public class MainController implements Initializable {
 
             NewMappingController.nm.filePath.setText(mc.getOntologyFilePath());
             NewMappingController.nm.ontoUrl.setText(mc.getOntologyURL());
+            NewMappingController.nm.comboOntoLangs.setValue(mc.getOntologyLang());
             NewMappingController.nm.passwd.setText(mc.getDatabasePassword());
             NewMappingController.nm.url.setText(mc.getDatabaseUrl());
             NewMappingController.nm.user.setText(mc.getDatabaseUser());
@@ -537,22 +549,23 @@ public class MainController implements Initializable {
         r2rml.append("@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt; .\n");
         r2rml.append("@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .\n");
         r2rml.append("@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .\n");
-        r2rml.append("@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .\n");
-        r2rml.append("@prefix "
-                + mc.getOntologyAlias().toLowerCase()
-                + ": &lt;" + (baseUri)
-                + "&gt; .");
+        r2rml.append("@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .");
 
+        List<String> prefixes = new ArrayList<String>();
         for (CA ca : assertionsList.getItems()) {
             if (ca instanceof CCA) {
                 CCA cca = (CCA) ca;
+                String prefixClass = cca.getClass_().getPrefix();
+                if (!prefixes.contains(prefixClass)) {
+                    prefixes.add(prefixClass);
+                }
                 List<DCA> dcaViews = new ArrayList<DCA>();
                 List<OCA> ocaViews = new ArrayList<OCA>();
 
                 Map<String, Object> param = new HashMap<String, Object>();
-                param.put("className", cca.getClass_());
-                param.put("prefixClass", cca.getPrefixName());
-                param.put("classUri", cca.getClass_().toString().toLowerCase());
+                param.put("className", cca.getClass_().getName());
+                param.put("prefixClass", prefixClass);
+                param.put("classUri", cca.getClass_().getName().toLowerCase());
                 param.put("table", cca.getRelationName());
                 param.put("atts", cca.getAttributes());
 
@@ -565,10 +578,20 @@ public class MainController implements Initializable {
                             continue;
                         }
                         param.clear();
-                        param.put("prefix", dca.getPrefixName());
+                        String prefix = dca.getdProperty().getPrefix();
+                        if (!prefixes.contains(prefix)) {
+                            prefixes.add(prefix);
+                        }
+                        param.put("prefix", prefix);
                         param.put("propertyName", dca.getdProperty().getName());
-                        param.put("type", 1);
-                        param.put("columnName", dca.getAttributes().get(0));
+                        
+                        if (dca.getAttributes().size() == 1) {
+                            param.put("type", 1);
+                            param.put("columnName", dca.getAttributes().get(0));
+                        } else {
+                            param.put("type", 3);
+                            param.put("cols", dca.getAttributes());
+                        }
 
                         r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
                     }
@@ -578,10 +601,15 @@ public class MainController implements Initializable {
                     if (assertionsList.getItems().contains(oca)) {
                         if (oca.getFks().size() == 1) {
                             param.clear();
-                            param.put("prefix", oca.getPrefixName());
+
+                            String prefix = oca.getoProperty().getPrefix();
+                            if (!prefixes.contains(prefix)) {
+                                prefixes.add(prefix);
+                            }
+                            param.put("prefix", prefix);
                             param.put("propertyName", oca.getoProperty().getName());
                             param.put("type", 2);
-                            param.put("rangeClass", oca.getoProperty().getRange());
+                            param.put("rangeClass", oca.getoProperty().getRange().getName());
                             List<Pair> pairs = new ArrayList<Pair>();
                             String fkStr = oca.getFks().get(0);
                             Fk fk = mapFks.get(fkStr);
@@ -655,7 +683,11 @@ public class MainController implements Initializable {
                     param.put("childTable", tables.get(0));
                     param.put("parentTable", tables.get(tables.size() - 1));
                     param.put("domainClassUri", cca.getClass_().getName().toLowerCase());
-                    param.put("prefix", dca.getPrefixName());
+                    String prefix = dca.getdProperty().getPrefix();
+                    if (!prefixes.contains(prefix)) {
+                        prefixes.add(prefix);
+                    }
+                    param.put("prefix", prefix);
 
                     r2rml.append(TemplateUtil.applyTemplate("datatypeKeyPathMap", param));
                 }
@@ -707,12 +739,20 @@ public class MainController implements Initializable {
                     param.put("childTable", tables.get(0));
                     param.put("parentTable", tables.get(tables.size() - 1));
                     param.put("domainClassUri", cca.getClass_().getName().toLowerCase());
-                    param.put("prefix", oca.getPrefixName());
+                    String prefix = oca.getoProperty().getPrefix();
+                    if (!prefixes.contains(prefix)) {
+                        prefixes.add(prefix);
+                    }
+                    param.put("prefix", prefix);
                     param.put("rangeClassUri", rangeCca.getClass_().getName().toLowerCase());
 
                     r2rml.append(TemplateUtil.applyTemplate("objectKeyPathMap", param));
                 }
             }
+        }
+
+        for (String prefix : prefixes) {
+            r2rml.insert(0, "@prefix " + prefix + ": &lt;" + mapPrefixes.get(prefix) + "&gt; .\n");
         }
 
         r2rmlContent.getEngine()
@@ -747,6 +787,7 @@ public class MainController implements Initializable {
                                 classes.clear();
                                 dbMap.clear();
                                 mapTableCols.clear();
+                                mapPrefixes.clear();
                                 buildDBTree(mc);
                                 buildOntoTree(mc);
                                 tabPane.getSelectionModel().select(0);
@@ -956,11 +997,10 @@ public class MainController implements Initializable {
     private void createDpItem(TreeItem<String> item, DataProperty dp, CCA cca) {
         Node datatypePIcon = new ImageView(
                 new Image(getClass().getResourceAsStream("img/ontology/datatypeP.gif")));
-        TreeItem<String> subItem = new TreeItem<>(dp.getName(), datatypePIcon);
+        TreeItem<String> subItem = new TreeItem<>(dp.toString(), datatypePIcon);
         item.getChildren().add(subItem);
 
         DCA dca = new DCA();
-        dca.setPrefixName(mc.getOntologyAlias().toLowerCase());
         dca.setdProperty(dp);
         assertions.put(subItem, dca);
         cca.getDcaList().add(dca);
@@ -969,11 +1009,10 @@ public class MainController implements Initializable {
     private void createOpItem(TreeItem<String> item, ObjProperty op, CCA cca) {
         Node objectPIcon = new ImageView(
                 new Image(getClass().getResourceAsStream("img/ontology/objectP.gif")));
-        TreeItem<String> subItem = new TreeItem<>(op.getName(), objectPIcon);
+        TreeItem<String> subItem = new TreeItem<>(op.toString(), objectPIcon);
         item.getChildren().add(subItem);
 
         OCA oca = new OCA();
-        oca.setPrefixName(mc.getOntologyAlias().toLowerCase());
         oca.setoProperty(op);
         assertions.put(subItem, oca);
         cca.getOcaList().add(oca);

@@ -27,7 +27,7 @@
       Example data:
 #end
 #foreach ($aClassMap in $classmap_links.keySet())
-      <strong><a href="$classmap_links.get($aClassMap)">$aClassMap</a></strong>
+      <strong><a href="$classmap_links.get($aClassMap)">$aClassMap.replaceAll('TriplesMap','')</a></strong>
 #end
 #end
     </div>

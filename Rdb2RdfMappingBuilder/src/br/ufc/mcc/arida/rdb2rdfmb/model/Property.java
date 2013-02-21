@@ -2,6 +2,7 @@ package br.ufc.mcc.arida.rdb2rdfmb.model;
 
 public abstract class Property {
 
+    protected String prefix;
     protected String name;
     protected Class_ domain;
 
@@ -9,16 +10,25 @@ public abstract class Property {
         super();
     }
 
-    public Property(String name) {
+    public Property(String prefix, String name) {
+        this.prefix = prefix;
         this.name = name;
     }
 
     @Override
     public String toString() {
-        return name;
+        return (prefix == null ? "" : prefix) + " : " + name.toLowerCase();
     }
 
     public abstract String getRangeName();
+
+    public String getPrefix() {
+        return (prefix == null ? "" : prefix);
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
     public String getName() {
         return name;

@@ -4,15 +4,16 @@ public class DataProperty extends Property {
 
     private String range;
 
-    public DataProperty(String name, Class_ domain, String range) {
+    public DataProperty(String prefix, String name, Class_ domain, String range) {
         super();
+        this.prefix = prefix;
         this.name = name;
         this.domain = domain;
         this.range = range;
     }
 
-    public DataProperty(String name) {
-        super(name);
+    public DataProperty(String prefix, String name) {
+        super(prefix, name);
     }
     
     public String getRange() {

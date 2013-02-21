@@ -4,15 +4,16 @@ public class ObjProperty extends Property {
 
     private Class_ range;
 
-    public ObjProperty(String name, Class_ domain, Class_ range) {
+    public ObjProperty(String prefix, String name, Class_ domain, Class_ range) {
         super();
+        this.prefix = prefix;
         this.name = name;
         this.domain = domain;
         this.range = range;
     }
 
-    public ObjProperty(String name) {
-        this.name = name;
+    public ObjProperty(String prefix, String name) {
+        super(prefix, name);
     }
 
     public Class_ getRange() {

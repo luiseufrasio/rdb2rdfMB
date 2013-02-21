@@ -1,3 +1,4 @@
+#set( $v = "#")
 
 
 <#TriplesMap${className}>
@@ -5,4 +6,8 @@
     rr:subjectMap [
         rr:template "${classUri}/#foreach ( $att in $atts ){$att}/#end";
         rr:class ${prefixClass}:${className};
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "$classUri $v#foreach ( $att in $atts )#if ($velocityCount > 1) #end{$att}#end"; ];
     ];

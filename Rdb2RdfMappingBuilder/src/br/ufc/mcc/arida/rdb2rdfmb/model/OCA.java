@@ -25,7 +25,7 @@ public class OCA extends PCA {
 
     @Override
     public String toString() {
-        String strOCA = prefixName + " : " + oProperty + " ≡ " + relationName + " / ";
+        String strOCA = oProperty + " ≡ " + relationName + " / ";
 
         if (fks.size() == 1) {
             strOCA += fks.get(0);
@@ -58,9 +58,8 @@ public class OCA extends PCA {
          * prefixName : class ≡ relationName / fk
          */
         String v1[] = toString.split(":");
-        ca.setPrefixName(v1[0].trim());
         String v2[] = v1[1].split(" ");
-        ca.setoProperty(new ObjProperty(v2[1]));
+        ca.setoProperty(new ObjProperty(v1[0].trim(), v2[1]));
         ca.setRelationName(v2[3]);
 
         List<String> fksList = new ArrayList<>();
