@@ -101,7 +101,7 @@
                                     </ListView>
                                     <HBox id="HBox" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="691.0" spacing="15.0">
                                       <children>
-                                        <Button id="button1" disable="true" mnemonicParsing="false" text="Build Views" />
+                                        <Button id="button1" fx:id="genExpOntoTree" disable="true" mnemonicParsing="false" onAction="#genExpOntoFired" text="Gen Exported Onto" />
                                         <Button id="button1" fx:id="createR2rml" disable="true" mnemonicParsing="false" onAction="#createR2rmlFired" text="Create R2RML" />
                                       </children>
                                       <padding>
@@ -110,6 +110,36 @@
                                     </HBox>
                                   </children>
                                 </VBox>
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab disable="true" text="Exported Onto">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                <BorderPane prefHeight="418.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <bottom>
+                                    <VBox alignment="CENTER_LEFT" prefHeight="51.0" prefWidth="691.0">
+                                      <children>
+                                        <Label text="Correspondence Assertion (CA):" />
+                                        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0">
+                                          <children>
+                                            <TextField id="txtAssertion" fx:id="txtAssertionExp" prefWidth="691.0" />
+                                          </children>
+                                        </HBox>
+                                      </children>
+                                    </VBox>
+                                  </bottom>
+                                  <left>
+                                    <VBox prefHeight="427.0" prefWidth="320.0">
+                                      <children>
+                                        <Label text="Exported Ontology Tree" />
+                                        <TreeView id="ontologyTree" fx:id="expOntoTree" prefHeight="440.0" prefWidth="320.0" showRoot="false" />
+                                      </children>
+                                    </VBox>
+                                  </left>
+                                </BorderPane>
                               </children>
                             </AnchorPane>
                           </content>

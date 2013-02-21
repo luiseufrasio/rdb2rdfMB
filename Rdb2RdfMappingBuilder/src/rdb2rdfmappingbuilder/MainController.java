@@ -91,7 +91,11 @@ public class MainController implements Initializable {
     @FXML //  fx:id="ontoTree"
     private TreeView<String> ontoTree;
     @FXML
+    private TreeView<String> expOntoTree;
+    @FXML
     TextField txtAssertion;
+    @FXML
+    TextField txtAssertionExp;
     @FXML
     Button newMapping;
     @FXML
@@ -100,6 +104,8 @@ public class MainController implements Initializable {
     Button delete;
     @FXML
     Button createR2rml;
+    @FXML
+    Button genExpOntoTree;
     @FXML
     TableView<MappingConfigurationEntry> mcTable;
     @FXML
@@ -120,6 +126,7 @@ public class MainController implements Initializable {
     ObservableList<CA> dataAssertions = FXCollections.observableArrayList();
     MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
     HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
+    HashMap<TreeItem, CA> assertionsExp = new HashMap<TreeItem, CA>();
     HashMap<Class_, CCA> mapClassAssertion = new HashMap<Class_, CCA>();
     HashMap<String, Class_> classes = new HashMap<String, Class_>();
     HashMap<TreeItem, Object> dbMap = new HashMap<TreeItem, Object>();
@@ -145,14 +152,17 @@ public class MainController implements Initializable {
 
         if (dataAssertions.size() == 0) {
             createR2rml.setDisable(true);
+            genExpOntoTree.setDisable(true);
         } else {
             createR2rml.setDisable(false);
+            genExpOntoTree.setDisable(false);
         }
 
         final ObservableList<MappingConfigurationEntry> tableSelection = mcTable.getSelectionModel().getSelectedItems();
 
         tratarEventoMcTable();
         tratarEventoOntoTree();
+        tratarEventoExpOntoTree();
         tratarEventoDbTree();
         tratarEventoAssertionsList();
 
@@ -513,6 +523,7 @@ public class MainController implements Initializable {
         assertionsList.getSelectionModel().select(ca);
 
         createR2rml.setDisable(false);
+        genExpOntoTree.setDisable(false);
     }
 
     /**
@@ -536,14 +547,64 @@ public class MainController implements Initializable {
     }
 
     /**
+     * Called when the genExpOnto button is fired.
+     *
+     * @param event the action event.
+     */
+    public void genExpOntoFired(ActionEvent event) throws IOException, Exception {
+        tabPane.getTabs().get(2).setDisable(false);
+        tabPane.getSelectionModel().select(2);
+
+        // Crio o nó pai que será o nome da ontologia
+        TreeItem<String> ontoRoot = new TreeItem<>(mc.getOntologyAlias());
+        
+        for (CA ca : assertionsList.getItems()) {
+            if (ca instanceof CCA) {
+                CCA cca = (CCA) ca;
+                Class_ class_ = cca.getClass_();
+                
+                Node classIcon = new ImageView(
+                        new Image(getClass().getResourceAsStream("img/ontology/class.gif")));
+                TreeItem<String> item = new TreeItem<>(class_.toString(), classIcon);
+                assertionsExp.put(item, cca);
+                
+                for (DCA dca : cca.getDcaList()) {
+                    if (assertionsList.getItems().contains(dca)) {
+                        Node datatypePIcon = new ImageView(
+                            new Image(getClass().getResourceAsStream("img/ontology/datatypeP.gif")));
+                        TreeItem<String> subItem = new TreeItem<>(dca.getdProperty().toString(), datatypePIcon);
+                        item.getChildren().add(subItem);
+                        assertionsExp.put(subItem, dca);
+                    }
+                }
+
+                for (OCA oca : cca.getOcaList()) {
+                    if (assertionsList.getItems().contains(oca)) {
+                        Node objectPIcon = new ImageView(
+                            new Image(getClass().getResourceAsStream("img/ontology/objectP.gif")));
+                        TreeItem<String> subItem = new TreeItem<>(oca.getoProperty().toString(), objectPIcon);
+                        item.getChildren().add(subItem);
+                        assertionsExp.put(subItem, oca);
+                    }
+                }
+                
+                ontoRoot.getChildren().add(item);
+            }
+        }
+        
+        // Insiro o nó raiz na TreeView
+        expOntoTree.setRoot(ontoRoot);
+        expOntoTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    }
+    
+    /**
      * Called when the CreateR2RML button is fired.
      *
      * @param event the action event.
      */
     public void createR2rmlFired(ActionEvent event) throws IOException, Exception {
-        tabPane.getTabs().get(2).setDisable(false);
-        tabPane.getSelectionModel().select(2);
-        String baseUri = "".equals(mc.getOntologyURL()) ? "http://www.example.com#" : mc.getOntologyURL();
+        tabPane.getTabs().get(3).setDisable(false);
+        tabPane.getSelectionModel().select(3);
 
         r2rml = new StringBuilder("");
         r2rml.append("@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt; .\n");
@@ -821,6 +882,20 @@ public class MainController implements Initializable {
         });
     }
 
+    private void tratarEventoExpOntoTree() {
+        expOntoTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                    final TreeItem selectedItem = expOntoTree.getSelectionModel().getSelectedItem();
+                    if (selectedItem != null) {
+                        txtAssertionExp.setText(assertionsExp.get(selectedItem).toString());
+                    }
+                }
+            }
+        });
+    }
+    
     private void tratarEventoDbTree() {
         dbTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
