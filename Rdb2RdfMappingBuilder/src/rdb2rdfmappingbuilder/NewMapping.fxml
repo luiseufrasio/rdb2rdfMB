@@ -24,7 +24,30 @@
         </AnchorPane>
         <Accordion prefHeight="335.0" prefWidth="500.0">
           <expandedPane>
-            <TitledPane fx:id="x2" animated="true" expanded="true" text="Ontology Schema">
+            <TitledPane id="x3" fx:id="x1" animated="true" expanded="true" text="General">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="14.0" spacing="5.0">
+                      <children>
+                        <Label text="Ontology Alias:" />
+                        <TextField fx:id="ontoAlias" prefWidth="200.0" />
+                      </children>
+                    </HBox>
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="48.0" spacing="5.0">
+                      <children>
+                        <Label text="Database Alias:" />
+                        <TextField fx:id="dbAlias" prefWidth="200.0" />
+                      </children>
+                    </HBox>
+                  </children>
+                </AnchorPane>
+              </content>
+            </TitledPane>
+          </expandedPane>
+          <panes>
+            <fx:reference source="x1" />
+            <TitledPane fx:id="x2" animated="true" expanded="false" text="Ontology Schema">
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
@@ -59,29 +82,6 @@
                 </AnchorPane>
               </content>
             </TitledPane>
-          </expandedPane>
-          <panes>
-            <TitledPane id="x3" fx:id="x1" animated="true" expanded="false" text="General">
-              <content>
-                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="14.0" spacing="5.0">
-                      <children>
-                        <Label text="Ontology Alias:" />
-                        <TextField fx:id="ontoAlias" prefWidth="200.0" />
-                      </children>
-                    </HBox>
-                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="48.0" spacing="5.0">
-                      <children>
-                        <Label text="Database Alias:" />
-                        <TextField fx:id="dbAlias" prefWidth="200.0" />
-                      </children>
-                    </HBox>
-                  </children>
-                </AnchorPane>
-              </content>
-            </TitledPane>
-            <fx:reference source="x2" />
             <TitledPane id="x1" animated="true" expanded="false" text="Database Configuration">
               <content>
                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

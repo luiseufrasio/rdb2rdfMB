@@ -35,7 +35,7 @@ public class CCA extends CA {
         strCCA += "]";
 
         if (selCondition != null) {
-            strCCA += ", " + selCondition;
+            strCCA += ", FILTER [" + selCondition + "]";
         }
 
         return strCCA;

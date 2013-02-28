@@ -1,4 +1,5 @@
 @prefix dc:      <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix conf:    <conf/> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix owl:     <http://www.w3.org/2002/07/owl#> .
@@ -6,13 +7,98 @@
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix foaf:    <http://xmlns.com/foaf/0.1/> .
 
-foaf:person  a       owl:Class , rdfs:Class ;
-      rdfs:isDefinedBy foaf: ;
+foaf:Person  a       owl:Class , rdfs:Class ;
       rdfs:label "foaf:Person" .
       
 foaf:name
       a       rdf:Property , owl:DatatypeProperty ;
-      rdfs:domain foaf:person ;
-      rdfs:isDefinedBy foaf: ;
+      rdfs:domain foaf:Person ;
       rdfs:label "foaf:name" ;
       rdfs:range xsd:integer .
+      
+conf:address
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Person;
+      rdfs:label "conf:address" ;
+      rdfs:range xsd:string .
+
+foaf:mbox
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Person;
+      rdfs:label "foaf:mbox" ;
+      rdfs:range xsd:string .
+      
+conf:researchInterests
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain foaf:Person;
+      rdfs:label "skos:subject" ;
+      rdfs:range skos:Concept .      
+
+foaf:Document  a       owl:Class , rdfs:Class ;
+      rdfs:label "foaf:Document" .
+      
+dc:title
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Document;
+      rdfs:label "dc:title" ;
+      rdfs:range xsd:string .
+      
+dc:date
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Document;
+      rdfs:label "dc:date" ;
+      rdfs:range xsd:string .
+      
+dc:creator
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain foaf:Document ;
+      rdfs:label "dc:creator" ;
+      rdfs:range foaf:Person .
+
+conf:conference
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain foaf:Document ;
+      rdfs:label "conf:conference" ;
+      rdfs:range conf:Conference .
+      
+skos:subject
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain foaf:Document;
+      rdfs:label "skos:subject" ;
+      rdfs:range skos:Concept .
+
+skos:Concept  a       owl:Class , rdfs:Class ;
+      rdfs:label "skos:Concept" .
+      
+skos:prefLabel
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain skos:Concept ;
+      rdfs:label "skos:prefLabel" ;
+      rdfs:range xsd:string .
+      
+skos:broader
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain skos:Concept;
+      rdfs:label "skos:broader" ;
+      rdfs:range skos:Concept .
+      
+conf:Conference  a       owl:Class , rdfs:Class ;
+      rdfs:label "conf:Conference" .
+      
+rdfs:label
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain conf:Conference;
+      rdfs:label "rdfs:label" ;
+      rdfs:range xsd:string .
+      
+dc:date
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain conf:Conference;
+      rdfs:label "dc:date" ;
+      rdfs:range xsd:string .
+      
+conf:location
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain conf:Conference;
+      rdfs:label "conf:location" ;
+      rdfs:range xsd:string .

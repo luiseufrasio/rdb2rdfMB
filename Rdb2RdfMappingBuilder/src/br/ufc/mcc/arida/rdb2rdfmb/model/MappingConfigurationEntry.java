@@ -16,7 +16,6 @@ public class MappingConfigurationEntry {
     private int id;
     private SimpleStringProperty ontologyAlias;
     private SimpleStringProperty databaseAlias;
-    private SimpleStringProperty creationDate;
 
     public ObservableValue<String> ontologyAliasProperty() {
         return ontologyAlias;
@@ -26,15 +25,10 @@ public class MappingConfigurationEntry {
         return databaseAlias;
     }
 
-    public ObservableValue<String> creationDateProperty() {
-        return creationDate;
-    }
-
     public MappingConfigurationEntry(MappingConfiguration mc) {
         id = mc.getId();
         ontologyAlias = new SimpleStringProperty(mc.getOntologyAlias());
         databaseAlias = new SimpleStringProperty(mc.getDatabaseAlias());
-        creationDate = new SimpleStringProperty(mc.getCreationDate());
     }
 
     public int getId() {
@@ -59,13 +53,5 @@ public class MappingConfigurationEntry {
 
     public void setDatabaseAlias(SimpleStringProperty databaseAlias) {
         this.databaseAlias = databaseAlias;
-    }
-
-    public SimpleStringProperty getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(SimpleStringProperty creationDate) {
-        this.creationDate = creationDate;
     }
 }

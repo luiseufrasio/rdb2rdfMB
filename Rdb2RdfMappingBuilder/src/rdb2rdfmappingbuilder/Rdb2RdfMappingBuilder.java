@@ -5,17 +5,19 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class Rdb2RdfMappingBuilder extends Application {
 
     public static Stage pStage;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Application.launch(Rdb2RdfMappingBuilder.class, (java.lang.String[])null);
+        Application.launch(Rdb2RdfMappingBuilder.class, (java.lang.String[]) null);
     }
 
     @Override
@@ -26,6 +28,9 @@ public class Rdb2RdfMappingBuilder extends Application {
             pStage = primaryStage;
             primaryStage.setScene(scene);
             primaryStage.setTitle("rdb2RDF Mapping Builder");
+            primaryStage.getIcons().add(
+                    new Image(getClass().getResourceAsStream("img/rdf_flyer.ico")));
+
             primaryStage.show();
         } catch (Exception ex) {
             Logger.getLogger(Rdb2RdfMappingBuilder.class.getName()).log(Level.SEVERE, null, ex);

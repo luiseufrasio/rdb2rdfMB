@@ -67,6 +67,7 @@ import java.util.Iterator;
 import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TabPane;
@@ -95,6 +96,8 @@ public class MainController implements Initializable {
     @FXML
     TextField txtAssertion;
     @FXML
+    Label lblAssertion;
+    @FXML
     TextField txtAssertionExp;
     @FXML
     Button newMapping;
@@ -113,14 +116,13 @@ public class MainController implements Initializable {
     @FXML
     TableColumn itemDbName;
     @FXML
-    TableColumn itemDateCreation;
-    @FXML
     ListView<CA> assertionsList;
     @FXML
     TabPane tabPane;
     @FXML
     WebView r2rmlContent;
     public static final Stage secondaryStage = new Stage(StageStyle.UTILITY);
+    public static final Stage newFilterStage = new Stage(StageStyle.UTILITY);
     public static MainController m;
     ObservableList<MappingConfigurationEntry> dataMc = FXCollections.observableArrayList();
     ObservableList<CA> dataAssertions = FXCollections.observableArrayList();
@@ -143,7 +145,6 @@ public class MainController implements Initializable {
         assert newMapping != null : "fx:id=\"newMapping\" was not injected: check your FXML file 'main.fxml'.";
         m = this;
 
-        itemDateCreation.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("creationDate"));
         itemDbName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("databaseAlias"));
         itemOntoName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("ontologyAlias"));
 
@@ -175,13 +176,18 @@ public class MainController implements Initializable {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        AnchorPane page;
         try {
-            page = (AnchorPane) FXMLLoader.load(Rdb2RdfMappingBuilder.class.getResource("NewMapping.fxml"));
+            AnchorPane page = (AnchorPane) FXMLLoader.load(Rdb2RdfMappingBuilder.class.getResource("NewMapping.fxml"));
             Scene scene = new Scene(page);
             secondaryStage.setScene(scene);
             secondaryStage.initModality(Modality.APPLICATION_MODAL);
             secondaryStage.initOwner(Rdb2RdfMappingBuilder.pStage);
+
+            AnchorPane page2 = (AnchorPane) FXMLLoader.load(Rdb2RdfMappingBuilder.class.getResource("NewFilter.fxml"));
+            Scene sceneFilter = new Scene(page2);
+            newFilterStage.setScene(sceneFilter);
+            newFilterStage.initModality(Modality.APPLICATION_MODAL);
+            newFilterStage.initOwner(Rdb2RdfMappingBuilder.pStage);
 
         } catch (IOException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -440,6 +446,30 @@ public class MainController implements Initializable {
     }
 
     /**
+     * Called when the Add Filter button is fired.
+     *
+     * @param event the action event.
+     */
+    public void addFilterFired(ActionEvent event) throws IOException {
+        CCA cca = (CCA) assertions.get(ontoTree.getSelectionModel().getSelectedItem());
+
+        NewFilterController.nm.lblTable.setText("Table: " + cca.getRelationName());
+        DatabaseSchemaInspector schema = DbConnection.getSchemaInspector(mc.getDatabaseDriver(), mc.getDatabaseUrl(), mc.getDatabaseUser(), mc.getDatabasePassword());
+
+        RelationName relationName = new RelationName(null, cca.getRelationName());
+
+        List<Attribute> listCols = schema.listColumns(relationName);
+        final ObservableList<String> items = NewFilterController.nm.cbxColumn.getItems();
+        items.clear();
+        for (Attribute attribute : listCols) {
+            items.add(attribute.attributeName() + " [" + schema.columnType(attribute).name() + "]");
+        }
+
+        newFilterStage.setTitle("Add a Selection Filter");
+        newFilterStage.show();
+    }
+
+    /**
      * Called when the Edit button is fired.
      *
      * @param event the action event.
@@ -557,21 +587,21 @@ public class MainController implements Initializable {
 
         // Crio o nó pai que será o nome da ontologia
         TreeItem<String> ontoRoot = new TreeItem<>(mc.getOntologyAlias());
-        
+
         for (CA ca : assertionsList.getItems()) {
             if (ca instanceof CCA) {
                 CCA cca = (CCA) ca;
                 Class_ class_ = cca.getClass_();
-                
+
                 Node classIcon = new ImageView(
                         new Image(getClass().getResourceAsStream("img/ontology/class.gif")));
                 TreeItem<String> item = new TreeItem<>(class_.toString(), classIcon);
                 assertionsExp.put(item, cca);
-                
+
                 for (DCA dca : cca.getDcaList()) {
                     if (assertionsList.getItems().contains(dca)) {
                         Node datatypePIcon = new ImageView(
-                            new Image(getClass().getResourceAsStream("img/ontology/datatypeP.gif")));
+                                new Image(getClass().getResourceAsStream("img/ontology/datatypeP.gif")));
                         TreeItem<String> subItem = new TreeItem<>(dca.getdProperty().toString(), datatypePIcon);
                         item.getChildren().add(subItem);
                         assertionsExp.put(subItem, dca);
@@ -581,22 +611,22 @@ public class MainController implements Initializable {
                 for (OCA oca : cca.getOcaList()) {
                     if (assertionsList.getItems().contains(oca)) {
                         Node objectPIcon = new ImageView(
-                            new Image(getClass().getResourceAsStream("img/ontology/objectP.gif")));
+                                new Image(getClass().getResourceAsStream("img/ontology/objectP.gif")));
                         TreeItem<String> subItem = new TreeItem<>(oca.getoProperty().toString(), objectPIcon);
                         item.getChildren().add(subItem);
                         assertionsExp.put(subItem, oca);
                     }
                 }
-                
+
                 ontoRoot.getChildren().add(item);
             }
         }
-        
+
         // Insiro o nó raiz na TreeView
         expOntoTree.setRoot(ontoRoot);
         expOntoTree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
-    
+
     /**
      * Called when the CreateR2RML button is fired.
      *
@@ -645,7 +675,7 @@ public class MainController implements Initializable {
                         }
                         param.put("prefix", prefix);
                         param.put("propertyName", dca.getdProperty().getName());
-                        
+
                         if (dca.getAttributes().size() == 1) {
                             param.put("type", 1);
                             param.put("columnName", dca.getAttributes().get(0));
@@ -844,6 +874,7 @@ public class MainController implements Initializable {
                                 mapTableFksInv.clear();
                                 mapFks.clear();
                                 txtAssertion.setText("");
+                                lblAssertion.setText("Correspondence Assertion (CA):");
                                 assertions.clear();
                                 classes.clear();
                                 dbMap.clear();
@@ -870,9 +901,20 @@ public class MainController implements Initializable {
                 if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
                     final TreeItem selectedItem = ontoTree.getSelectionModel().getSelectedItem();
                     if (selectedItem != null) {
-                        txtAssertion.setText(assertions.get(selectedItem).toString());
+                        CA ca = assertions.get(selectedItem);
+                        txtAssertion.setText(ca.toString());
+                        if (ca instanceof CCA) {
+                            lblAssertion.setText("Class Correspondence Assertion (CCA):");
+                        } else if (ca instanceof DCA) {
+                            lblAssertion.setText("Datatype property Correspondence Assertion (DCA):");
+                        } else if (ca instanceof OCA) {
+                            lblAssertion.setText("Object property Correspondence Assertion (OCA):");
+                        } else {
+                            lblAssertion.setText("Correspondence Assertion (CA):");
+                        }
                     } else {
                         txtAssertion.setText("");
+                        lblAssertion.setText("Correspondence Assertion (CA):");
                     }
                     if (mouseEvent.getClickCount() == 2) {
                         //TODO
@@ -895,7 +937,7 @@ public class MainController implements Initializable {
             }
         });
     }
-    
+
     private void tratarEventoDbTree() {
         dbTree.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override

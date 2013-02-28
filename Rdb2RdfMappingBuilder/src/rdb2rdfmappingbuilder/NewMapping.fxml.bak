@@ -42,12 +42,15 @@
                         <TextField fx:id="ontoUrl" prefWidth="291.0" />
                       </children>
                     </HBox>
-                    <ComboBox layoutX="93.0" layoutY="133.0" prefHeight="21.0" prefWidth="289.0">
+                    <ComboBox fx:id="comboOntoLangs" layoutX="93.0" layoutY="133.0" prefHeight="21.0" prefWidth="289.0">
                       <items>
                         <FXCollections fx:factory="observableArrayList">
-                          <String fx:value="Item 1" />
-                          <String fx:value="Item 2" />
-                          <String fx:value="Item 3" />
+                          <String fx:value="RDF/XML" />
+                          <String fx:value="RDF/XML-ABBREV" />
+                          <String fx:value="N-TRIPLE" />
+                          <String fx:value="TURTLE" />
+                          <String fx:value="TTL" />
+                          <String fx:value="N3" />
                         </FXCollections>
                       </items>
                     </ComboBox>
