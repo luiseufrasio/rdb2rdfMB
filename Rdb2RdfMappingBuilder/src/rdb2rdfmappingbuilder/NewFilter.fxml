@@ -62,18 +62,18 @@
             <VBox id="VBox" alignment="TOP_LEFT" spacing="5.0">
               <children>
                 <Label text="Value:" />
-                <TextField prefWidth="152.0" />
+                <TextField fx:id="txtValue" prefWidth="152.0" />
               </children>
             </VBox>
           </children>
         </HBox>
         <HBox alignment="BOTTOM_CENTER" prefHeight="31.0" prefWidth="500.0" spacing="5.0">
           <children>
-            <Button mnemonicParsing="false" text="(" />
-            <Button disable="false" mnemonicParsing="false" text=")" />
-            <Button mnemonicParsing="false" text="ADD" />
-            <Button disable="false" mnemonicParsing="false" text="AND" />
-            <Button disable="false" mnemonicParsing="false" text="OR" />
+            <Button mnemonicParsing="false" onAction="#openParenthesisFired" text="(" />
+            <Button disable="false" mnemonicParsing="false" onAction="#closeParenthesisFired" text=")" />
+            <Button mnemonicParsing="false" onAction="#addFired" text="ADD" />
+            <Button disable="false" mnemonicParsing="false" onAction="#andFired" text="AND" />
+            <Button disable="false" mnemonicParsing="false" onAction="#orFired" text="OR" />
           </children>
         </HBox>
         <VBox id="VBox" alignment="BOTTOM_LEFT" prefHeight="115.0" prefWidth="500.0" spacing="5.0">

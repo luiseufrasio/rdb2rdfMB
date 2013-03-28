@@ -1,0 +1,4 @@
+CREATE OR REPLACE VIEW $viewName AS
+SELECT #foreach ( $att in $atts )#if ($velocityCount > 1), #end$att#end
+
+FROM ${tables.get(0)}

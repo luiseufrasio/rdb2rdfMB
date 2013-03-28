@@ -1,708 +1,10 @@
-2013-02-14 19:46:28,891 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-14 19:46:28,891 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-14 19:46:28,892 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-14 19:46:28,892 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-14 19:46:28,892 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
-java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
-	at java.lang.Class.forName0(Native Method)
-	at java.lang.Class.forName(Class.java:264)
-	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
-	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
-	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
-	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
-	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
-	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
-	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
-	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
-	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
-	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
-	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:559)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:601)
-	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Node.fireEvent(Node.java:6863)
-	at javafx.scene.control.Button.fire(Button.java:179)
-	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
-	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
-	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
-	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
-	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
-	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
-	at com.sun.glass.ui.View.notifyMouse(View.java:922)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
-	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
-	at java.lang.Thread.run(Thread.java:722)
-Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
-	... 83 more
-2013-02-14 19:46:28,898 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-14 19:46:28,898 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-14 19:46:28,901 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-14 19:46:28,905 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-14 19:46:28,925 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-14 19:46:28,927 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-14 19:46:28,929 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-14 19:46:28,931 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-14 19:46:28,933 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-14 19:46:28,934 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-14 19:46:28,986 - Created '20' parsers.
-2013-02-14 19:46:28,991 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-14 19:46:28,992 - Velocimacro : Default library not found.
-2013-02-14 19:46:28,992 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-14 19:46:28,992 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-14 19:46:28,992 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-14 19:46:28,992 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-14 19:46:29,009 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-14 19:46:29,016 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-14 19:46:29,019 - ResourceManager : found /templates/r2rml/objectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-14 19:55:16,422 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-14 19:55:16,423 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-14 19:55:16,423 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-14 19:55:16,423 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-14 19:55:16,424 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
-java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
-	at java.lang.Class.forName0(Native Method)
-	at java.lang.Class.forName(Class.java:264)
-	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
-	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
-	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
-	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
-	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
-	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
-	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
-	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
-	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
-	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
-	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:559)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:601)
-	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Node.fireEvent(Node.java:6863)
-	at javafx.scene.control.Button.fire(Button.java:179)
-	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
-	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
-	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
-	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
-	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
-	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
-	at com.sun.glass.ui.View.notifyMouse(View.java:922)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
-	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
-	at java.lang.Thread.run(Thread.java:722)
-Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
-	... 83 more
-2013-02-14 19:55:16,429 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-14 19:55:16,430 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-14 19:55:16,433 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-14 19:55:16,436 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-14 19:55:16,473 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-14 19:55:16,474 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-14 19:55:16,476 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-14 19:55:16,477 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-14 19:55:16,478 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-14 19:55:16,479 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-14 19:55:16,512 - Created '20' parsers.
-2013-02-14 19:55:16,518 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-14 19:55:16,519 - Velocimacro : Default library not found.
-2013-02-14 19:55:16,519 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-14 19:55:16,519 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-14 19:55:16,519 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-14 19:55:16,519 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-14 19:55:16,536 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-14 19:55:16,543 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-14 19:55:16,546 - ResourceManager : found /templates/r2rml/objectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-19 09:01:18,589 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-19 09:01:18,590 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-19 09:01:18,590 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-19 09:01:18,590 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-19 09:01:18,591 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
-java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
-	at java.lang.Class.forName0(Native Method)
-	at java.lang.Class.forName(Class.java:264)
-	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
-	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
-	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
-	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
-	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
-	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
-	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
-	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
-	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
-	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
-	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:559)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:601)
-	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Node.fireEvent(Node.java:6863)
-	at javafx.scene.control.Button.fire(Button.java:179)
-	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
-	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
-	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
-	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
-	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
-	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
-	at com.sun.glass.ui.View.notifyMouse(View.java:922)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
-	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
-	at java.lang.Thread.run(Thread.java:722)
-Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
-	... 83 more
-2013-02-19 09:01:18,595 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-19 09:01:18,595 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-19 09:01:18,598 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-19 09:01:18,601 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-19 09:01:18,622 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-19 09:01:18,624 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-19 09:01:18,626 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-19 09:01:18,628 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-19 09:01:18,630 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-19 09:01:18,631 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-19 09:01:18,671 - Created '20' parsers.
-2013-02-19 09:01:18,677 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-19 09:01:18,677 - Velocimacro : Default library not found.
-2013-02-19 09:01:18,678 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-19 09:01:18,678 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-19 09:01:18,678 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-19 09:01:18,678 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-19 09:01:18,713 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-19 09:01:18,719 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-19 09:01:18,721 - ResourceManager : found /templates/r2rml/datatypeMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-19 09:08:38,765 - ResourceManager : found /templates/r2rml/objectKeyPathMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 22:54:15,017 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-20 22:54:15,018 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-20 22:54:15,018 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-20 22:54:15,018 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-20 22:54:15,019 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
-java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
-	at java.lang.Class.forName0(Native Method)
-	at java.lang.Class.forName(Class.java:264)
-	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
-	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
-	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
-	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
-	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
-	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
-	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
-	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
-	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
-	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
-	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:566)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:601)
-	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Node.fireEvent(Node.java:6863)
-	at javafx.scene.control.Button.fire(Button.java:179)
-	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
-	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
-	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
-	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
-	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
-	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
-	at com.sun.glass.ui.View.notifyMouse(View.java:922)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
-	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
-	at java.lang.Thread.run(Thread.java:722)
-Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
-	... 83 more
-2013-02-20 22:54:15,024 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 22:54:15,024 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 22:54:15,028 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-20 22:54:15,031 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 22:54:15,052 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-20 22:54:15,053 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-20 22:54:15,055 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-20 22:54:15,057 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-20 22:54:15,059 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-20 22:54:15,061 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-20 22:54:15,113 - Created '20' parsers.
-2013-02-20 22:54:15,119 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-20 22:54:15,119 - Velocimacro : Default library not found.
-2013-02-20 22:54:15,119 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-20 22:54:15,119 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-20 22:54:15,119 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-20 22:54:15,119 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-20 22:54:15,265 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:02:19,976 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-20 23:02:19,977 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-20 23:02:19,977 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-20 23:02:19,977 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-20 23:02:19,978 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
-java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
-	at java.lang.Class.forName0(Native Method)
-	at java.lang.Class.forName(Class.java:264)
-	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
-	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
-	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
-	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
-	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
-	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
-	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
-	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
-	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
-	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
-	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:566)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:601)
-	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Node.fireEvent(Node.java:6863)
-	at javafx.scene.control.Button.fire(Button.java:179)
-	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
-	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
-	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
-	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
-	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
-	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
-	at com.sun.glass.ui.View.notifyMouse(View.java:922)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
-	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
-	at java.lang.Thread.run(Thread.java:722)
-Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
-	... 83 more
-2013-02-20 23:02:19,983 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:02:19,983 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:02:19,986 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-20 23:02:19,989 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:02:20,010 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-20 23:02:20,012 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-20 23:02:20,014 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-20 23:02:20,016 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-20 23:02:20,018 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-20 23:02:20,019 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-20 23:02:20,074 - Created '20' parsers.
-2013-02-20 23:02:20,080 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-20 23:02:20,081 - Velocimacro : Default library not found.
-2013-02-20 23:02:20,081 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-20 23:02:20,081 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-20 23:02:20,081 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-20 23:02:20,081 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-20 23:02:20,097 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:02:20,111 - ResourceManager : found /templates/r2rml/objectKeyPathMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:06:04,148 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-20 23:06:04,149 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-20 23:06:04,149 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-20 23:06:04,149 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-20 23:06:04,150 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
-java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
-	at java.lang.Class.forName0(Native Method)
-	at java.lang.Class.forName(Class.java:264)
-	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
-	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
-	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
-	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
-	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
-	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
-	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
-	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
-	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
-	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
-	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:566)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:601)
-	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Node.fireEvent(Node.java:6863)
-	at javafx.scene.control.Button.fire(Button.java:179)
-	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
-	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
-	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
-	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
-	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
-	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
-	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
-	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
-	at javafx.event.Event.fireEvent(Event.java:171)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
-	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
-	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
-	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
-	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
-	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
-	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
-	at com.sun.glass.ui.View.notifyMouse(View.java:922)
-	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
-	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
-	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
-	at java.lang.Thread.run(Thread.java:722)
-Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
-	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
-	at java.security.AccessController.doPrivileged(Native Method)
-	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
-	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
-	... 83 more
-2013-02-20 23:06:04,155 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:06:04,155 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:06:04,158 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-20 23:06:04,161 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:06:04,182 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-20 23:06:04,184 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-20 23:06:04,186 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-20 23:06:04,188 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-20 23:06:04,190 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-20 23:06:04,191 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-20 23:06:04,251 - Created '20' parsers.
-2013-02-20 23:06:04,256 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-20 23:06:04,257 - Velocimacro : Default library not found.
-2013-02-20 23:06:04,257 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-20 23:06:04,257 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-20 23:06:04,257 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-20 23:06:04,257 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-20 23:06:04,277 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:06:04,284 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:06:04,287 - ResourceManager : found /templates/r2rml/objectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:50:23,755 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-20 23:50:23,756 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-20 23:50:23,756 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-20 23:50:23,756 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-20 23:50:23,757 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+2013-02-21 00:05:10,283 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:05:10,285 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:08:01,556 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 00:08:01,557 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 00:08:01,557 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 00:08:01,557 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 00:08:01,558 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
 java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
 	at java.lang.Class.forName0(Native Method)
 	at java.lang.Class.forName(Class.java:264)
@@ -795,29 +97,31 @@ Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
 	... 83 more
-2013-02-20 23:50:23,762 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:50:23,762 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:50:23,766 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-20 23:50:23,769 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:50:23,921 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-20 23:50:23,923 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-20 23:50:23,924 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-20 23:50:23,925 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-20 23:50:23,926 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-20 23:50:23,927 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-20 23:50:23,961 - Created '20' parsers.
-2013-02-20 23:50:23,967 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-20 23:50:23,967 - Velocimacro : Default library not found.
-2013-02-20 23:50:23,967 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-20 23:50:23,967 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-20 23:50:23,967 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-20 23:50:23,967 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-20 23:50:23,986 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:51:18,652 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-20 23:51:18,653 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-20 23:51:18,653 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-20 23:51:18,653 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-20 23:51:18,654 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+2013-02-21 00:08:01,563 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:08:01,563 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:08:01,567 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 00:08:01,570 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:08:01,591 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 00:08:01,592 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 00:08:01,594 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 00:08:01,595 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 00:08:01,597 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 00:08:01,598 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 00:08:01,757 - Created '20' parsers.
+2013-02-21 00:08:01,762 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 00:08:01,763 - Velocimacro : Default library not found.
+2013-02-21 00:08:01,763 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 00:08:01,763 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 00:08:01,763 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 00:08:01,763 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 00:08:01,779 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:08:01,786 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:08:01,788 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:15:09,790 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 00:15:09,791 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 00:15:09,791 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 00:15:09,791 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 00:15:09,792 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
 java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
 	at java.lang.Class.forName0(Native Method)
 	at java.lang.Class.forName(Class.java:264)
@@ -910,31 +214,31 @@ Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
 	... 83 more
-2013-02-20 23:51:18,659 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:51:18,659 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-20 23:51:18,662 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-20 23:51:18,665 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:51:18,686 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-20 23:51:18,688 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-20 23:51:18,690 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-20 23:51:18,692 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-20 23:51:18,693 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-20 23:51:18,695 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-20 23:51:18,735 - Created '20' parsers.
-2013-02-20 23:51:18,741 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-20 23:51:18,742 - Velocimacro : Default library not found.
-2013-02-20 23:51:18,742 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-20 23:51:18,742 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-20 23:51:18,742 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-20 23:51:18,742 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-20 23:51:18,759 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:51:18,765 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-20 23:51:18,767 - ResourceManager : found /templates/r2rml/datatypeMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-21 00:03:31,732 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-21 00:03:31,733 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-21 00:03:31,733 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-21 00:03:31,733 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-21 00:03:31,734 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+2013-02-21 00:15:09,797 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:15:09,797 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:15:09,801 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 00:15:09,804 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:15:09,825 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 00:15:09,826 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 00:15:09,828 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 00:15:09,830 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 00:15:09,832 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 00:15:09,833 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 00:15:09,991 - Created '20' parsers.
+2013-02-21 00:15:09,997 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 00:15:09,998 - Velocimacro : Default library not found.
+2013-02-21 00:15:09,998 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 00:15:09,998 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 00:15:09,998 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 00:15:09,998 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 00:15:10,015 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:15:10,023 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:15:10,024 - ResourceManager : found /templates/r2rml/datatypeMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:29:47,706 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 00:29:47,707 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 00:29:47,707 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 00:29:47,707 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 00:29:47,708 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
 java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
 	at java.lang.Class.forName0(Native Method)
 	at java.lang.Class.forName(Class.java:264)
@@ -1027,31 +331,29 @@ Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
 	... 83 more
-2013-02-21 00:03:31,739 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-21 00:03:31,739 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-21 00:03:31,743 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-21 00:03:31,746 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-21 00:03:31,766 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-21 00:03:31,768 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-21 00:03:31,770 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-21 00:03:31,772 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-21 00:03:31,774 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-21 00:03:31,775 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-21 00:03:31,941 - Created '20' parsers.
-2013-02-21 00:03:31,948 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-21 00:03:31,948 - Velocimacro : Default library not found.
-2013-02-21 00:03:31,948 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-21 00:03:31,948 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-21 00:03:31,948 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-21 00:03:31,948 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-21 00:03:31,965 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-21 00:03:31,973 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-21 00:03:31,975 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-21 00:05:09,976 - Log4JLogChute initialized using file 'velocity.log'
-2013-02-21 00:05:09,977 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
-2013-02-21 00:05:09,977 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
-2013-02-21 00:05:09,977 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
-2013-02-21 00:05:09,977 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+2013-02-21 00:29:47,713 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:29:47,714 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:29:47,717 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 00:29:47,721 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:29:47,741 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 00:29:47,743 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 00:29:47,744 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 00:29:47,745 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 00:29:47,746 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 00:29:47,747 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 00:29:47,781 - Created '20' parsers.
+2013-02-21 00:29:47,786 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 00:29:47,787 - Velocimacro : Default library not found.
+2013-02-21 00:29:47,787 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 00:29:47,787 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 00:29:47,787 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 00:29:47,787 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 00:29:47,806 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:42:43,011 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 00:42:43,012 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 00:42:43,012 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 00:42:43,012 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 00:42:43,013 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
 java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
 	at java.lang.Class.forName0(Native Method)
 	at java.lang.Class.forName(Class.java:264)
@@ -1144,21 +446,715 @@ Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
 	... 83 more
-2013-02-21 00:05:09,982 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-21 00:05:09,982 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
-2013-02-21 00:05:09,985 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
-2013-02-21 00:05:09,988 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-2013-02-21 00:05:10,009 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
-2013-02-21 00:05:10,011 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
-2013-02-21 00:05:10,013 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
-2013-02-21 00:05:10,015 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
-2013-02-21 00:05:10,017 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
-2013-02-21 00:05:10,018 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
-2013-02-21 00:05:10,199 - Created '20' parsers.
-2013-02-21 00:05:10,206 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
-2013-02-21 00:05:10,206 - Velocimacro : Default library not found.
-2013-02-21 00:05:10,207 - Velocimacro : allowInline = true : VMs can be defined inline in templates
-2013-02-21 00:05:10,207 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
-2013-02-21 00:05:10,207 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
-2013-02-21 00:05:10,207 - Velocimacro : autoload off : VM system will not automatically reload global library macros
-2013-02-21 00:05:10,223 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:42:43,018 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:42:43,018 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 00:42:43,022 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 00:42:43,025 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:42:43,040 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 00:42:43,041 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 00:42:43,042 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 00:42:43,043 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 00:42:43,045 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 00:42:43,046 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 00:42:43,209 - Created '20' parsers.
+2013-02-21 00:42:43,215 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 00:42:43,215 - Velocimacro : Default library not found.
+2013-02-21 00:42:43,215 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 00:42:43,215 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 00:42:43,215 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 00:42:43,215 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 00:42:43,231 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:42:43,238 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 00:42:43,240 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 01:42:07,358 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 01:42:07,358 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 01:42:07,358 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 01:42:07,359 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 01:42:07,359 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:264)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
+	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
+	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
+	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
+	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:633)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Node.fireEvent(Node.java:6863)
+	at javafx.scene.control.Button.fire(Button.java:179)
+	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
+	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
+	at com.sun.glass.ui.View.notifyMouse(View.java:922)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
+	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
+	at java.lang.Thread.run(Thread.java:722)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 83 more
+2013-02-21 01:42:07,365 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 01:42:07,365 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 01:42:07,368 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 01:42:07,371 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 01:42:07,392 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 01:42:07,394 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 01:42:07,396 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 01:42:07,398 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 01:42:07,400 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 01:42:07,401 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 01:42:07,453 - Created '20' parsers.
+2013-02-21 01:42:07,460 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 01:42:07,460 - Velocimacro : Default library not found.
+2013-02-21 01:42:07,460 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 01:42:07,460 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 01:42:07,460 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 01:42:07,460 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 01:42:07,478 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 01:42:07,486 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 01:42:07,488 - ResourceManager : found /templates/r2rml/datatypeMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 11:57:45,201 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 11:57:45,202 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 11:57:45,202 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 11:57:45,202 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 11:57:45,203 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:264)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
+	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
+	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
+	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
+	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:633)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Node.fireEvent(Node.java:6863)
+	at javafx.scene.control.Button.fire(Button.java:179)
+	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
+	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
+	at com.sun.glass.ui.View.notifyMouse(View.java:922)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
+	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
+	at java.lang.Thread.run(Thread.java:722)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 83 more
+2013-02-21 11:57:45,208 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 11:57:45,208 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 11:57:45,212 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 11:57:45,215 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 11:57:45,237 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 11:57:45,238 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 11:57:45,239 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 11:57:45,240 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 11:57:45,242 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 11:57:45,242 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 11:57:45,276 - Created '20' parsers.
+2013-02-21 11:57:45,281 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 11:57:45,282 - Velocimacro : Default library not found.
+2013-02-21 11:57:45,282 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 11:57:45,282 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 11:57:45,282 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 11:57:45,282 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 11:57:45,297 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 11:57:45,305 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 11:57:45,308 - ResourceManager : found /templates/r2rml/objectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 14:33:50,030 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 14:33:50,031 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 14:33:50,031 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 14:33:50,031 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 14:33:50,032 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:264)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
+	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
+	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
+	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
+	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:633)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Node.fireEvent(Node.java:6863)
+	at javafx.scene.control.Button.fire(Button.java:179)
+	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
+	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
+	at com.sun.glass.ui.View.notifyMouse(View.java:922)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
+	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
+	at java.lang.Thread.run(Thread.java:722)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 83 more
+2013-02-21 14:33:50,037 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 14:33:50,037 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 14:33:50,041 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 14:33:50,043 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 14:33:50,056 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 14:33:50,057 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 14:33:50,058 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 14:33:50,059 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 14:33:50,061 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 14:33:50,061 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 14:33:50,095 - Created '20' parsers.
+2013-02-21 14:33:50,101 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 14:33:50,101 - Velocimacro : Default library not found.
+2013-02-21 14:33:50,101 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 14:33:50,101 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 14:33:50,101 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 14:33:50,101 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 14:33:50,118 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 14:33:50,125 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 14:33:50,127 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 14:43:17,462 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 14:44:10,163 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 14:47:59,631 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 15:10:24,036 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 15:10:24,038 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 15:10:24,038 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 15:10:24,038 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 15:10:24,039 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:264)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
+	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
+	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
+	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
+	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:633)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Node.fireEvent(Node.java:6863)
+	at javafx.scene.control.Button.fire(Button.java:179)
+	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
+	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
+	at com.sun.glass.ui.View.notifyMouse(View.java:922)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
+	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
+	at java.lang.Thread.run(Thread.java:722)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 83 more
+2013-02-21 15:10:24,045 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 15:10:24,045 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 15:10:24,048 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 15:10:24,052 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 15:10:24,074 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 15:10:24,076 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 15:10:24,078 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 15:10:24,080 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 15:10:24,082 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 15:10:24,083 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 15:10:24,151 - Created '20' parsers.
+2013-02-21 15:10:24,156 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 15:10:24,157 - Velocimacro : Default library not found.
+2013-02-21 15:10:24,157 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 15:10:24,157 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 15:10:24,157 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 15:10:24,157 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 15:10:24,175 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 15:28:03,661 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-21 15:28:03,661 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-21 15:28:03,661 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-21 15:28:03,662 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-21 15:28:03,662 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:264)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
+	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
+	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
+	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
+	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:633)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Node.fireEvent(Node.java:6863)
+	at javafx.scene.control.Button.fire(Button.java:179)
+	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
+	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
+	at com.sun.glass.ui.View.notifyMouse(View.java:922)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
+	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
+	at java.lang.Thread.run(Thread.java:722)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 83 more
+2013-02-21 15:28:03,665 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 15:28:03,665 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-21 15:28:03,667 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-21 15:28:03,669 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 15:28:03,702 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-21 15:28:03,703 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-21 15:28:03,704 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-21 15:28:03,705 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2013-02-21 15:28:03,707 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2013-02-21 15:28:03,708 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2013-02-21 15:28:03,741 - Created '20' parsers.
+2013-02-21 15:28:03,746 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2013-02-21 15:28:03,747 - Velocimacro : Default library not found.
+2013-02-21 15:28:03,747 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2013-02-21 15:28:03,747 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2013-02-21 15:28:03,747 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2013-02-21 15:28:03,747 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2013-02-21 15:28:03,762 - ResourceManager : found /templates/r2rml/subjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 15:28:03,774 - ResourceManager : found /templates/r2rml/objectKeyPathMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 16:27:08,306 - ResourceManager : found /templates/r2rml/predicateObjectMap.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-21 16:27:08,309 - ResourceManager : found /templates/r2rml/datatypeMapManyCols.vm with loader org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-28 16:06:04,420 - Log4JLogChute initialized using file 'velocity.log'
+2013-02-28 16:06:04,430 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2013-02-28 16:06:04,430 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2013-02-28 16:06:04,430 - Trying to use logger class org.apache.velocity.runtime.log.AvalonLogChute
+2013-02-28 16:06:04,431 - Couldn't find class org.apache.velocity.runtime.log.AvalonLogChute or necessary supporting classes in classpath.
+java.lang.NoClassDefFoundError: org/apache/log/format/Formatter
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:264)
+	at org.apache.velocity.util.ClassUtils.getClass(ClassUtils.java:63)
+	at org.apache.velocity.util.ClassUtils.getNewInstance(ClassUtils.java:95)
+	at org.apache.velocity.runtime.log.LogManager.createLogChute(LogManager.java:147)
+	at org.apache.velocity.runtime.log.LogManager.updateLog(LogManager.java:208)
+	at org.apache.velocity.runtime.RuntimeInstance.initializeLog(RuntimeInstance.java:728)
+	at org.apache.velocity.runtime.RuntimeInstance.init(RuntimeInstance.java:240)
+	at org.apache.velocity.runtime.RuntimeSingleton.init(RuntimeSingleton.java:113)
+	at org.apache.velocity.app.Velocity.init(Velocity.java:83)
+	at rdb2rdfmappingbuilder.TemplateUtil.loadTemplate(TemplateUtil.java:50)
+	at rdb2rdfmappingbuilder.TemplateUtil.applyTemplate(TemplateUtil.java:22)
+	at rdb2rdfmappingbuilder.MainController.createR2rmlFired(MainController.java:663)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:601)
+	at javafx.fxml.FXMLLoader$ControllerMethodEventHandler.handle(FXMLLoader.java:1435)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:69)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:28)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Node.fireEvent(Node.java:6863)
+	at javafx.scene.control.Button.fire(Button.java:179)
+	at com.sun.javafx.scene.control.behavior.ButtonBehavior.mouseReleased(ButtonBehavior.java:193)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:336)
+	at com.sun.javafx.scene.control.skin.SkinBase$4.handle(SkinBase.java:329)
+	at com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:64)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:217)
+	at com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:170)
+	at com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:38)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:37)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:35)
+	at com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:92)
+	at com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:53)
+	at com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:33)
+	at javafx.event.Event.fireEvent(Event.java:171)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3324)
+	at javafx.scene.Scene$MouseHandler.process(Scene.java:3164)
+	at javafx.scene.Scene$MouseHandler.access$1900(Scene.java:3119)
+	at javafx.scene.Scene.impl_processMouseEvent(Scene.java:1559)
+	at javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2261)
+	at com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:228)
+	at com.sun.glass.ui.View.handleMouseEvent(View.java:528)
+	at com.sun.glass.ui.View.notifyMouse(View.java:922)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.access$100(WinApplication.java:29)
+	at com.sun.glass.ui.win.WinApplication$3$1.run(WinApplication.java:73)
+	at java.lang.Thread.run(Thread.java:722)
+Caused by: java.lang.ClassNotFoundException: org.apache.log.format.Formatter
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:423)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:356)
+	... 83 more
+2013-02-28 16:06:04,436 - Trying to use logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-28 16:06:04,436 - Using logger class org.apache.velocity.runtime.log.Log4JLogChute
+2013-02-28 16:06:04,440 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2013-02-28 16:06:04,443 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+2013-02-28 16:06:04,464 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2013-02-28 16:06:04,465 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2013-02-28 16:06:04,467 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2013-02-28 16:06:04,469 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse

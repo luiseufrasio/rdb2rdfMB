@@ -58,10 +58,17 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.PCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Pair;
+import br.ufc.mcc.arida.rdb2rdfmb.model.TableAtt;
+import com.hp.hpl.jena.ontology.MaxCardinalityRestriction;
+import com.hp.hpl.jena.ontology.OntProperty;
+import com.hp.hpl.jena.ontology.Restriction;
+import com.hp.hpl.jena.ontology.impl.MaxCardinalityRestrictionImpl;
 import d2rq.server;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
 import java.awt.Desktop;
 import java.net.URI;
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -69,9 +76,11 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -90,11 +99,18 @@ public class MainController implements Initializable {
     @FXML //  fx:id="dbTree"
     private TreeView<String> dbTree;
     @FXML //  fx:id="ontoTree"
-    private TreeView<String> ontoTree;
+    protected TreeView<String> ontoTree;
     @FXML
     private TreeView<String> expOntoTree;
     @FXML
-    TextField txtAssertion;
+    protected TextField txtAssertion;
+    StringBuilder views = new StringBuilder("");
+    List<String> listViews = new ArrayList<String>();
+    final ToggleGroup group = new ToggleGroup();
+    @FXML
+    RadioButton rbtRelViews;
+    @FXML
+    RadioButton rbtR2rmlViews;
     @FXML
     Label lblAssertion;
     @FXML
@@ -110,6 +126,8 @@ public class MainController implements Initializable {
     @FXML
     Button genExpOntoTree;
     @FXML
+    Button btnPublishData;
+    @FXML
     TableView<MappingConfigurationEntry> mcTable;
     @FXML
     TableColumn itemOntoName;
@@ -121,13 +139,15 @@ public class MainController implements Initializable {
     TabPane tabPane;
     @FXML
     WebView r2rmlContent;
+    @FXML
+    WebView sqlViews;
     public static final Stage secondaryStage = new Stage(StageStyle.UTILITY);
     public static final Stage newFilterStage = new Stage(StageStyle.UTILITY);
     public static MainController m;
     ObservableList<MappingConfigurationEntry> dataMc = FXCollections.observableArrayList();
     ObservableList<CA> dataAssertions = FXCollections.observableArrayList();
     MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
-    HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
+    protected HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
     HashMap<TreeItem, CA> assertionsExp = new HashMap<TreeItem, CA>();
     HashMap<Class_, CCA> mapClassAssertion = new HashMap<Class_, CCA>();
     HashMap<String, Class_> classes = new HashMap<String, Class_>();
@@ -145,6 +165,9 @@ public class MainController implements Initializable {
         assert newMapping != null : "fx:id=\"newMapping\" was not injected: check your FXML file 'main.fxml'.";
         m = this;
 
+        rbtR2rmlViews.setToggleGroup(group);
+        rbtRelViews.setToggleGroup(group);
+
         itemDbName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("databaseAlias"));
         itemOntoName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("ontologyAlias"));
 
@@ -152,11 +175,11 @@ public class MainController implements Initializable {
         assertionsList.setItems(dataAssertions);
 
         if (dataAssertions.size() == 0) {
-            createR2rml.setDisable(true);
-            genExpOntoTree.setDisable(true);
-        } else {
-            createR2rml.setDisable(false);
-            genExpOntoTree.setDisable(false);
+            tabPane.getTabs().get(1).setDisable(true);
+            tabPane.getTabs().get(2).setDisable(true);
+            tabPane.getTabs().get(3).setDisable(true);
+            tabPane.getTabs().get(4).setDisable(true);
+            tabPane.getSelectionModel().select(0);
         }
 
         final ObservableList<MappingConfigurationEntry> tableSelection = mcTable.getSelectionModel().getSelectedItems();
@@ -206,6 +229,9 @@ public class MainController implements Initializable {
             // Crio nós filhos com os nomes das classes
             Collection<Class_> cClasses = classes.values();
             for (Class_ class_ : cClasses) {
+                if (class_.getName() == null) {
+                    continue;
+                }
                 Node classIcon = new ImageView(
                         new Image(getClass().getResourceAsStream("img/ontology/class.gif")));
                 TreeItem<String> item = new TreeItem<>(class_.toString(), classIcon);
@@ -259,7 +285,13 @@ public class MainController implements Initializable {
         for (RelationName relationName : tables) {
             Node tableIcon = new ImageView(
                     new Image(getClass().getResourceAsStream("img/database/table.gif")));
-            TreeItem<String> treeItem = new TreeItem<>(relationName.tableName(), tableIcon);
+
+            // Primeira maiúscula
+            //String tableName = relationName.tableName().substring(0,1).toUpperCase();
+            //tableName += relationName.tableName().substring(1);
+            String tableName = relationName.tableName();
+
+            TreeItem<String> treeItem = new TreeItem<>(tableName, tableIcon);
             dataBase.getChildren().add(treeItem);
             dbMap.put(treeItem, relationName);
 
@@ -334,7 +366,7 @@ public class MainController implements Initializable {
             String prefix = ontModel.getNsURIPrefix(ontClass.getNameSpace());
             String name = ontClass.getLocalName();
 
-            if (classes.get(name) == null) {
+            if (classes.get(name + prefix) == null) {
                 Class_ c = new Class_(prefix, name);
                 classes.put(prefix + name, c);
                 mapPrefixes.put(prefix, ontClass.getNameSpace());
@@ -396,6 +428,43 @@ public class MainController implements Initializable {
                 if (dClass != null) {
                     dClass.getoProperties().add(op);
                     mapPrefixes.put(opPrefix, objectProperty.getNameSpace());
+                }
+            }
+        }
+
+        ExtendedIterator<Restriction> iRest = ontModel.listRestrictions();
+        while (iRest.hasNext()) {
+            Restriction r = (Restriction) iRest.next();
+            if (r.isMaxCardinalityRestriction()) {
+                MaxCardinalityRestriction mcr = r.asMaxCardinalityRestriction();
+                System.out.println(mcr.getMaxCardinality());
+                OntClass ontClass = mcr.getSubClass();
+                OntProperty p = mcr.getOnProperty();
+
+                String prefix = ontModel.getNsURIPrefix(ontClass.getNameSpace());
+                String name = ontClass.getLocalName();
+
+                Class_ c = classes.get(prefix + name);
+                if (p.isObjectProperty()) {
+                    ObjectProperty objectProperty = p.asObjectProperty();
+                    String opName = objectProperty.getLocalName();
+                    String opPrefix = ontModel.getNsURIPrefix(objectProperty.getNameSpace());
+
+                    for (ObjProperty objProperty : c.getoProperties()) {
+                        if (objProperty.getPrefix().equals(opPrefix) && objProperty.getName().equals(opName)) {
+                            objProperty.setMaxCardinality(mcr.getMaxCardinality());
+                        }
+                    }
+                } else {
+                    DatatypeProperty datatypeProperty = p.asDatatypeProperty();
+                    String dpName = datatypeProperty.getLocalName();
+                    String dpPrefix = ontModel.getNsURIPrefix(datatypeProperty.getNameSpace());
+
+                    for (DataProperty dataProperty : c.getdProperties()) {
+                        if (dataProperty.getPrefix().equals(dpPrefix) && dataProperty.getName().equals(dpName)) {
+                            dataProperty.setMaxCardinality(mcr.getMaxCardinality());
+                        }
+                    }
                 }
             }
         }
@@ -549,6 +618,7 @@ public class MainController implements Initializable {
         }
         dataAssertions.add(ca);
 
+        tabPane.getTabs().get(1).setDisable(false);
         tabPane.getSelectionModel().select(1);
         assertionsList.getSelectionModel().select(ca);
 
@@ -572,7 +642,7 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
 
-        URI u = new URI("http://localhost:2020");
+        URI u = new URI("http://localhost:2020/snorql/");
         Desktop.getDesktop().browse(u);
     }
 
@@ -632,9 +702,345 @@ public class MainController implements Initializable {
      *
      * @param event the action event.
      */
-    public void createR2rmlFired(ActionEvent event) throws IOException, Exception {
+    public void createSqlViewsFired(ActionEvent event) throws IOException, Exception {
         tabPane.getTabs().get(3).setDisable(false);
         tabPane.getSelectionModel().select(3);
+        listViews.clear();
+
+        for (CA ca : assertionsList.getItems()) {
+            if (ca instanceof CCA) {
+                CCA cca = (CCA) ca;
+                String viewName = cca.getClass_().getPrefix() + "_" + cca.getClass_().getName() + "_view";
+                List<String> tables = new ArrayList<String>();
+                List<String> atts = new ArrayList<String>();
+                List<TableAtt> parentAtts = new ArrayList<TableAtt>();
+                List<Pair> pairs = new ArrayList<Pair>();
+
+                Map<String, Object> param = new HashMap<String, Object>();
+                param.put("viewName", viewName);
+                param.put("childTable", cca.getRelationName());
+                param.put("tables", tables);
+                param.put("atts", atts);
+                param.put("parentAtts", parentAtts);
+                param.put("pairs", pairs);
+                param.put("filter", cca.getSelCondition());
+
+                tables.add(cca.getRelationName());
+                for (String att : cca.getAttributes()) {
+                    atts.add(att);
+                }
+
+                for (DCA dca : cca.getDcaList()) {
+                    if (assertionsList.getItems().contains(dca)) {
+                        DataProperty dp = dca.getdProperty();
+                        if (dp.getMaxCardinality() == 1) {
+                            if (dca.getFks().isEmpty()) {
+                                for (String att : dca.getAttributes()) {
+                                    atts.add(att);
+                                }
+                            } else {
+                                // Add tables, joins and parentAtts
+                                for (String fkStr : dca.getFks()) {
+                                    Fk fk = mapFks.get(fkStr);
+                                    Join j = fk.getJoin();
+                                    int i = 0;
+                                    while (i < j.attributes1().size()) {
+                                        Pair p = null;
+                                        Attribute a1 = (Attribute) j.attributes1().get(i);
+                                        Attribute a2 = (Attribute) j.attributes2().get(i);
+                                        if (!fk.isInverse()) {
+                                            p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
+                                            if (!tables.contains(a1.tableName())) {
+                                                tables.add(a1.tableName());
+                                            }
+                                            if (!tables.contains(a2.tableName())) {
+                                                tables.add(a2.tableName());
+                                            }
+                                        } else {
+                                            p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
+                                            if (!tables.contains(a2.tableName())) {
+                                                tables.add(a2.tableName());
+                                            }
+                                            if (!tables.contains(a1.tableName())) {
+                                                tables.add(a1.tableName());
+                                            }
+                                        }
+
+                                        pairs.add(p);
+                                        i++;
+                                    }
+                                }
+
+                                // Add atts from last table
+                                for (String att : dca.getAttributes()) {
+                                    TableAtt ta = new TableAtt(tables.get(tables.size() - 1), att);
+                                    parentAtts.add(ta);
+                                }
+                            }
+                        } else {
+                            // Create another view
+                        }
+                    }
+                }
+
+                for (OCA oca : cca.getOcaList()) {
+                    if (assertionsList.getItems().contains(oca)) {
+                        ObjProperty op = oca.getoProperty();
+                        if (op.getMaxCardinality() == 1) {
+                            if (oca.getFks().size() == 1) {
+                                String fkStr = oca.getFks().get(0);
+                                Fk fk = mapFks.get(fkStr);
+                                if (!fk.isInverse()) {
+                                    Join j = fk.getJoin();
+                                    int i = 0;
+                                    while (i < j.attributes1().size()) {
+                                        Attribute a1 = (Attribute) j.attributes1().get(i);
+                                        atts.add(a1.attributeName());
+                                        i++;
+                                    }
+                                }
+                            } else {
+                                // Add tables and joins
+                                int k = 0;
+                                for (String fkStr : oca.getFks()) {
+                                    k++;
+                                    boolean isLastFk = (k == oca.getFks().size());
+                                    Fk fk = mapFks.get(fkStr);
+                                    Join j = fk.getJoin();
+                                    int i = 0;
+                                    while (i < j.attributes1().size()) {
+                                        Pair p = null;
+                                        Attribute a1 = (Attribute) j.attributes1().get(i);
+                                        Attribute a2 = (Attribute) j.attributes2().get(i);
+                                        
+                                        if (isLastFk) {
+                                            TableAtt ta = new TableAtt(a1.tableName(), a1.attributeName());
+                                            parentAtts.add(ta);
+                                        }
+                                        if (!fk.isInverse()) {
+                                            p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
+                                            if (!tables.contains(a1.tableName())) {
+                                                tables.add(a1.tableName());
+                                            }
+                                            if (!tables.contains(a2.tableName())) {
+                                                tables.add(a2.tableName());
+                                            }
+                                        } else {
+                                            p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
+                                            if (!tables.contains(a2.tableName())) {
+                                                tables.add(a2.tableName());
+                                            }
+                                            if (!tables.contains(a1.tableName())) {
+                                                tables.add(a1.tableName());
+                                            }
+                                        }
+
+                                        pairs.add(p);
+                                        i++;
+                                    }
+                                }
+                            }
+                        } else {
+                            // Create another view
+                        }
+                    }
+                }
+                
+                if (parentAtts.isEmpty()) {
+                    if (cca.getSelCondition() == null) {
+                        listViews.add(TemplateUtil.applyTemplate("views/simpleView", param));
+                    } else {
+                        listViews.add(TemplateUtil.applyTemplate("views/filterView", param));
+                    }
+                } else {
+                    if (cca.getSelCondition() == null) {
+                        listViews.add(TemplateUtil.applyTemplate("views/pathView", param));
+                    } else {
+                        listViews.add(TemplateUtil.applyTemplate("views/pathFilterView", param));
+                    }
+                }
+            }
+        }
+        
+        StringBuilder viewsStr = new StringBuilder("");
+        for (String view : listViews) {
+            viewsStr.append(view);
+            viewsStr.append("\n\n");
+        }
+        
+        sqlViews.getEngine()
+                .loadContent("<pre>" + viewsStr.toString() + "</pre>");
+    }
+
+    /**
+     * Called when the CreateR2RML button is fired.
+     *
+     * @param event the action event.
+     */
+    public void createSqlViewsFixoFired(ActionEvent event) throws IOException, Exception {
+        tabPane.getTabs().get(3).setDisable(false);
+        tabPane.getSelectionModel().select(3);
+
+        views = new StringBuilder("");
+
+        if (rbtRelViews.isSelected()) {
+            views.append("CREATE OR REPLACE VIEW PERSON_VIEW AS\n");
+            views.append("SELECT authors.AuthorID as ID, authors.Email as mbox, authors.firstName as name\n");
+            views.append("FROM authors;\n\n");
+
+            views.append("CREATE OR REPLACE VIEW DOCUMENT_VIEW AS\n");
+            views.append("SELECT papers.PaperID as ID, papers.title as title\n");
+            views.append("FROM papers\n");
+            views.append("WHERE papers.Year >= 2003;\n\n");
+
+            views.append("CREATE OR REPLACE VIEW DOCUMENT_CREATOR_VIEW AS\n");
+            views.append("SELECT papers.PaperID as ID_DOCUMENT, authors.AuthorID as ID_PERSON\n");
+            views.append("FROM papers, rel_author_paper, authors\n");
+            views.append("WHERE papers.PaperID = rel_author_paper.PaperID\n");
+            views.append("AND rel_author_paper.AuthorID = authors.AuthorID\n");
+            views.append("AND papers.Year >= 2003;");
+        } else {
+            views.append("<#PERSON_VIEW> rr:sqlQuery \"\"\"\n");
+            views.append("SELECT authors.AuthorID as ID, authors.Email as mbox, authors.firstName as name\n");
+            views.append("FROM authors;\n\n");
+            views.append("\"\"\"\n\n");
+
+            views.append("<#DOCUMENT_VIEW> rr:sqlQuery \"\"\"\n");
+            views.append("SELECT papers.PaperID as ID, papers.title as title\n");
+            views.append("FROM papers\n");
+            views.append("WHERE papers.Year >= 2003;\n");
+            views.append("\"\"\"\n\n");
+
+            views.append("<#DOCUMENT_CREATOR_VIEW> rr:sqlQuery \"\"\"\n");
+            views.append("SELECT papers.PaperID as ID_DOCUMENT, authors.AuthorID as ID_PERSON\n");
+            views.append("FROM papers, rel_author_paper, authors\n");
+            views.append("WHERE papers.PaperID = rel_author_paper.PaperID\n");
+            views.append("AND rel_author_paper.AuthorID = authors.AuthorID\n");
+            views.append("AND papers.Year >= 2003;\n");
+            views.append("\"\"\"");
+
+            JOptionPane.showMessageDialog(null, "The current version of D2RQ does not support R2RML Views. Because of that, RBA will not be able to Publish your Data.", "Info", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        sqlViews.getEngine()
+                .loadContent("<pre>" + views.toString() + "</pre>");
+    }
+
+    /**
+     * Called when the CreateR2RML button is fired.
+     *
+     * @param event the action event.
+     */
+    public void createR2rmlViewsFired(ActionEvent event) throws IOException, Exception {
+        tabPane.getTabs().get(4).setDisable(false);
+        tabPane.getSelectionModel().select(4);
+
+        String prefixes = "@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt; .\n"
+                + "@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .\n"
+                + "@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .\n"
+                + "@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .\n"
+                + "@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .\n"
+                + "@prefix dc: &lt;http://purl.org/dc/elements/1.1/&gt; .\n"
+                + "\n";
+
+        String r = "<#TriplesMapPerson>\n"
+                + "    rr:logicalTable [ rr:tableName \"PERSON_VIEW\" ];\n"
+                + "    rr:subjectMap [\n"
+                + "        rr:template \"person/{ID}\";\n"
+                + "        rr:class foaf:Person;\n"
+                + "    ];\n"
+                + "    rr:predicateObjectMap [\n"
+                + "        rr:predicate rdfs:label;\n"
+                + "        rr:objectMap [ rr:template \"person #{ID}\"; ]\n"
+                + "    ];\n"
+                + "    rr:predicateObjectMap [\n"
+                + "        rr:predicate foaf:mbox;\n"
+                + "        rr:objectMap [ rr:column \"mbox\" ];\n"
+                + "    ];\n"
+                + "    rr:predicateObjectMap [\n"
+                + "        rr:predicate foaf:name;\n"
+                + "        rr:objectMap [ rr:column \"name\" ];\n"
+                + "    ].\n"
+                + "\n"
+                + "<#TriplesMapDocument>\n"
+                + "    rr:logicalTable [ rr:tableName \"DOCUMENT_VIEW\" ];\n"
+                + "    rr:subjectMap [\n"
+                + "        rr:template \"document/{ID}\";\n"
+                + "        rr:class foaf:Document;\n"
+                + "    ];\n"
+                + "    rr:predicateObjectMap [\n"
+                + "        rr:predicate rdfs:label;\n"
+                + "        rr:objectMap [ rr:template \"document #{ID}\"; ]\n"
+                + "    ];\n"
+                + "    rr:predicateObjectMap [\n"
+                + "        rr:predicate dc:title;\n"
+                + "        rr:objectMap [ rr:column \"title\" ];\n"
+                + "    ].\n"
+                + "\n"
+                + "<#TriplesMapDocumentCreator>\n"
+                + "    rr:logicalTable [rr:tableName \"DOCUMENT_CREATOR_VIEW\"];\n"
+                + "    rr:subjectMap [\n"
+                + "        rr:template \"document/{ID_DOCUMENT}\";\n"
+                + "    ];\n"
+                + "    rr:predicateObjectMap [\n"
+                + "        rr:predicate rdfs:label;\n"
+                + "        rr:objectMap [ rr:template \"document #{ID_DOCUMENT}\"; ]\n"
+                + "    ];\n"
+                + "    rr:predicateObjectMap [\n"
+                + "        rr:predicate dc:creator;\n"
+                + "        rr:objectMap [\n"
+                + "            rr:parentTriplesMap <#TriplesMapPerson>;\n"
+                + "            rr:joinCondition [\n"
+                + "                rr:child \"ID_PERSON\";\n"
+                + "                rr:parent \"ID\";\n"
+                + "            ];\n"
+                + "        ];\n"
+                + "    ].\n";
+
+        if (rbtR2rmlViews.isSelected()) {
+            r = prefixes + views + "\n\n" + r;
+            btnPublishData.setDisable(true);
+        } else {
+            r = prefixes + r;
+            btnPublishData.setDisable(false);
+            // Criar views no banco de dados
+            Connection conn = DbConnection.connect(mc.getDatabaseDriver(), mc.getDatabaseUrl(), mc.getDatabaseUser(), mc.getDatabasePassword());
+            Statement stmt = conn.createStatement();
+
+            stmt.executeUpdate("CREATE OR REPLACE VIEW PERSON_VIEW AS "
+                    + "SELECT authors.AuthorID as ID, authors.Email as mbox, authors.FirstName as name "
+                    + "FROM authors");
+
+            stmt.executeUpdate("CREATE OR REPLACE VIEW DOCUMENT_VIEW AS "
+                    + "SELECT papers.PaperID as ID, papers.title as title "
+                    + "FROM papers "
+                    + "WHERE papers.Year >= 2003");
+
+            stmt.executeUpdate("CREATE OR REPLACE VIEW DOCUMENT_CREATOR_VIEW AS "
+                    + "SELECT papers.PaperID as ID_DOCUMENT, authors.AuthorID as ID_PERSON "
+                    + "FROM papers, rel_author_paper, authors "
+                    + "WHERE papers.PaperID = rel_author_paper.PaperID "
+                    + "AND rel_author_paper.AuthorID = authors.AuthorID "
+                    + "AND papers.Year >= 2003");
+
+            stmt.close();
+            conn.close();
+
+            r2rml = new StringBuilder(r);
+        }
+
+        r2rmlContent.getEngine()
+                .loadContent("<pre>" + r + "</pre>");
+    }
+
+    /**
+     * Called when the CreateR2RML button is fired.
+     *
+     * @param event the action event.
+     */
+    public void createR2rmlFired(ActionEvent event) throws IOException, Exception {
+        tabPane.getTabs().get(4).setDisable(false);
+        tabPane.getSelectionModel().select(4);
 
         r2rml = new StringBuilder("");
         r2rml.append("@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt; .\n");
@@ -660,7 +1066,7 @@ public class MainController implements Initializable {
                 param.put("table", cca.getRelationName());
                 param.put("atts", cca.getAttributes());
 
-                r2rml.append(TemplateUtil.applyTemplate("subjectMap", param));
+                r2rml.append(TemplateUtil.applyTemplate("r2rml/subjectMap", param));
 
                 for (DCA dca : cca.getDcaList()) {
                     if (assertionsList.getItems().contains(dca)) {
@@ -684,7 +1090,7 @@ public class MainController implements Initializable {
                             param.put("cols", dca.getAttributes());
                         }
 
-                        r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
+                        r2rml.append(TemplateUtil.applyTemplate("r2rml/predicateObjectMap", param));
                     }
                 }
 
@@ -720,7 +1126,7 @@ public class MainController implements Initializable {
                                 i++;
                             }
                             param.put("pairs", pairs);
-                            r2rml.append(TemplateUtil.applyTemplate("predicateObjectMap", param));
+                            r2rml.append(TemplateUtil.applyTemplate("r2rml/predicateObjectMap", param));
                         } else if (oca.getFks().size() > 1) {
                             ocaViews.add(oca);
                         }
@@ -780,7 +1186,7 @@ public class MainController implements Initializable {
                     }
                     param.put("prefix", prefix);
 
-                    r2rml.append(TemplateUtil.applyTemplate("datatypeKeyPathMap", param));
+                    r2rml.append(TemplateUtil.applyTemplate("r2rml/datatypeKeyPathMap", param));
                 }
 
                 // Criando as Object Properties que necessitam de VISÕES
@@ -837,7 +1243,7 @@ public class MainController implements Initializable {
                     param.put("prefix", prefix);
                     param.put("rangeClassUri", rangeCca.getClass_().getName().toLowerCase());
 
-                    r2rml.append(TemplateUtil.applyTemplate("objectKeyPathMap", param));
+                    r2rml.append(TemplateUtil.applyTemplate("r2rml/objectKeyPathMap", param));
                 }
             }
         }
@@ -860,32 +1266,46 @@ public class MainController implements Initializable {
                     if (mouseEvent.getClickCount() == 2) {
                         final MappingConfigurationEntry selectedItem = mcTable.getSelectionModel().getSelectedItem();
                         if (selectedItem != null) {
-                            try {
-                                mc = mcDAO.findById(selectedItem.getId());
-
-                                dataAssertions.clear();
-                                createR2rml.setDisable(true);
-                                tabPane.getTabs().get(2).setDisable(true);
-                                dbTree.setRoot(null);
-                                ontoTree.setRoot(null);
-                                assertions.clear();
-                                mapClassAssertion.clear();
-                                mapTableFks.clear();
-                                mapTableFksInv.clear();
-                                mapFks.clear();
-                                txtAssertion.setText("");
-                                lblAssertion.setText("Correspondence Assertion (CA):");
-                                assertions.clear();
-                                classes.clear();
-                                dbMap.clear();
-                                mapTableCols.clear();
-                                mapPrefixes.clear();
+                            if (mc != null && selectedItem.getId() == mc.getId()) {
                                 buildDBTree(mc);
                                 buildOntoTree(mc);
                                 tabPane.getSelectionModel().select(0);
-                            } catch (SQLException ex) {
-                                Logger.getLogger(MainController.class
-                                        .getName()).log(Level.SEVERE, null, ex);
+                            } else {
+                                try {
+                                    mc = mcDAO.findById(selectedItem.getId());
+
+                                    dataAssertions.clear();
+                                    createR2rml.setDisable(true);
+                                    tabPane.getTabs().get(2).setDisable(true);
+                                    dbTree.setRoot(null);
+                                    ontoTree.setRoot(null);
+                                    assertions.clear();
+                                    mapClassAssertion.clear();
+                                    mapTableFks.clear();
+                                    mapTableFksInv.clear();
+                                    mapFks.clear();
+                                    txtAssertion.setText("");
+                                    lblAssertion.setText("Correspondence Assertion (CA):");
+                                    assertions.clear();
+                                    classes.clear();
+                                    dbMap.clear();
+                                    mapTableCols.clear();
+                                    mapPrefixes.clear();
+                                    buildDBTree(mc);
+                                    buildOntoTree(mc);
+                                    tabPane.getTabs().get(1).setDisable(true);
+                                    tabPane.getTabs().get(2).setDisable(true);
+                                    tabPane.getTabs().get(3).setDisable(true);
+                                    tabPane.getTabs().get(4).setDisable(true);
+                                    tabPane.getSelectionModel().select(0);
+
+
+
+
+                                } catch (SQLException ex) {
+                                    Logger.getLogger(MainController.class
+                                            .getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
                         }
                     }
@@ -1103,8 +1523,11 @@ public class MainController implements Initializable {
                 if (t.getCode() == KeyCode.DELETE) {
                     dataAssertions.remove(assertionsList.getSelectionModel().getSelectedIndex());
                     if (dataAssertions.size() == 0) {
-                        createR2rml.setDisable(true);
+                        tabPane.getTabs().get(1).setDisable(true);
                         tabPane.getTabs().get(2).setDisable(true);
+                        tabPane.getTabs().get(3).setDisable(true);
+                        tabPane.getTabs().get(4).setDisable(true);
+                        tabPane.getSelectionModel().select(0);
                     }
                 }
             }

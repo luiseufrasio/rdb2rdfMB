@@ -43,6 +43,10 @@ public class Class_ {
     }
 
     public String getName() {
+        if (name == null) {
+            return null;
+        }
+        
         return ("" + name.charAt(0)).toUpperCase() + name.substring(1);
     }
 

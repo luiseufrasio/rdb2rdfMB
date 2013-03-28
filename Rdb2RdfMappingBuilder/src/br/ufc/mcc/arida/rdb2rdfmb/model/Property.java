@@ -5,6 +5,7 @@ public abstract class Property {
     protected String prefix;
     protected String name;
     protected Class_ domain;
+    protected int maxCardinality = 1;
 
     public Property() {
         super();
@@ -21,6 +22,14 @@ public abstract class Property {
     }
 
     public abstract String getRangeName();
+
+    public int getMaxCardinality() {
+        return maxCardinality;
+    }
+
+    public void setMaxCardinality(int maxCardinality) {
+        this.maxCardinality = maxCardinality;
+    }
 
     public String getPrefix() {
         return (prefix == null ? "" : prefix);

@@ -1,0 +1,8 @@
+CREATE OR REPLACE VIEW $viewName AS
+SELECT #foreach ( $att in $atts )#if ($velocityCount > 1), #end${childTable}.$att#end#foreach ( $ta in $parentAtts ), ${ta.table}.${ta.att}#end
+
+FROM #foreach ( $table in $tables )#if ($velocityCount > 1), #end$table#end
+
+WHERE #foreach ( $pair in $pairs )#if ($velocityCount > 1) 
+
+AND #end${pair.childTable}.${pair.child} = ${pair.parentTable}.${pair.parent}#end

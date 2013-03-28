@@ -27,9 +27,9 @@ public class Rdb2RdfMappingBuilder extends Application {
             Scene scene = new Scene(page);
             pStage = primaryStage;
             primaryStage.setScene(scene);
-            primaryStage.setTitle("rdb2RDF Mapping Builder");
+            primaryStage.setTitle("RBA - R2RML By Assertions");
             primaryStage.getIcons().add(
-                    new Image(getClass().getResourceAsStream("img/rdf_flyer.ico")));
+                    new Image(getClass().getResourceAsStream("img/icon.png")));
 
             primaryStage.show();
         } catch (Exception ex) {

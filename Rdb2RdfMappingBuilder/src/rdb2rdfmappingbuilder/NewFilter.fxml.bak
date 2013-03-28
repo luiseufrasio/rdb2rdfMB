@@ -62,16 +62,16 @@
             <VBox id="VBox" alignment="TOP_LEFT" spacing="5.0">
               <children>
                 <Label text="Value:" />
-                <TextField prefWidth="152.0" />
+                <TextField fx:id="txtValue" prefWidth="152.0" />
               </children>
             </VBox>
           </children>
         </HBox>
         <HBox alignment="BOTTOM_CENTER" prefHeight="31.0" prefWidth="500.0" spacing="5.0">
           <children>
-            <Button mnemonicParsing="false" text="(" />
+            <Button mnemonicParsing="false" onAction="#openParenthesisFired" text="(" />
             <Button disable="false" mnemonicParsing="false" text=")" />
-            <Button mnemonicParsing="false" text="ADD" />
+            <Button mnemonicParsing="false" onAction="#addFired" text="ADD" />
             <Button disable="false" mnemonicParsing="false" text="AND" />
             <Button disable="false" mnemonicParsing="false" text="OR" />
           </children>

@@ -4,7 +4,6 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -49,7 +48,7 @@ public class TemplateUtil {
         Velocity.setProperty("classpath." + Velocity.RESOURCE_LOADER + ".class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init();
 
-        Template template = Velocity.getTemplate("/templates/r2rml/" + serviceName + ".vm");
+        Template template = Velocity.getTemplate("/templates/" + serviceName + ".vm");
 
         synchronized (cache) {
 

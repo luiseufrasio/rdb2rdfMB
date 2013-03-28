@@ -1,23 +1,60 @@
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 
 <#TriplesMapPerson>
-    rr:logicalTable [ rr:tableName "persons" ];
+    rr:logicalTable [ rr:tableName "PERSON_VIEW" ];
     rr:subjectMap [
-        rr:template "person/{PerID}/";
+        rr:template "person/{ID}";
         rr:class foaf:Person;
     ];
     rr:predicateObjectMap [
         rr:predicate rdfs:label;
-        rr:objectMap [ rr:template "person #{PerID}"; ];
+        rr:objectMap [ rr:template "person #{ID}"; ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:mbox;
+        rr:objectMap [ rr:column "mbox" ];
     ];
     rr:predicateObjectMap [
         rr:predicate foaf:name;
-        rr:objectMap [            
-            rr:template "{FirstName} {LastName}"; 
-            rr:termType rr:Literal;
+        rr:objectMap [ rr:column "name" ];
+    ].
+
+<#TriplesMapDocument>
+    rr:logicalTable [ rr:tableName "DOCUMENT_VIEW" ];
+    rr:subjectMap [
+        rr:template "document/{ID}";
+        rr:class foaf:Document;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "document #{ID}"; ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dc:title;
+        rr:objectMap [ rr:column "title" ];
+    ].
+
+<#TriplesMapDocumentCreator>
+    rr:logicalTable [rr:tableName "DOCUMENT_CREATOR_VIEW"];
+    rr:subjectMap [
+        rr:template "document/{ID_DOCUMENT}";
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "document #{ID_DOCUMENT}"; ]
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dc:creator;
+        rr:objectMap [
+            rr:parentTriplesMap <#TriplesMapPerson>;
+            rr:joinCondition [
+                rr:child "ID_PERSON";
+                rr:parent "ID";
+            ];
         ];
     ].
