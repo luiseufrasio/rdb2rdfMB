@@ -5,6 +5,8 @@
 package rdb2rdfmappingbuilder;
 
 import br.ufc.mcc.arida.rdb2rdfmb.db.DbConnection;
+import br.ufc.mcc.arida.rdb2rdfmb.mapping.ViewsGen;
+import br.ufc.mcc.arida.rdb2rdfmb.model.AttAlias;
 import br.ufc.mcc.arida.rdb2rdfmb.model.CA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.CCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfiguration;
@@ -105,7 +107,7 @@ public class MainController implements Initializable {
     @FXML
     protected TextField txtAssertion;
     StringBuilder views = new StringBuilder("");
-    List<String> listViews = new ArrayList<String>();
+    List<String> listViews = new ArrayList<>();
     final ToggleGroup group = new ToggleGroup();
     @FXML
     RadioButton rbtRelViews;
@@ -155,7 +157,7 @@ public class MainController implements Initializable {
     HashMap<String, List<Attribute>> mapTableCols = new HashMap<String, List<Attribute>>();
     HashMap<String, List<Join>> mapTableFks = new HashMap<String, List<Join>>();
     HashMap<String, List<Join>> mapTableFksInv = new HashMap<String, List<Join>>();
-    HashMap<String, Fk> mapFks = new HashMap<String, Fk>();
+    HashMap<String, Fk> mapFks = new HashMap<>();
     HashMap<String, String> mapPrefixes = new HashMap<String, String>();
     StringBuilder r2rml = new StringBuilder("");
     MappingConfiguration mc = null;
@@ -705,169 +707,14 @@ public class MainController implements Initializable {
     public void createSqlViewsFired(ActionEvent event) throws IOException, Exception {
         tabPane.getTabs().get(3).setDisable(false);
         tabPane.getSelectionModel().select(3);
-        listViews.clear();
+        listViews = ViewsGen.buildViews(assertionsList, mapFks);
 
-        for (CA ca : assertionsList.getItems()) {
-            if (ca instanceof CCA) {
-                CCA cca = (CCA) ca;
-                String viewName = cca.getClass_().getPrefix() + "_" + cca.getClass_().getName() + "_view";
-                List<String> tables = new ArrayList<String>();
-                List<String> atts = new ArrayList<String>();
-                List<TableAtt> parentAtts = new ArrayList<TableAtt>();
-                List<Pair> pairs = new ArrayList<Pair>();
-
-                Map<String, Object> param = new HashMap<String, Object>();
-                param.put("viewName", viewName);
-                param.put("childTable", cca.getRelationName());
-                param.put("tables", tables);
-                param.put("atts", atts);
-                param.put("parentAtts", parentAtts);
-                param.put("pairs", pairs);
-                param.put("filter", cca.getSelCondition());
-
-                tables.add(cca.getRelationName());
-                for (String att : cca.getAttributes()) {
-                    atts.add(att);
-                }
-
-                for (DCA dca : cca.getDcaList()) {
-                    if (assertionsList.getItems().contains(dca)) {
-                        DataProperty dp = dca.getdProperty();
-                        if (dp.getMaxCardinality() == 1) {
-                            if (dca.getFks().isEmpty()) {
-                                for (String att : dca.getAttributes()) {
-                                    atts.add(att);
-                                }
-                            } else {
-                                // Add tables, joins and parentAtts
-                                for (String fkStr : dca.getFks()) {
-                                    Fk fk = mapFks.get(fkStr);
-                                    Join j = fk.getJoin();
-                                    int i = 0;
-                                    while (i < j.attributes1().size()) {
-                                        Pair p = null;
-                                        Attribute a1 = (Attribute) j.attributes1().get(i);
-                                        Attribute a2 = (Attribute) j.attributes2().get(i);
-                                        if (!fk.isInverse()) {
-                                            p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
-                                            if (!tables.contains(a1.tableName())) {
-                                                tables.add(a1.tableName());
-                                            }
-                                            if (!tables.contains(a2.tableName())) {
-                                                tables.add(a2.tableName());
-                                            }
-                                        } else {
-                                            p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
-                                            if (!tables.contains(a2.tableName())) {
-                                                tables.add(a2.tableName());
-                                            }
-                                            if (!tables.contains(a1.tableName())) {
-                                                tables.add(a1.tableName());
-                                            }
-                                        }
-
-                                        pairs.add(p);
-                                        i++;
-                                    }
-                                }
-
-                                // Add atts from last table
-                                for (String att : dca.getAttributes()) {
-                                    TableAtt ta = new TableAtt(tables.get(tables.size() - 1), att);
-                                    parentAtts.add(ta);
-                                }
-                            }
-                        } else {
-                            // Create another view
-                        }
-                    }
-                }
-
-                for (OCA oca : cca.getOcaList()) {
-                    if (assertionsList.getItems().contains(oca)) {
-                        ObjProperty op = oca.getoProperty();
-                        if (op.getMaxCardinality() == 1) {
-                            if (oca.getFks().size() == 1) {
-                                String fkStr = oca.getFks().get(0);
-                                Fk fk = mapFks.get(fkStr);
-                                if (!fk.isInverse()) {
-                                    Join j = fk.getJoin();
-                                    int i = 0;
-                                    while (i < j.attributes1().size()) {
-                                        Attribute a1 = (Attribute) j.attributes1().get(i);
-                                        atts.add(a1.attributeName());
-                                        i++;
-                                    }
-                                }
-                            } else {
-                                // Add tables and joins
-                                int k = 0;
-                                for (String fkStr : oca.getFks()) {
-                                    k++;
-                                    boolean isLastFk = (k == oca.getFks().size());
-                                    Fk fk = mapFks.get(fkStr);
-                                    Join j = fk.getJoin();
-                                    int i = 0;
-                                    while (i < j.attributes1().size()) {
-                                        Pair p = null;
-                                        Attribute a1 = (Attribute) j.attributes1().get(i);
-                                        Attribute a2 = (Attribute) j.attributes2().get(i);
-                                        
-                                        if (isLastFk) {
-                                            TableAtt ta = new TableAtt(a1.tableName(), a1.attributeName());
-                                            parentAtts.add(ta);
-                                        }
-                                        if (!fk.isInverse()) {
-                                            p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
-                                            if (!tables.contains(a1.tableName())) {
-                                                tables.add(a1.tableName());
-                                            }
-                                            if (!tables.contains(a2.tableName())) {
-                                                tables.add(a2.tableName());
-                                            }
-                                        } else {
-                                            p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
-                                            if (!tables.contains(a2.tableName())) {
-                                                tables.add(a2.tableName());
-                                            }
-                                            if (!tables.contains(a1.tableName())) {
-                                                tables.add(a1.tableName());
-                                            }
-                                        }
-
-                                        pairs.add(p);
-                                        i++;
-                                    }
-                                }
-                            }
-                        } else {
-                            // Create another view
-                        }
-                    }
-                }
-                
-                if (parentAtts.isEmpty()) {
-                    if (cca.getSelCondition() == null) {
-                        listViews.add(TemplateUtil.applyTemplate("views/simpleView", param));
-                    } else {
-                        listViews.add(TemplateUtil.applyTemplate("views/filterView", param));
-                    }
-                } else {
-                    if (cca.getSelCondition() == null) {
-                        listViews.add(TemplateUtil.applyTemplate("views/pathView", param));
-                    } else {
-                        listViews.add(TemplateUtil.applyTemplate("views/pathFilterView", param));
-                    }
-                }
-            }
-        }
-        
         StringBuilder viewsStr = new StringBuilder("");
         for (String view : listViews) {
             viewsStr.append(view);
             viewsStr.append("\n\n");
         }
-        
+
         sqlViews.getEngine()
                 .loadContent("<pre>" + viewsStr.toString() + "</pre>");
     }

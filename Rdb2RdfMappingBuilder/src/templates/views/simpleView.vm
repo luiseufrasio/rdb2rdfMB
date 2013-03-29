@@ -1,4 +1,4 @@
 CREATE OR REPLACE VIEW $viewName AS
-SELECT #foreach ( $att in $atts )#if ($velocityCount > 1), #end$att#end
+SELECT #foreach ( $attAlias in $atts )#if ($velocityCount > 1), #end${attAlias.att} AS ${attAlias.alias}#end
 
 FROM ${tables.get(0)}

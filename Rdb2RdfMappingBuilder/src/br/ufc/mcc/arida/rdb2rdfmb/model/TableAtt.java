@@ -11,11 +11,11 @@ package br.ufc.mcc.arida.rdb2rdfmb.model;
 public class TableAtt {
 
     private String table;
-    private String att;
+    private AttAlias attAlias;
 
-    public TableAtt(String table, String att) {
+    public TableAtt(String table, AttAlias att) {
         this.table = table;
-        this.att = att;
+        this.attAlias = att;
     }
 
     public String getTable() {
@@ -26,11 +26,11 @@ public class TableAtt {
         this.table = table;
     }
 
-    public String getAtt() {
-        return att;
+    public AttAlias getAttAlias() {
+        return attAlias;
     }
 
-    public void setAtt(String att) {
-        this.att = att;
+    public void setAttAlias(AttAlias attAlias) {
+        this.attAlias = attAlias;
     }
 }
