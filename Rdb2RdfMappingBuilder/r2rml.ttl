@@ -1,59 +1,59 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix dc: <http://purl.org/dc/elements/1.1/> .
 
 <#TriplesMapPerson>
-    rr:logicalTable [ rr:tableName "PERSON_VIEW" ];
+    rr:logicalTable [ rr:tableName "foaf_Person_view" ];
     rr:subjectMap [
-        rr:template "person/{ID}";
+        rr:template "Person/{ID}/";
         rr:class foaf:Person;
     ];
     rr:predicateObjectMap [
         rr:predicate rdfs:label;
-        rr:objectMap [ rr:template "person #{ID}"; ]
-    ];
-    rr:predicateObjectMap [
-        rr:predicate foaf:mbox;
-        rr:objectMap [ rr:column "mbox" ];
+        rr:objectMap [ rr:template "Person #{ID}"; ];
     ];
     rr:predicateObjectMap [
         rr:predicate foaf:name;
-        rr:objectMap [ rr:column "name" ];
+        rr:objectMap [            
+            rr:template "{foaf_name} {foaf_name2}"; 
+            rr:termType rr:Literal;
+        ];
     ].
 
 <#TriplesMapDocument>
-    rr:logicalTable [ rr:tableName "DOCUMENT_VIEW" ];
+    rr:logicalTable [ rr:tableName "foaf_Document_view" ];
     rr:subjectMap [
-        rr:template "document/{ID}";
+        rr:template "Document/{ID}/";
         rr:class foaf:Document;
     ];
     rr:predicateObjectMap [
         rr:predicate rdfs:label;
-        rr:objectMap [ rr:template "document #{ID}"; ]
+        rr:objectMap [ rr:template "Document #{ID}"; ];
     ];
     rr:predicateObjectMap [
         rr:predicate dc:title;
-        rr:objectMap [ rr:column "title" ];
+        rr:objectMap [ rr:column "dc_title" ];
     ].
 
-<#TriplesMapDocumentCreator>
-    rr:logicalTable [rr:tableName "DOCUMENT_CREATOR_VIEW"];
+<#TriplesMapDocument_creator>
+    rr:logicalTable [ rr:tableName "foaf_Document_dc_creator_view" ];
     rr:subjectMap [
-        rr:template "document/{ID_DOCUMENT}";
+        rr:template "Document/{ID_foaf_Document}/";
+        rr:class foaf:Document;
     ];
     rr:predicateObjectMap [
         rr:predicate rdfs:label;
-        rr:objectMap [ rr:template "document #{ID_DOCUMENT}"; ]
+        rr:objectMap [ rr:template "Document #{ID_foaf_Document}"; ];
     ];
     rr:predicateObjectMap [
         rr:predicate dc:creator;
-        rr:objectMap [
+        rr:objectMap [            
             rr:parentTriplesMap <#TriplesMapPerson>;
             rr:joinCondition [
-                rr:child "ID_PERSON";
+                rr:child "ID_Person";
                 rr:parent "ID";
             ];
         ];

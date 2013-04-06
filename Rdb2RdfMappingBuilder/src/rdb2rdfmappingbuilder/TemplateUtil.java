@@ -10,7 +10,7 @@ import org.apache.velocity.app.Velocity;
 
 public class TemplateUtil {
 
-    private static Map<String, Template> cache = new HashMap<String, Template>();
+    private static Map<String, Template> cache = new HashMap<>();
 
     public static String applyTemplate(String serviceName, Map<String, Object> map) throws Exception {
 
@@ -51,7 +51,6 @@ public class TemplateUtil {
         Template template = Velocity.getTemplate("/templates/" + serviceName + ".vm");
 
         synchronized (cache) {
-
             cache.put(serviceName, template);
         }
     }

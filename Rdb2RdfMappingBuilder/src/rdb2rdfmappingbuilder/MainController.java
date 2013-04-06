@@ -5,8 +5,8 @@
 package rdb2rdfmappingbuilder;
 
 import br.ufc.mcc.arida.rdb2rdfmb.db.DbConnection;
+import br.ufc.mcc.arida.rdb2rdfmb.mapping.R2RMLGen;
 import br.ufc.mcc.arida.rdb2rdfmb.mapping.ViewsGen;
-import br.ufc.mcc.arida.rdb2rdfmb.model.AttAlias;
 import br.ufc.mcc.arida.rdb2rdfmb.model.CA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.CCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfiguration;
@@ -59,12 +59,9 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.Fk;
 import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.PCA;
-import br.ufc.mcc.arida.rdb2rdfmb.model.Pair;
-import br.ufc.mcc.arida.rdb2rdfmb.model.TableAtt;
 import com.hp.hpl.jena.ontology.MaxCardinalityRestriction;
 import com.hp.hpl.jena.ontology.OntProperty;
 import com.hp.hpl.jena.ontology.Restriction;
-import com.hp.hpl.jena.ontology.impl.MaxCardinalityRestrictionImpl;
 import d2rq.server;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
 import java.awt.Desktop;
@@ -73,7 +70,6 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -149,17 +145,16 @@ public class MainController implements Initializable {
     ObservableList<MappingConfigurationEntry> dataMc = FXCollections.observableArrayList();
     ObservableList<CA> dataAssertions = FXCollections.observableArrayList();
     MappingConfigurationDAO mcDAO = new MappingConfigurationDAO();
-    protected HashMap<TreeItem, CA> assertions = new HashMap<TreeItem, CA>();
-    HashMap<TreeItem, CA> assertionsExp = new HashMap<TreeItem, CA>();
-    HashMap<Class_, CCA> mapClassAssertion = new HashMap<Class_, CCA>();
-    HashMap<String, Class_> classes = new HashMap<String, Class_>();
-    HashMap<TreeItem, Object> dbMap = new HashMap<TreeItem, Object>();
-    HashMap<String, List<Attribute>> mapTableCols = new HashMap<String, List<Attribute>>();
-    HashMap<String, List<Join>> mapTableFks = new HashMap<String, List<Join>>();
-    HashMap<String, List<Join>> mapTableFksInv = new HashMap<String, List<Join>>();
+    protected HashMap<TreeItem, CA> assertions = new HashMap<>();
+    HashMap<TreeItem, CA> assertionsExp = new HashMap<>();
+    HashMap<String, Class_> classes = new HashMap<>();
+    HashMap<TreeItem, Object> dbMap = new HashMap<>();
+    HashMap<String, List<Attribute>> mapTableCols = new HashMap<>();
+    HashMap<String, List<Join>> mapTableFks = new HashMap<>();
+    HashMap<String, List<Join>> mapTableFksInv = new HashMap<>();
     HashMap<String, Fk> mapFks = new HashMap<>();
-    HashMap<String, String> mapPrefixes = new HashMap<String, String>();
-    StringBuilder r2rml = new StringBuilder("");
+    HashMap<String, String> mapPrefixes = new HashMap<>();
+    String r2rml;
     MappingConfiguration mc = null;
 
     @Override
@@ -240,7 +235,6 @@ public class MainController implements Initializable {
                 CCA cca = new CCA();
                 cca.setClass_(class_);
                 assertions.put(item, cca);
-                mapClassAssertion.put(class_, cca);
 
                 Class_ superClass = class_.getSuperClass();
                 if (superClass != null) {
@@ -299,7 +293,7 @@ public class MainController implements Initializable {
 
             List<Attribute> listCols = schema.listColumns(relationName);
             for (Attribute attribute : listCols) {
-                TreeItem<String> colItem = colItem = new TreeItem<>(attribute.attributeName());
+                TreeItem<String> colItem = new TreeItem<>(attribute.attributeName());
                 List<Attribute> listPk = schema.primaryKeyColumns(relationName);
                 if (listPk.contains(attribute)) {
                     Node pkIcon = new ImageView(
@@ -331,7 +325,7 @@ public class MainController implements Initializable {
 
             List<Join> listFks1 = schema.foreignKeys(relationName, 1);
             for (Join fk1 : listFks1) {
-                String fkName = "";
+                String fkName;
                 fkName = "fk1_" + fk1.table1() + "2" + fk1.table2();
                 if (!mapFks.keySet().contains(fkName)) {
                     mapFks.put(fkName, new Fk(true, fk1));
@@ -724,383 +718,30 @@ public class MainController implements Initializable {
      *
      * @param event the action event.
      */
-    public void createSqlViewsFixoFired(ActionEvent event) throws IOException, Exception {
-        tabPane.getTabs().get(3).setDisable(false);
-        tabPane.getSelectionModel().select(3);
-
-        views = new StringBuilder("");
-
-        if (rbtRelViews.isSelected()) {
-            views.append("CREATE OR REPLACE VIEW PERSON_VIEW AS\n");
-            views.append("SELECT authors.AuthorID as ID, authors.Email as mbox, authors.firstName as name\n");
-            views.append("FROM authors;\n\n");
-
-            views.append("CREATE OR REPLACE VIEW DOCUMENT_VIEW AS\n");
-            views.append("SELECT papers.PaperID as ID, papers.title as title\n");
-            views.append("FROM papers\n");
-            views.append("WHERE papers.Year >= 2003;\n\n");
-
-            views.append("CREATE OR REPLACE VIEW DOCUMENT_CREATOR_VIEW AS\n");
-            views.append("SELECT papers.PaperID as ID_DOCUMENT, authors.AuthorID as ID_PERSON\n");
-            views.append("FROM papers, rel_author_paper, authors\n");
-            views.append("WHERE papers.PaperID = rel_author_paper.PaperID\n");
-            views.append("AND rel_author_paper.AuthorID = authors.AuthorID\n");
-            views.append("AND papers.Year >= 2003;");
-        } else {
-            views.append("<#PERSON_VIEW> rr:sqlQuery \"\"\"\n");
-            views.append("SELECT authors.AuthorID as ID, authors.Email as mbox, authors.firstName as name\n");
-            views.append("FROM authors;\n\n");
-            views.append("\"\"\"\n\n");
-
-            views.append("<#DOCUMENT_VIEW> rr:sqlQuery \"\"\"\n");
-            views.append("SELECT papers.PaperID as ID, papers.title as title\n");
-            views.append("FROM papers\n");
-            views.append("WHERE papers.Year >= 2003;\n");
-            views.append("\"\"\"\n\n");
-
-            views.append("<#DOCUMENT_CREATOR_VIEW> rr:sqlQuery \"\"\"\n");
-            views.append("SELECT papers.PaperID as ID_DOCUMENT, authors.AuthorID as ID_PERSON\n");
-            views.append("FROM papers, rel_author_paper, authors\n");
-            views.append("WHERE papers.PaperID = rel_author_paper.PaperID\n");
-            views.append("AND rel_author_paper.AuthorID = authors.AuthorID\n");
-            views.append("AND papers.Year >= 2003;\n");
-            views.append("\"\"\"");
-
-            JOptionPane.showMessageDialog(null, "The current version of D2RQ does not support R2RML Views. Because of that, RBA will not be able to Publish your Data.", "Info", JOptionPane.INFORMATION_MESSAGE);
-        }
-
-        sqlViews.getEngine()
-                .loadContent("<pre>" + views.toString() + "</pre>");
-    }
-
-    /**
-     * Called when the CreateR2RML button is fired.
-     *
-     * @param event the action event.
-     */
     public void createR2rmlViewsFired(ActionEvent event) throws IOException, Exception {
         tabPane.getTabs().get(4).setDisable(false);
         tabPane.getSelectionModel().select(4);
 
-        String prefixes = "@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt; .\n"
-                + "@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .\n"
-                + "@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .\n"
-                + "@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .\n"
-                + "@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .\n"
-                + "@prefix dc: &lt;http://purl.org/dc/elements/1.1/&gt; .\n"
-                + "\n";
-
-        String r = "<#TriplesMapPerson>\n"
-                + "    rr:logicalTable [ rr:tableName \"PERSON_VIEW\" ];\n"
-                + "    rr:subjectMap [\n"
-                + "        rr:template \"person/{ID}\";\n"
-                + "        rr:class foaf:Person;\n"
-                + "    ];\n"
-                + "    rr:predicateObjectMap [\n"
-                + "        rr:predicate rdfs:label;\n"
-                + "        rr:objectMap [ rr:template \"person #{ID}\"; ]\n"
-                + "    ];\n"
-                + "    rr:predicateObjectMap [\n"
-                + "        rr:predicate foaf:mbox;\n"
-                + "        rr:objectMap [ rr:column \"mbox\" ];\n"
-                + "    ];\n"
-                + "    rr:predicateObjectMap [\n"
-                + "        rr:predicate foaf:name;\n"
-                + "        rr:objectMap [ rr:column \"name\" ];\n"
-                + "    ].\n"
-                + "\n"
-                + "<#TriplesMapDocument>\n"
-                + "    rr:logicalTable [ rr:tableName \"DOCUMENT_VIEW\" ];\n"
-                + "    rr:subjectMap [\n"
-                + "        rr:template \"document/{ID}\";\n"
-                + "        rr:class foaf:Document;\n"
-                + "    ];\n"
-                + "    rr:predicateObjectMap [\n"
-                + "        rr:predicate rdfs:label;\n"
-                + "        rr:objectMap [ rr:template \"document #{ID}\"; ]\n"
-                + "    ];\n"
-                + "    rr:predicateObjectMap [\n"
-                + "        rr:predicate dc:title;\n"
-                + "        rr:objectMap [ rr:column \"title\" ];\n"
-                + "    ].\n"
-                + "\n"
-                + "<#TriplesMapDocumentCreator>\n"
-                + "    rr:logicalTable [rr:tableName \"DOCUMENT_CREATOR_VIEW\"];\n"
-                + "    rr:subjectMap [\n"
-                + "        rr:template \"document/{ID_DOCUMENT}\";\n"
-                + "    ];\n"
-                + "    rr:predicateObjectMap [\n"
-                + "        rr:predicate rdfs:label;\n"
-                + "        rr:objectMap [ rr:template \"document #{ID_DOCUMENT}\"; ]\n"
-                + "    ];\n"
-                + "    rr:predicateObjectMap [\n"
-                + "        rr:predicate dc:creator;\n"
-                + "        rr:objectMap [\n"
-                + "            rr:parentTriplesMap <#TriplesMapPerson>;\n"
-                + "            rr:joinCondition [\n"
-                + "                rr:child \"ID_PERSON\";\n"
-                + "                rr:parent \"ID\";\n"
-                + "            ];\n"
-                + "        ];\n"
-                + "    ].\n";
-
         if (rbtR2rmlViews.isSelected()) {
-            r = prefixes + views + "\n\n" + r;
             btnPublishData.setDisable(true);
         } else {
-            r = prefixes + r;
             btnPublishData.setDisable(false);
             // Criar views no banco de dados
             Connection conn = DbConnection.connect(mc.getDatabaseDriver(), mc.getDatabaseUrl(), mc.getDatabaseUser(), mc.getDatabasePassword());
             Statement stmt = conn.createStatement();
 
-            stmt.executeUpdate("CREATE OR REPLACE VIEW PERSON_VIEW AS "
-                    + "SELECT authors.AuthorID as ID, authors.Email as mbox, authors.FirstName as name "
-                    + "FROM authors");
-
-            stmt.executeUpdate("CREATE OR REPLACE VIEW DOCUMENT_VIEW AS "
-                    + "SELECT papers.PaperID as ID, papers.title as title "
-                    + "FROM papers "
-                    + "WHERE papers.Year >= 2003");
-
-            stmt.executeUpdate("CREATE OR REPLACE VIEW DOCUMENT_CREATOR_VIEW AS "
-                    + "SELECT papers.PaperID as ID_DOCUMENT, authors.AuthorID as ID_PERSON "
-                    + "FROM papers, rel_author_paper, authors "
-                    + "WHERE papers.PaperID = rel_author_paper.PaperID "
-                    + "AND rel_author_paper.AuthorID = authors.AuthorID "
-                    + "AND papers.Year >= 2003");
+            for (String view : listViews) {
+                stmt.executeUpdate(view);
+            }
 
             stmt.close();
             conn.close();
 
-            r2rml = new StringBuilder(r);
+            r2rml = R2RMLGen.buildR2RML(assertionsList, mapFks, mapPrefixes);
         }
 
         r2rmlContent.getEngine()
-                .loadContent("<pre>" + r + "</pre>");
-    }
-
-    /**
-     * Called when the CreateR2RML button is fired.
-     *
-     * @param event the action event.
-     */
-    public void createR2rmlFired(ActionEvent event) throws IOException, Exception {
-        tabPane.getTabs().get(4).setDisable(false);
-        tabPane.getSelectionModel().select(4);
-
-        r2rml = new StringBuilder("");
-        r2rml.append("@prefix rr: &lt;http://www.w3.org/ns/r2rml#&gt; .\n");
-        r2rml.append("@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .\n");
-        r2rml.append("@prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .\n");
-        r2rml.append("@prefix xsd: &lt;http://www.w3.org/2001/XMLSchema#&gt; .");
-
-        List<String> prefixes = new ArrayList<String>();
-        for (CA ca : assertionsList.getItems()) {
-            if (ca instanceof CCA) {
-                CCA cca = (CCA) ca;
-                String prefixClass = cca.getClass_().getPrefix();
-                if (!prefixes.contains(prefixClass)) {
-                    prefixes.add(prefixClass);
-                }
-                List<DCA> dcaViews = new ArrayList<DCA>();
-                List<OCA> ocaViews = new ArrayList<OCA>();
-
-                Map<String, Object> param = new HashMap<String, Object>();
-                param.put("className", cca.getClass_().getName());
-                param.put("prefixClass", prefixClass);
-                param.put("classUri", cca.getClass_().getName().toLowerCase());
-                param.put("table", cca.getRelationName());
-                param.put("atts", cca.getAttributes());
-
-                r2rml.append(TemplateUtil.applyTemplate("r2rml/subjectMap", param));
-
-                for (DCA dca : cca.getDcaList()) {
-                    if (assertionsList.getItems().contains(dca)) {
-                        if (dca.getFks().size() > 0) {
-                            dcaViews.add(dca);
-                            continue;
-                        }
-                        param.clear();
-                        String prefix = dca.getdProperty().getPrefix();
-                        if (!prefixes.contains(prefix)) {
-                            prefixes.add(prefix);
-                        }
-                        param.put("prefix", prefix);
-                        param.put("propertyName", dca.getdProperty().getName());
-
-                        if (dca.getAttributes().size() == 1) {
-                            param.put("type", 1);
-                            param.put("columnName", dca.getAttributes().get(0));
-                        } else {
-                            param.put("type", 3);
-                            param.put("cols", dca.getAttributes());
-                        }
-
-                        r2rml.append(TemplateUtil.applyTemplate("r2rml/predicateObjectMap", param));
-                    }
-                }
-
-                for (OCA oca : cca.getOcaList()) {
-                    if (assertionsList.getItems().contains(oca)) {
-                        if (oca.getFks().size() == 1) {
-                            param.clear();
-
-                            String prefix = oca.getoProperty().getPrefix();
-                            if (!prefixes.contains(prefix)) {
-                                prefixes.add(prefix);
-                            }
-                            param.put("prefix", prefix);
-                            param.put("propertyName", oca.getoProperty().getName());
-                            param.put("type", 2);
-                            param.put("rangeClass", oca.getoProperty().getRange().getName());
-                            List<Pair> pairs = new ArrayList<Pair>();
-                            String fkStr = oca.getFks().get(0);
-                            Fk fk = mapFks.get(fkStr);
-                            Join j = fk.getJoin();
-                            int i = 0;
-                            while (i < j.attributes1().size()) {
-                                Pair p = null;
-                                Attribute a1 = (Attribute) j.attributes1().get(i);
-                                Attribute a2 = (Attribute) j.attributes2().get(i);
-                                if (!fk.isInverse()) {
-                                    p = new Pair(a1.attributeName(), a2.attributeName());
-                                } else {
-                                    p = new Pair(a2.attributeName(), a1.attributeName());
-                                }
-
-                                pairs.add(p);
-                                i++;
-                            }
-                            param.put("pairs", pairs);
-                            r2rml.append(TemplateUtil.applyTemplate("r2rml/predicateObjectMap", param));
-                        } else if (oca.getFks().size() > 1) {
-                            ocaViews.add(oca);
-                        }
-                    }
-                }
-                int idx = r2rml.lastIndexOf(";");
-                r2rml.replace(idx, idx + 1, ".");
-
-                // Criando as Datatype Properties que necessitam de VISÕES
-                for (DCA dca : dcaViews) {
-                    param.clear();
-                    String pName = dca.getdProperty().getName();
-                    param.put("propertyName", pName.substring(0, 1).toUpperCase() + pName.substring(1));
-                    param.put("subjectAtts", cca.getAttributes());
-                    param.put("atts", dca.getAttributes());
-
-                    List<String> tables = new ArrayList<String>();
-                    List<Pair> pairs = new ArrayList<Pair>();
-                    for (String fkStr : dca.getFks()) {
-                        Fk fk = mapFks.get(fkStr);
-                        Join j = fk.getJoin();
-                        int i = 0;
-                        while (i < j.attributes1().size()) {
-                            Pair p = null;
-                            Attribute a1 = (Attribute) j.attributes1().get(i);
-                            Attribute a2 = (Attribute) j.attributes2().get(i);
-                            if (!fk.isInverse()) {
-                                p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
-                                if (!tables.contains(a1.tableName())) {
-                                    tables.add(a1.tableName());
-                                }
-                                if (!tables.contains(a2.tableName())) {
-                                    tables.add(a2.tableName());
-                                }
-                            } else {
-                                p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
-                                if (!tables.contains(a2.tableName())) {
-                                    tables.add(a2.tableName());
-                                }
-                                if (!tables.contains(a1.tableName())) {
-                                    tables.add(a1.tableName());
-                                }
-                            }
-
-                            pairs.add(p);
-                            i++;
-                        }
-                    }
-                    param.put("pairs", pairs);
-                    param.put("tables", tables);
-                    param.put("childTable", tables.get(0));
-                    param.put("parentTable", tables.get(tables.size() - 1));
-                    param.put("domainClassUri", cca.getClass_().getName().toLowerCase());
-                    String prefix = dca.getdProperty().getPrefix();
-                    if (!prefixes.contains(prefix)) {
-                        prefixes.add(prefix);
-                    }
-                    param.put("prefix", prefix);
-
-                    r2rml.append(TemplateUtil.applyTemplate("r2rml/datatypeKeyPathMap", param));
-                }
-
-                // Criando as Object Properties que necessitam de VISÕES
-                for (OCA oca : ocaViews) {
-                    param.clear();
-                    String pName = oca.getoProperty().getName();
-                    param.put("propertyName", pName.substring(0, 1).toUpperCase() + pName.substring(1));
-                    param.put("subjectAtts", cca.getAttributes());
-                    Class_ rangeClass = oca.getoProperty().getRange();
-                    CCA rangeCca = mapClassAssertion.get(rangeClass);
-                    param.put("objectAtts", rangeCca.getAttributes());
-
-                    List<String> tables = new ArrayList<String>();
-                    List<Pair> pairs = new ArrayList<Pair>();
-                    for (String fkStr : oca.getFks()) {
-                        Fk fk = mapFks.get(fkStr);
-                        Join j = fk.getJoin();
-                        int i = 0;
-                        while (i < j.attributes1().size()) {
-                            Pair p = null;
-                            Attribute a1 = (Attribute) j.attributes1().get(i);
-                            Attribute a2 = (Attribute) j.attributes2().get(i);
-                            if (!fk.isInverse()) {
-                                p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
-                                if (!tables.contains(a1.tableName())) {
-                                    tables.add(a1.tableName());
-                                }
-                                if (!tables.contains(a2.tableName())) {
-                                    tables.add(a2.tableName());
-                                }
-                            } else {
-                                p = new Pair(a2.attributeName(), a2.tableName(), a1.attributeName(), a1.tableName());
-                                if (!tables.contains(a2.tableName())) {
-                                    tables.add(a2.tableName());
-                                }
-                                if (!tables.contains(a1.tableName())) {
-                                    tables.add(a1.tableName());
-                                }
-                            }
-
-                            pairs.add(p);
-                            i++;
-                        }
-                    }
-                    param.put("pairs", pairs);
-                    param.put("tables", tables);
-                    param.put("childTable", tables.get(0));
-                    param.put("parentTable", tables.get(tables.size() - 1));
-                    param.put("domainClassUri", cca.getClass_().getName().toLowerCase());
-                    String prefix = oca.getoProperty().getPrefix();
-                    if (!prefixes.contains(prefix)) {
-                        prefixes.add(prefix);
-                    }
-                    param.put("prefix", prefix);
-                    param.put("rangeClassUri", rangeCca.getClass_().getName().toLowerCase());
-
-                    r2rml.append(TemplateUtil.applyTemplate("r2rml/objectKeyPathMap", param));
-                }
-            }
-        }
-
-        for (String prefix : prefixes) {
-            r2rml.insert(0, "@prefix " + prefix + ": &lt;" + mapPrefixes.get(prefix) + "&gt; .\n");
-        }
-
-        r2rmlContent.getEngine()
-                .loadContent("<pre>" + r2rml.toString() + "</pre>");
+                .loadContent("<pre>" + r2rml + "</pre>");
     }
 
     private void tratarEventoMcTable() {
@@ -1127,7 +768,6 @@ public class MainController implements Initializable {
                                     dbTree.setRoot(null);
                                     ontoTree.setRoot(null);
                                     assertions.clear();
-                                    mapClassAssertion.clear();
                                     mapTableFks.clear();
                                     mapTableFksInv.clear();
                                     mapFks.clear();
