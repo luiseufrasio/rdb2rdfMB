@@ -83,6 +83,8 @@ public class DbConnection {
                 return "com.mysql.jdbc.Driver";
             case "PostgreSQL":
                 return "org.postgresql.Driver";
+            case "SQLite":
+                return "org.sqlite.JDBC";
             default:
                 return "";
         }

@@ -99,6 +99,7 @@
                                 <FXCollections fx:factory="observableArrayList">
                                   <String fx:value="MySQL Connector" />
                                   <String fx:value="PostgreSQL" />
+                                  <String fx:value="SQLite" />
                                 </FXCollections>
                               </items>
                             </ComboBox>

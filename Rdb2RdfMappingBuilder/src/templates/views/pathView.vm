@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW $viewName AS
+CREATE#if ($db == 'SQLite') VIEW IF NOT EXISTS#else OR REPLACE VIEW#end $viewName AS
 SELECT #foreach ( $attAlias in $atts )#if ($velocityCount > 1), #end${childTable}.${attAlias.att} AS ${attAlias.alias}#end#foreach ( $ta in $parentAtts ), ${ta.table}.${ta.attAlias.att} AS ${ta.attAlias.alias}#end
 
 FROM #foreach ( $table in $tables )#if ($velocityCount > 1), #end$table#end

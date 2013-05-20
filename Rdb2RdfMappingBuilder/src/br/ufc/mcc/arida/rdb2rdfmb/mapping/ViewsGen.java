@@ -10,6 +10,7 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.CCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Fk;
+import br.ufc.mcc.arida.rdb2rdfmb.model.MappingConfiguration;
 import br.ufc.mcc.arida.rdb2rdfmb.model.OCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Pair;
@@ -30,7 +31,7 @@ import rdb2rdfmappingbuilder.TemplateUtil;
  */
 public class ViewsGen {
 
-    public static List<String> buildViews(ListView<CA> assertionsList, HashMap<String, Fk> mapFks) throws Exception {
+    public static List<String> buildViews(ListView<CA> assertionsList, HashMap<String, Fk> mapFks, MappingConfiguration mc) throws Exception {
         List<String> listViews = new ArrayList<>();
 
         for (CA ca : assertionsList.getItems()) {
@@ -50,6 +51,7 @@ public class ViewsGen {
                 param.put("parentAtts", parentAtts);
                 param.put("pairs", pairs);
                 param.put("filter", cca.getSelCondition());
+                param.put("db", mc.getDatabaseDriver());
 
                 tables.add(cca.getRelationName());
                 int i = 1;
@@ -81,7 +83,7 @@ public class ViewsGen {
                             List<Pair> pairs2 = new ArrayList<>();
 
                             Map<String, Object> param2 = new HashMap<>();
-                            setParamsUri(param2, cca, dp, dca, tables2, atts2, parentAtts2, pairs2);
+                            setParamsUri(param2, cca, dp, dca, tables2, atts2, parentAtts2, pairs2, mc);
 
                             addTablesJoinsDP(dca, mapFks, tables2, pairs2, parentAtts2, dp);
 
@@ -124,7 +126,7 @@ public class ViewsGen {
                             List<Pair> pairs2 = new ArrayList<>();
 
                             Map<String, Object> param2 = new HashMap<>();
-                            setParamsUri(param2, cca, op, oca, tables2, atts2, parentAtts2, pairs2);
+                            setParamsUri(param2, cca, op, oca, tables2, atts2, parentAtts2, pairs2, mc);
                             addTablesJoinsOP(oca, mapFks, tables2, pairs2, parentAtts2, op);
 
                             if (cca.getSelCondition() == null) {
@@ -246,7 +248,7 @@ public class ViewsGen {
     private static void setParamsUri(Map<String, Object> param2, 
             CCA cca, Property p, CA ca, List<String> tables2, 
             List<AttAlias> atts2, List<TableAtt> parentAtts2, 
-            List<Pair> pairs2) {
+            List<Pair> pairs2, MappingConfiguration mc) {
         param2.put("viewName", cca.getClass_().getPrefix() + "_" + cca.getClass_().getName() + "_"
                 + p.getPrefix() + "_" + p.getName() + "_view");
         param2.put("childTable", ca.getRelationName());
@@ -255,6 +257,7 @@ public class ViewsGen {
         param2.put("parentAtts", parentAtts2);
         param2.put("pairs", pairs2);
         param2.put("filter", cca.getSelCondition());
+        param2.put("db", mc.getDatabaseDriver());
 
         tables2.add(cca.getRelationName());
         int i = 1;

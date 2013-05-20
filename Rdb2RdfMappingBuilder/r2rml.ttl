@@ -16,11 +16,8 @@
         rr:objectMap [ rr:template "Person #{ID}"; ];
     ];
     rr:predicateObjectMap [
-        rr:predicate foaf:name;
-        rr:objectMap [            
-            rr:template "{foaf_name} {foaf_name2}"; 
-            rr:termType rr:Literal;
-        ];
+        rr:predicate foaf:mbox;
+        rr:objectMap [ rr:column "foaf_mbox" ];
     ].
 
 <#TriplesMapDocument>

@@ -307,7 +307,7 @@ public class MainController implements Initializable {
                 treeItem.getChildren().add(colItem);
                 dbMap.put(colItem, attribute);
             }
-            mapTableCols.put(relationName.tableName(), listCols);
+            mapTableCols.put(relationName.tableName().toLowerCase(), listCols);
 
             List<Join> listFks0 = schema.foreignKeys(relationName, 0);
             for (Join fk0 : listFks0) {
@@ -701,7 +701,7 @@ public class MainController implements Initializable {
     public void createSqlViewsFired(ActionEvent event) throws IOException, Exception {
         tabPane.getTabs().get(3).setDisable(false);
         tabPane.getSelectionModel().select(3);
-        listViews = ViewsGen.buildViews(assertionsList, mapFks);
+        listViews = ViewsGen.buildViews(assertionsList, mapFks, mc);
 
         StringBuilder viewsStr = new StringBuilder("");
         for (String view : listViews) {
@@ -936,7 +936,7 @@ public class MainController implements Initializable {
                                     TreeItem<String> tableRefItem = new TreeItem<>(refTable.tableName(), tableIcon);
                                     dbItem.getChildren().add(tableRefItem);
 
-                                    List<Attribute> cols = mapTableCols.get(refTable.tableName());
+                                    List<Attribute> cols = mapTableCols.get(refTable.tableName().toLowerCase());
                                     for (Attribute column : cols) {
                                         Node attIcon = new ImageView(
                                                 new Image(getClass().getResourceAsStream("img/database/attribute.gif")));
