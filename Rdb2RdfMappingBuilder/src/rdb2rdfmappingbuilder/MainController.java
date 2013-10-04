@@ -61,10 +61,12 @@ import br.ufc.mcc.arida.rdb2rdfmb.model.ObjProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.PCA;
 import com.hp.hpl.jena.ontology.MaxCardinalityRestriction;
 import com.hp.hpl.jena.ontology.OntProperty;
+import com.hp.hpl.jena.ontology.OntResource;
 import com.hp.hpl.jena.ontology.Restriction;
 import d2rq.server;
 import de.fuberlin.wiwiss.d2rq.algebra.Join;
 import java.awt.Desktop;
+import java.io.PrintStream;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -76,6 +78,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -295,7 +298,7 @@ public class MainController implements Initializable {
             for (Attribute attribute : listCols) {
                 TreeItem<String> colItem = new TreeItem<>(attribute.attributeName());
                 List<Attribute> listPk = schema.primaryKeyColumns(relationName);
-                if (listPk.contains(attribute)) {
+                if (isIn(attribute, listPk)) {
                     Node pkIcon = new ImageView(
                             new Image(getClass().getResourceAsStream("img/database/pk.gif")));
                     colItem.setGraphic(pkIcon);
@@ -390,17 +393,22 @@ public class MainController implements Initializable {
             DatatypeProperty datatypeProperty = (DatatypeProperty) i2.next();
 
             if (datatypeProperty.getDomain() != null && datatypeProperty.getRange() != null) {
-                String dClassPrefix = ontModel.getNsURIPrefix(datatypeProperty.getDomain().getNameSpace());
-                String dClassName = datatypeProperty.getDomain().getLocalName();
-                Class_ dClass = classes.get(dClassPrefix + dClassName);
-                String dpName = datatypeProperty.getLocalName();
-                String dpPrefix = ontModel.getNsURIPrefix(datatypeProperty.getNameSpace());
-                String rangeName = datatypeProperty.getRange().getLocalName();
+                ExtendedIterator iDomains = datatypeProperty.listDomain();
+                while (iDomains.hasNext()) {
+                    OntClass cDomain = (OntClass) iDomains.next();
+                    
+                    String dClassPrefix = ontModel.getNsURIPrefix(cDomain.getNameSpace());
+                    String dClassName = cDomain.getLocalName();
+                    Class_ dClass = classes.get(dClassPrefix + dClassName);
+                    String dpName = datatypeProperty.getLocalName();
+                    String dpPrefix = ontModel.getNsURIPrefix(datatypeProperty.getNameSpace());
+                    String rangeName = datatypeProperty.getRange().getLocalName();
 
-                DataProperty dp = new DataProperty(dpPrefix, dpName, dClass, rangeName);
-                if (dClass != null) {
-                    dClass.getdProperties().add(dp);
-                    mapPrefixes.put(dpPrefix, datatypeProperty.getNameSpace());
+                    DataProperty dp = new DataProperty(dpPrefix, dpName, dClass, rangeName);
+                    if (dClass != null) {
+                        dClass.getdProperties().add(dp);
+                        mapPrefixes.put(dpPrefix, datatypeProperty.getNameSpace());
+                    }
                 }
             }
         }
@@ -412,7 +420,7 @@ public class MainController implements Initializable {
             if (objectProperty.getDomain() != null && objectProperty.getRange() != null) {
                 String dClassPrefix = ontModel.getNsURIPrefix(objectProperty.getDomain().getNameSpace());
                 String dClassName = objectProperty.getDomain().getLocalName();
-                String rClassPrefix = ontModel.getNsURIPrefix(objectProperty.getDomain().getNameSpace());
+                String rClassPrefix = ontModel.getNsURIPrefix(objectProperty.getRange().getNameSpace());
                 String rClassName = objectProperty.getRange().getLocalName();
                 String opName = objectProperty.getLocalName();
                 String opPrefix = ontModel.getNsURIPrefix(objectProperty.getNameSpace());
@@ -635,7 +643,7 @@ public class MainController implements Initializable {
         try {
             s.process(new String[]{"-u", mc.getDatabaseUser(), "-pass", mc.getDatabasePassword(), "-d", DbConnection.getDriverClass(mc.getDatabaseDriver()), "-j", mc.getDatabaseUrl(), "r2rml.ttl"});
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "It was not possible to start D2RQ beacuse: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         URI u = new URI("http://localhost:2020/snorql/");
@@ -731,6 +739,16 @@ public class MainController implements Initializable {
             Statement stmt = conn.createStatement();
 
             for (String view : listViews) {
+                if (view.startsWith("CREATE VIEW")) {
+                    // Testar se a view já existe para apagar
+                    String viewName = view.split("VIEW")[1].split("AS")[0];
+                    try {
+                        stmt.execute("select * from " + viewName);
+                        stmt.executeUpdate("drop view " + viewName);
+                    } catch (Exception e) {
+                    }
+                }
+
                 stmt.executeUpdate(view);
             }
 
@@ -863,6 +881,11 @@ public class MainController implements Initializable {
                             if (o instanceof RelationName) {
                                 RelationName rn = (RelationName) o;
                                 ca.setRelationName(rn.tableName());
+
+                                if (ca instanceof PCA) {
+                                    PCA pca = (PCA) ca;
+                                    pca.setFks(new ArrayList<String>());
+                                }
                             } else if (o instanceof Attribute) {
                                 Attribute att = (Attribute) o;
                                 String txtGrandParent = dbItem.getParent().getParent().getValue();
@@ -970,7 +993,7 @@ public class MainController implements Initializable {
 
                                     List<Join> fksInv = mapTableFksInv.get(refTable.tableName());
                                     for (Join joinInv : fksInv) {
-                                        String tName = joinInv.table2().tableName();
+                                        String tName = joinInv.table1().tableName();
                                         TreeItem<String> currItem = tableRefItem;
                                         boolean include = true;
                                         while (currItem != null) {
@@ -1043,5 +1066,17 @@ public class MainController implements Initializable {
         oca.setoProperty(op);
         assertions.put(subItem, oca);
         cca.getOcaList().add(oca);
+    }
+
+    private boolean isIn(Attribute attribute, List<Attribute> listPk) {
+        String attName = attribute.attributeName().toLowerCase();
+        for (Attribute attributePk : listPk) {
+            String attPkName = attributePk.attributeName().toLowerCase();
+            if (attName.equals(attPkName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

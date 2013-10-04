@@ -2,6 +2,7 @@ package br.ufc.mcc.arida.rdb2rdfmb.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.ListView;
 
 public class CCA extends CA {
 
@@ -109,5 +110,20 @@ public class CCA extends CA {
     @Override
     public String key() {
         return class_.getName();
+    }
+    
+    public static CCA getCcaFromClass(ListView<CA> assertionsList, Class_ class_) {
+        for (CA ca : assertionsList.getItems()) {
+            if (ca instanceof CCA) {
+                CCA cca = (CCA) ca;
+                
+                Class_ class2_ = cca.getClass_();
+                if (class_.equals(class2_)) {
+                    return cca;
+                }
+            }
+        }
+        
+        return null;
     }
 }

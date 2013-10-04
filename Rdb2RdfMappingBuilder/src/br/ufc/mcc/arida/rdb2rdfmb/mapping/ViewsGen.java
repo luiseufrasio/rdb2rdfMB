@@ -101,16 +101,26 @@ public class ViewsGen {
                         ObjProperty op = oca.getoProperty();
                         String alias = op.getPrefix() + "_" + op.getName();
                         if (op.getMaxCardinality() == 1) {
-                            if (oca.getFks().size() == 1) {
+                            if (oca.getFks().isEmpty()) {
+                                CCA ccaRange = CCA.getCcaFromClass(assertionsList, op.getRange());
+                                int q = ccaRange.getAttributes().size();
+
+                                i = 1;
+                                while (i <= q) {
+                                    String index = (i == 1 ? "" : "" + i);
+                                    atts.add(new AttAlias(ccaRange.getAttributes().get(i-1), alias + index));
+                                    i++;
+                                }
+                            } else if (oca.getFks().size() == 1) {
                                 String fkStr = oca.getFks().get(0);
                                 Fk fk = mapFks.get(fkStr);
                                 if (!fk.isInverse()) {
                                     Join j = fk.getJoin();
-                                    i = 0;
-                                    while (i < j.attributes1().size()) {
-                                        Attribute a1 = (Attribute) j.attributes1().get(i);
-                                        atts.add(new AttAlias(a1.attributeName(), alias));
-                                        alias += (i + 2);
+                                    i = 1;
+                                    while (i <= j.attributes1().size()) {
+                                        String index = (i == 1 ? "" : "" + i);
+                                        Attribute a1 = (Attribute) j.attributes1().get(i-1);
+                                        atts.add(new AttAlias(a1.attributeName(), alias + index));
                                         i++;
                                     }
                                 }
@@ -197,13 +207,14 @@ public class ViewsGen {
         for (String att : dca.getAttributes()) {
             TableAtt ta = new TableAtt(tables.get(tables.size() - 1), new AttAlias(att, alias));
             parentAtts.add(ta);
-            alias += ++i;
+            i++;
+            alias = dp.getPrefix() + "_" + dp.getName() + i;
         }
     }
 
     private static void addTablesJoinsOP(OCA oca, HashMap<String, Fk> mapFks, List<String> tables,
             List<Pair> pairs, List<TableAtt> parentAtts, ObjProperty op) {
-        String alias = "ID_" + op.getRangeName();
+        String alias = op.getPrefix() + "_" + op.getName();
         int k = 0;
         for (String fkStr : oca.getFks()) {
             k++;
@@ -219,7 +230,7 @@ public class ViewsGen {
                 if (isLastFk) {
                     TableAtt ta = new TableAtt(a1.tableName(), new AttAlias(a1.attributeName(), alias));
                     parentAtts.add(ta);
-                    alias += (i + 2);
+                    alias = op.getPrefix() + "_" + op.getName() + (i + 2);
                 }
                 if (!fk.isInverse()) {
                     p = new Pair(a1.attributeName(), a1.tableName(), a2.attributeName(), a2.tableName());
@@ -245,9 +256,9 @@ public class ViewsGen {
         }
     }
 
-    private static void setParamsUri(Map<String, Object> param2, 
-            CCA cca, Property p, CA ca, List<String> tables2, 
-            List<AttAlias> atts2, List<TableAtt> parentAtts2, 
+    private static void setParamsUri(Map<String, Object> param2,
+            CCA cca, Property p, CA ca, List<String> tables2,
+            List<AttAlias> atts2, List<TableAtt> parentAtts2,
             List<Pair> pairs2, MappingConfiguration mc) {
         param2.put("viewName", cca.getClass_().getPrefix() + "_" + cca.getClass_().getName() + "_"
                 + p.getPrefix() + "_" + p.getName() + "_view");

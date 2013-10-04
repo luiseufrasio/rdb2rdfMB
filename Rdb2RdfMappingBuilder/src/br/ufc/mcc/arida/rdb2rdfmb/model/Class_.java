@@ -3,6 +3,7 @@ package br.ufc.mcc.arida.rdb2rdfmb.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 public class Class_ {
 
@@ -19,6 +20,24 @@ public class Class_ {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Class_) {
+            Class_ c = (Class_) obj;
+            return (this.prefix.equals(c.prefix) && this.name.equals(c.name));
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.prefix);
+        hash = 71 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
     public String toString() {
         return (prefix == null ? "" : prefix) + " : " + ("" + name.charAt(0)).toUpperCase() + name.substring(1);
     }
@@ -30,7 +49,7 @@ public class Class_ {
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
-    
+
     public static List<Class_> getSubClasses(Class_ c, Collection<Class_> values) {
         List<Class_> list = new ArrayList<Class_>();
 
@@ -46,7 +65,7 @@ public class Class_ {
         if (name == null) {
             return null;
         }
-        
+
         return ("" + name.charAt(0)).toUpperCase() + name.substring(1);
     }
 

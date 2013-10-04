@@ -7,15 +7,20 @@
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix foaf:    <http://xmlns.com/foaf/0.1/> .
 @prefix vcard:   <http://www.w3.org/2001/vcard-rdf/3.0#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 
 foaf:Person  a       owl:Class , rdfs:Class ;
-      rdfs:label "foaf:Person" .
+      rdfs:label "foaf:Person";
+      rdfs:subClassOf [ a owl:Restriction ;
+            owl:onProperty conf:research_interests ;
+            owl:maxCardinality "1000"^^<http://www.w3.org/2001/XMLSchema#int>
+      ] .
       
 foaf:name
       a       rdf:Property , owl:DatatypeProperty ;
       rdfs:domain foaf:Person ;
       rdfs:label "foaf:name" ;
-      rdfs:range xsd:integer .
+      rdfs:range xsd:string .
       
 conf:address
       a       rdf:Property , owl:DatatypeProperty ;
@@ -44,6 +49,10 @@ conf:has_affiliation
 foaf:Document  a       owl:Class , rdfs:Class ;
       rdfs:label "foaf:Document" ;
       rdfs:subClassOf [ a owl:Restriction ;
+                  owl:onProperty skos:subject ;
+                  owl:maxCardinality "1000"^^<http://www.w3.org/2001/XMLSchema#int>
+      ];
+      rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty dc:creator ;
             owl:maxCardinality "2"^^<http://www.w3.org/2001/XMLSchema#int>
       ] .
@@ -58,6 +67,12 @@ dc:date
       a       rdf:Property , owl:DatatypeProperty ;
       rdfs:domain foaf:Document;
       rdfs:label "dc:date" ;
+      rdfs:range xsd:string .
+
+dcterms:abstract
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Document ;
+      rdfs:label "dcterms:abstract" ;
       rdfs:range xsd:string .
       
 dc:creator

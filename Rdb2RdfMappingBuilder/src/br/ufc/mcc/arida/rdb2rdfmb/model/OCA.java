@@ -25,14 +25,12 @@ public class OCA extends PCA {
 
     @Override
     public String toString() {
-        String strOCA = oProperty + " ≡ " + relationName + " / ";
+        String strOCA = oProperty + " ≡ " + relationName;
 
         if (fks.size() == 1) {
-            strOCA += fks.get(0);
-        } else if (fks.size() == 0) {
-            strOCA += "NULL";
-        } else {
-            strOCA += "[";
+            strOCA +=  " / " + fks.get(0);
+        } else if (fks.size() > 1) {
+            strOCA += " / [";
 
             int i = 0;
             for (String fk : fks) {

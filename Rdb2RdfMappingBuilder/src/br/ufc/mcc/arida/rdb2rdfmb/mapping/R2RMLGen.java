@@ -2,6 +2,7 @@ package br.ufc.mcc.arida.rdb2rdfmb.mapping;
 
 import br.ufc.mcc.arida.rdb2rdfmb.model.CA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.CCA;
+import br.ufc.mcc.arida.rdb2rdfmb.model.Class_;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DCA;
 import br.ufc.mcc.arida.rdb2rdfmb.model.DataProperty;
 import br.ufc.mcc.arida.rdb2rdfmb.model.Fk;
@@ -108,15 +109,27 @@ public class R2RMLGen {
                         param2.put("pairs", pairs);
 
                         int size = oca.getFks().size();
-                        String fkStr = oca.getFks().get(size - 1);
-                        Fk fk = mapFks.get(fkStr);
-                        int qtdeAtts = fk.getJoin().attributes1().size();
+                        if (size > 0) {
+                            String fkStr = oca.getFks().get(size - 1);
+                            Fk fk = mapFks.get(fkStr);
+                            int qtdeAtts = fk.getJoin().attributes1().size();
 
-                        i = 1;
-                        while (i <= qtdeAtts) {
-                            String index = (i == 1 ? "" : "" + i);
-                            pairs.add(new Pair("ID_" + rangeClass + index, "ID" + index));
-                            i++;
+                            i = 1;
+                            while (i <= qtdeAtts) {
+                                String index = (i == 1 ? "" : "" + i);
+                                pairs.add(new Pair(op.getPrefix() + "_" + op.getName() + index, "ID" + index));
+                                i++;
+                            }
+                        } else {
+                            CCA ccaRange = CCA.getCcaFromClass(assertionsList, op.getRange());
+                            int q = ccaRange.getAttributes().size();
+                            
+                            i = 1;
+                            while (i <= q) {
+                                String index = (i == 1 ? "" : "" + i);
+                                pairs.add(new Pair(op.getPrefix() + "_" + op.getName() + index, "ID" + index));
+                                i++;
+                            }
                         }
 
                         if (op.getMaxCardinality() == 1) {
