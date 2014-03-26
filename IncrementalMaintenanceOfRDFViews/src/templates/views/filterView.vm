@@ -1,0 +1,3 @@
+#parse ( "/templates/views/simpleView.vm" )
+
+WHERE $filter

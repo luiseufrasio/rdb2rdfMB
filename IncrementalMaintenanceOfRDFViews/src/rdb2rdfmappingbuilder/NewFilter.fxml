@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="291.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.NewFilterController">
+  <children>
+    <VBox prefHeight="450.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <AnchorPane prefHeight="60.0" prefWidth="500.0">
+          <children>
+            <Label fx:id="lblTable" layoutX="7.0" layoutY="10.0" text="Table:" underline="false">
+              <font>
+                <Font name="System Bold" size="16.0" />
+              </font>
+            </Label>
+          </children>
+        </AnchorPane>
+        <HBox prefHeight="50.0" prefWidth="500.0" spacing="10.0">
+          <children>
+            <VBox id="VBox" alignment="TOP_LEFT" spacing="5.0">
+              <children>
+                <Label text="Column:" />
+                <ComboBox fx:id="cbxColumn" prefHeight="21.0" prefWidth="151.9998779296875">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </children>
+            </VBox>
+            <VBox id="VBox" alignment="TOP_LEFT" spacing="5.0">
+              <children>
+                <Label text="Operator:" />
+                <ComboBox fx:id="cbxOperator">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="=" />
+                      <String fx:value="&lt;&gt;" />
+                      <String fx:value="&gt;" />
+                      <String fx:value="&gt;=" />
+                      <String fx:value="&lt;" />
+                      <String fx:value="&lt;=" />
+                      <String fx:value="IN" />
+                      <String fx:value="NOT IN" />
+                      <String fx:value="LIKE" />
+                      <String fx:value="BETWEEN" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </children>
+            </VBox>
+            <VBox id="VBox" alignment="TOP_LEFT" spacing="5.0">
+              <children>
+                <Label text="Value:" />
+                <TextField fx:id="txtValue" prefWidth="152.0" />
+              </children>
+            </VBox>
+          </children>
+        </HBox>
+        <HBox alignment="BOTTOM_CENTER" prefHeight="31.0" prefWidth="500.0" spacing="5.0">
+          <children>
+            <Button mnemonicParsing="false" onAction="#openParenthesisFired" text="(" />
+            <Button disable="false" mnemonicParsing="false" onAction="#closeParenthesisFired" text=")" />
+            <Button mnemonicParsing="false" onAction="#addFired" text="ADD" />
+            <Button disable="false" mnemonicParsing="false" onAction="#andFired" text="AND" />
+            <Button disable="false" mnemonicParsing="false" onAction="#orFired" text="OR" />
+          </children>
+        </HBox>
+        <VBox id="VBox" alignment="BOTTOM_LEFT" prefHeight="115.0" prefWidth="500.0" spacing="5.0">
+          <children>
+            <Label alignment="BOTTOM_LEFT" text="Selection FILTER:" />
+            <TextArea fx:id="txtFilter" prefHeight="79.5" prefWidth="500.0" wrapText="true" />
+          </children>
+        </VBox>
+        <HBox id="HBox" alignment="TOP_CENTER" spacing="5.0">
+          <children>
+            <Button fx:id="cancel" contentDisplay="TOP" mnemonicParsing="false" onAction="#cancelFired" text="Cancel" />
+            <Button fx:id="save" contentDisplay="TOP" mnemonicParsing="false" onAction="#saveFired" text="Save" />
+          </children>
+          <padding>
+            <Insets top="10.0" />
+          </padding>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

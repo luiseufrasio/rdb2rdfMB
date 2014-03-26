@@ -1,0 +1,3 @@
+
+            rr:template "#foreach ( $col in $cols )#if ($velocityCount > 1) #end{$col}#end"; 
+            rr:termType rr:Literal;

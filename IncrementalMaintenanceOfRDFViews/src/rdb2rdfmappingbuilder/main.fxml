@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="656.0" prefWidth="1258.9999000000025" styleClass="theme" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.MainController">
+  <children>
+    <SplitPane id="splitPaneHorizontal1" disable="false" dividerPositions="0.15329627905450954" focusTraversable="true" orientation="HORIZONTAL" pickOnBounds="true" prefHeight="535.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
+      <items>
+        <AnchorPane id="anchorPane1" maxWidth="195.0" minHeight="0.0" minWidth="0.0" prefHeight="591.0" prefWidth="202.9998779296875">
+          <children>
+            <VBox alignment="TOP_CENTER" minHeight="535.0" minWidth="198.0" prefHeight="535.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <children>
+                <TableView fx:id="mcTable" cache="true" cacheHint="DEFAULT" mouseTransparent="false" pickOnBounds="false" prefHeight="540.0" prefWidth="197.9998779296875">
+                  <columns>
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="RDF Target" fx:id="itemOntoName" />
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="98.0" text="RDB Source" fx:id="itemDbName" />
+                  </columns>
+                </TableView>
+                <HBox id="HBox" alignment="BOTTOM_CENTER" prefWidth="198.0" spacing="15.0">
+                  <children>
+                    <Button id="button1" fx:id="newMapping" onAction="#newMappingFired" text="New" />
+                    <Button id="button1" fx:id="edit" disable="true" onAction="#editMappingFired" text="Edit" />
+                    <Button id="button1" fx:id="delete" disable="true" onAction="#deleteMappingFired" text="Delete" />
+                  </children>
+                  <padding>
+                    <Insets top="10.0" />
+                  </padding>
+                </HBox>
+              </children>
+              <padding>
+                <Insets bottom="5.0" />
+              </padding>
+            </VBox>
+          </children>
+        </AnchorPane>
+        <AnchorPane id="anchorPane2" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <SplitPane id="splitPaneVertical1" dividerPositions="" focusTraversable="true" orientation="VERTICAL" prefHeight="598.0" prefWidth="595.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane id="anchorPane3" minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                  <children>
+                    <TabPane fx:id="tabPane" prefHeight="456.0" prefWidth="596.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <tabs>
+                        <Tab text="Build Assertions">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                <BorderPane prefHeight="418.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <bottom>
+                                    <VBox alignment="TOP_LEFT" prefHeight="51.0" prefWidth="691.0">
+                                      <children>
+                                        <Label fx:id="lblAssertion" text="Correspondence Assertion (CA):" />
+                                        <HBox id="HBox" alignment="CENTER_LEFT" spacing="7.0">
+                                          <children>
+                                            <TextField fx:id="txtAssertion" prefWidth="889.0" />
+                                            <Button blendMode="SRC_OVER" minHeight="25.0" minWidth="60.0" mnemonicParsing="false" onAction="#saveAssertionFired" prefHeight="25.0" prefWidth="60.0" text="Save" wrapText="false" />
+                                            <Button disable="false" minHeight="25.0" minWidth="82.0" mnemonicParsing="false" onAction="#addFilterFired" prefHeight="25.0" prefWidth="82.0" text="Add Filter" />
+                                          </children>
+                                        </HBox>
+                                      </children>
+                                    </VBox>
+                                  </bottom>
+                                  <left>
+                                    <VBox maxHeight="502.0" maxWidth="500.0" minHeight="-1.0" minWidth="-1.0" prefHeight="502.0" prefWidth="500.0">
+                                      <children>
+                                        <Label text="Target Schema (T)" />
+                                        <TreeView id="ontologyTree" fx:id="ontoTree" minWidth="-1.0" prefHeight="486.0" prefWidth="500.0" showRoot="false" />
+                                      </children>
+                                    </VBox>
+                                  </left>
+                                  <right>
+                                    <VBox maxHeight="502.0" maxWidth="500.0" minHeight="-1.0" minWidth="412.0" prefHeight="502.0" prefWidth="500.0">
+                                      <children>
+                                        <Label text="Source Schema (S)" />
+                                        <TreeView fx:id="dbTree" prefHeight="486.0" prefWidth="500.0" showRoot="false" />
+                                      </children>
+                                    </VBox>
+                                  </right>
+                                </BorderPane>
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab disable="true" text="Assertions Created">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                <VBox id="VBox" alignment="TOP_LEFT" prefHeight="418.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <children>
+                                    <ListView fx:id="assertionsList" prefHeight="502.0" prefWidth="1055.0">
+                                      <tooltip>
+                                        <Tooltip text="Select a row and press DELETE to remove it." />
+                                      </tooltip>
+                                    </ListView>
+                                    <HBox id="HBox" alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="691.0" spacing="15.0">
+                                      <children>
+                                        <Button id="button1" fx:id="genExpOntoTree" disable="false" mnemonicParsing="false" onAction="#genExpOntoFired" text="Create Exported Ontology" />
+                                      </children>
+                                      <padding>
+                                        <Insets right="5.0" />
+                                      </padding>
+                                    </HBox>
+                                  </children>
+                                </VBox>
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab disable="true" text="Exported Ontology (EO)">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                <BorderPane prefHeight="418.0" prefWidth="596.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <bottom>
+                                    <VBox alignment="BOTTOM_LEFT" prefHeight="51.0" prefWidth="691.0">
+                                      <children>
+                                        <TextField fx:id="txtAssertionExp" prefWidth="200.0" visible="false" />
+                                      </children>
+                                    </VBox>
+                                  </bottom>
+                                  <center>
+                                    <VBox id="VBox" alignment="BOTTOM_LEFT" spacing="10.0">
+                                      <children>
+                                        <Label text="Views Type:" />
+                                        <RadioButton fx:id="rbtRelViews" graphicTextGap="4.0" mnemonicParsing="false" selected="true" text="Relational Views" />
+                                        <RadioButton fx:id="rbtR2rmlViews" mnemonicParsing="false" text="R2RML Views" />
+                                        <Button id="button1" contentDisplay="RIGHT" disable="false" mnemonicParsing="false" onAction="#createSqlViewsFired" text="Create SQL Views" />
+                                      </children>
+                                      <padding>
+                                        <Insets bottom="5.0" left="5.0" />
+                                      </padding>
+                                    </VBox>
+                                  </center>
+                                  <left>
+                                    <VBox prefHeight="427.0" prefWidth="320.0">
+                                      <children>
+                                        <Label text="Exported Ontology Schema" />
+                                        <TreeView id="ontologyTree" fx:id="expOntoTree" prefHeight="486.0" prefWidth="320.0" showRoot="false" />
+                                      </children>
+                                    </VBox>
+                                  </left>
+                                </BorderPane>
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab disable="true" text="SQL Views">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                <VBox id="VBox" alignment="CENTER" prefHeight="508.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <children>
+                                    <WebView fx:id="sqlViews" prefHeight="497.0" prefWidth="1055.0" />
+                                    <Line endX="594.9981079101562" endY="0.44424867630004883" startX="-463.0013732910156" startY="2.444256544113159">
+                                      <stroke>
+                                        <Color blue="0.376" green="0.376" red="0.376" fx:id="x1" />
+                                      </stroke>
+                                    </Line>
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="691.0" spacing="7.0">
+                                      <children>
+                                        <Button id="button1" fx:id="createR2rml" disable="false" mnemonicParsing="false" onAction="#createR2rmlViewsFired" text="Create R2RML" />
+                                      </children>
+                                      <padding>
+                                        <Insets right="15.0" />
+                                      </padding>
+                                    </HBox>
+                                  </children>
+                                </VBox>
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                        <Tab disable="true" text="R2RML">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                              <children>
+                                <VBox id="VBox" alignment="CENTER" prefHeight="508.0" spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <children>
+                                    <WebView fx:id="r2rmlContent" prefHeight="500.0" prefWidth="1055.0" />
+                                    <Line endX="594.9981079101562" endY="0.44424867630004883" smooth="false" startX="-461.0018615722656" startY="-0.555747389793396" stroke="$x1" strokeLineCap="SQUARE" />
+                                    <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="691.0">
+                                      <children>
+                                        <Button fx:id="btnPublishData" mnemonicParsing="false" onAction="#publishR2rmlFired" text="Publish Data" />
+                                      </children>
+                                      <padding>
+                                        <Insets right="15.0" />
+                                      </padding>
+                                    </HBox>
+                                  </children>
+                                </VBox>
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </Tab>
+                      </tabs>
+                    </TabPane>
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+    <ImageView id="IssueTrackingLite" layoutX="1.0" layoutY="3.0">
+      <image>
+        <Image url="@logo2.png" preserveRatio="true" smooth="true" />
+      </image>
+    </ImageView>
+  </children>
+  <stylesheets>
+    <URL value="@Rdb2RdfMappingBuilder.css" />
+  </stylesheets>
+</AnchorPane>

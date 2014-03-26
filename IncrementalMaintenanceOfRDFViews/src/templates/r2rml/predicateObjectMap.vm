@@ -1,0 +1,12 @@
+
+    rr:predicateObjectMap [
+        rr:predicate ${prefix}:${propertyName};
+        rr:objectMap [#if ( ${type} == 1 ) #parse ( "/templates/r2rml/datatypeMap.vm" ) ];
+#elseif ( $type == 2 )
+            #parse ( "/templates/r2rml/objectMap.vm" )
+        ];
+#elseif ( $type == 3 )
+            #parse ( "/templates/r2rml/datatypeMapManyCols.vm" )
+        ];
+#end
+    ];

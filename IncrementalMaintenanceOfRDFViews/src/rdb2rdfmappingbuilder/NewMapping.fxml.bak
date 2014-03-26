@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml" fx:controller="rdb2rdfmappingbuilder.NewMappingController">
+  <children>
+    <VBox prefHeight="450.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <AnchorPane prefHeight="60.0" prefWidth="500.0">
+          <children>
+            <Label layoutX="7.0" layoutY="10.0" text="Mapping Configuration" underline="false">
+              <font>
+                <Font name="System Bold" size="16.0" />
+              </font>
+            </Label>
+          </children>
+        </AnchorPane>
+        <Accordion prefHeight="335.0" prefWidth="500.0">
+          <expandedPane>
+            <TitledPane fx:id="x2" animated="true" expanded="true" text="Ontology Schema">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="11.0" spacing="5.0">
+                      <children>
+                        <Label text="Choose a File:" />
+                        <TextField fx:id="filePath" prefWidth="290.9998779296875" />
+                        <Button mnemonicParsing="false" onAction="#searchFired" text="Search" />
+                      </children>
+                    </HBox>
+                    <Label layoutX="215.0" layoutY="45.0" text="OR" />
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="76.0" spacing="5.0">
+                      <children>
+                        <Label text="Type an URL: " />
+                        <TextField fx:id="ontoUrl" prefWidth="291.0" />
+                      </children>
+                    </HBox>
+                    <ComboBox fx:id="comboOntoLangs" layoutX="93.0" layoutY="133.0" prefHeight="21.0" prefWidth="289.0">
+                      <items>
+                        <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="RDF/XML" />
+                          <String fx:value="RDF/XML-ABBREV" />
+                          <String fx:value="N-TRIPLE" />
+                          <String fx:value="TURTLE" />
+                          <String fx:value="TTL" />
+                          <String fx:value="N3" />
+                        </FXCollections>
+                      </items>
+                    </ComboBox>
+                    <Label layoutX="14.0" layoutY="136.0" text="Language:" />
+                  </children>
+                </AnchorPane>
+              </content>
+            </TitledPane>
+          </expandedPane>
+          <panes>
+            <TitledPane id="x3" fx:id="x1" animated="true" expanded="false" text="General">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="14.0" spacing="5.0">
+                      <children>
+                        <Label text="Ontology Alias:" />
+                        <TextField fx:id="ontoAlias" prefWidth="200.0" />
+                      </children>
+                    </HBox>
+                    <HBox id="HBox" alignment="CENTER" layoutX="14.0" layoutY="48.0" spacing="5.0">
+                      <children>
+                        <Label text="Database Alias:" />
+                        <TextField fx:id="dbAlias" prefWidth="200.0" />
+                      </children>
+                    </HBox>
+                  </children>
+                </AnchorPane>
+              </content>
+            </TitledPane>
+            <fx:reference source="x2" />
+            <TitledPane id="x1" animated="true" expanded="false" text="Database Configuration">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <Label layoutX="14.0" layoutY="15.0" text="Driver: " />
+                    <Label layoutX="14.0" layoutY="43.0" text="URL:" />
+                    <Label layoutX="14.0" layoutY="69.0" text="User Name:" />
+                    <Label layoutX="14.0" layoutY="95.0" text="Password:" />
+                    <VBox id="VBox" alignment="CENTER" layoutX="88.0" layoutY="12.0" spacing="5.0">
+                      <children>
+                        <HBox id="HBox" alignment="CENTER" spacing="5.0">
+                          <children>
+                            <ComboBox fx:id="comboDrivers" prefHeight="21.0" prefWidth="204.0">
+                              <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                  <String fx:value="MySQL Connector" />
+                                  <String fx:value="PostgreSQL" />
+                                </FXCollections>
+                              </items>
+                            </ComboBox>
+                            <Button mnemonicParsing="false" text="New" />
+                          </children>
+                        </HBox>
+                        <TextField fx:id="url" prefWidth="257.0" />
+                        <TextField fx:id="user" prefWidth="257.0" />
+                        <PasswordField fx:id="passwd" prefWidth="257.0" />
+                      </children>
+                    </VBox>
+                    <Button fx:id="testConn" layoutX="88.0" layoutY="122.0" mnemonicParsing="false" onAction="#testConnectionFired" text="Test Connection" />
+                  </children>
+                </AnchorPane>
+              </content>
+            </TitledPane>
+          </panes>
+        </Accordion>
+        <HBox id="HBox" alignment="BOTTOM_CENTER" spacing="5.0">
+          <children>
+            <Button mnemonicParsing="false" onAction="#cancelFired" text="Cancel" />
+            <Button fx:id="save" mnemonicParsing="false" onAction="#saveFired" text="Save" />
+          </children>
+          <padding>
+            <Insets top="10.0" />
+          </padding>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

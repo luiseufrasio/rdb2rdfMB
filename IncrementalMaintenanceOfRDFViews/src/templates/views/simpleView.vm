@@ -1,0 +1,4 @@
+CREATE#if ($db == 'SQLite') VIEW#else OR REPLACE VIEW#end $viewName AS
+SELECT #foreach ( $attAlias in $atts )#if ($velocityCount > 1), #end${attAlias.att} AS ${attAlias.alias}#end
+
+FROM ${tables.get(0)}

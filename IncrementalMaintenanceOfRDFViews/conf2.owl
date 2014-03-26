@@ -1,0 +1,59 @@
+@prefix dc:      <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix conf:    <conf/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+
+foaf:Document  a       owl:Class , rdfs:Class ;
+      rdfs:label "foaf:Document" .
+      
+dc:title
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Document;
+      rdfs:label "dc:title" ;
+      rdfs:range xsd:string .
+      
+dc:date
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Document;
+      rdfs:label "dc:date" ;
+      rdfs:range xsd:string .
+      
+dc:creator
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain foaf:Document ;
+      rdfs:label "dc:creator" ;
+      rdfs:range foaf:Person .
+
+foaf:Person  a       owl:Class , rdfs:Class ;
+      rdfs:label "foaf:zPerson" .
+      
+foaf:name
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Person ;
+      rdfs:label "foaf:name" ;
+      rdfs:range xsd:integer .
+      
+foaf:mbox
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain foaf:Person;
+      rdfs:label "foaf:mbox" ;
+      rdfs:range xsd:string .
+
+skos:Concept  a       owl:Class , rdfs:Class ;
+      rdfs:label "skos:Concept" .
+      
+skos:prefLabel
+      a       rdf:Property , owl:DatatypeProperty ;
+      rdfs:domain skos:Concept ;
+      rdfs:label "skos:prefLabel" ;
+      rdfs:range xsd:string .
+      
+skos:broader
+      a       rdf:Property , owl:ObjectProperty ;
+      rdfs:domain skos:Concept;
+      rdfs:label "skos:broader" ;
+      rdfs:range skos:Concept .

@@ -1,0 +1,13 @@
+#set( $v = "#")
+
+
+<#TriplesMap${mapName}>
+    rr:logicalTable [ rr:tableName "${table}" ];
+    rr:subjectMap [
+        rr:template "${className}/#foreach ( $att in $atts ){$att}/#end";
+        rr:class ${prefixClass}:${className};
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "$className $v#foreach ( $att in $atts )#if ($velocityCount > 1) #end{$att}#end"; ];
+    ];
