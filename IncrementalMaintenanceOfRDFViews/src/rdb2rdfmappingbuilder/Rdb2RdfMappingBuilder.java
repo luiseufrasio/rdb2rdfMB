@@ -29,7 +29,7 @@ public class Rdb2RdfMappingBuilder extends Application {
             Scene scene = new Scene(page);
             pStage = primaryStage;
             primaryStage.setScene(scene);
-            primaryStage.setTitle("RBA - R2RML By Assertions");
+            primaryStage.setTitle("Rubya - Rules By Assertions");
             primaryStage.getIcons().add(
                     new Image(getClass().getResourceAsStream("img/icon.png")));
 

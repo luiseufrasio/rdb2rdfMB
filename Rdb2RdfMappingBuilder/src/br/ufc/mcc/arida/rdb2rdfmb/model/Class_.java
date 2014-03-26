@@ -1,4 +1,4 @@
-package br.ufc.mcc.arida.rdb2rdfmb.model;
+    package br.ufc.mcc.arida.rdb2rdfmb.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

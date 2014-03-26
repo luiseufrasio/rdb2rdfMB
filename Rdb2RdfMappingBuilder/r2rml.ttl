@@ -1,11 +1,228 @@
-@prefix vcard: <http://www.w3.org/2001/vcard-rdf/3.0#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2001/vcard-rdf/3.0#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix conf: <http://ufc.br/rdb2rdfmb/conf/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix rr: <http://www.w3.org/ns/r2rml#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<#TriplesMapPerson>
+    rr:logicalTable [ rr:tableName "foaf_Person_view" ];
+    rr:subjectMap [
+        rr:template "Person/{ID}/";
+        rr:class foaf:Person;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Person #{ID}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:mbox;
+        rr:objectMap [ rr:column "foaf_mbox" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate foaf:name;
+        rr:objectMap [            
+            rr:template "{foaf_name} {foaf_name2}"; 
+            rr:termType rr:Literal;
+        ];
+    ].
+
+<#TriplesMapPerson_has_affiliation>
+    rr:logicalTable [ rr:tableName "foaf_Person_conf_has_affiliation_view" ];
+    rr:subjectMap [
+        rr:template "Person/{ID_foaf_Person}/";
+        rr:class foaf:Person;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Person #{ID_foaf_Person}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate conf:has_affiliation;
+        rr:objectMap [            
+            rr:parentTriplesMap <#TriplesMapOrganization>;
+            rr:joinCondition [
+                rr:child "conf_has_affiliation";
+                rr:parent "ID";
+            ];
+        ];
+    ].
+
+<#TriplesMapPerson_research_interests>
+    rr:logicalTable [ rr:tableName "foaf_Person_conf_research_interests_view" ];
+    rr:subjectMap [
+        rr:template "Person/{ID_foaf_Person}/";
+        rr:class foaf:Person;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Person #{ID_foaf_Person}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate conf:research_interests;
+        rr:objectMap [            
+            rr:parentTriplesMap <#TriplesMapConcept>;
+            rr:joinCondition [
+                rr:child "conf_research_interests";
+                rr:parent "ID";
+            ];
+        ];
+    ].
+
+<#TriplesMapDocument>
+    rr:logicalTable [ rr:tableName "foaf_Document_view" ];
+    rr:subjectMap [
+        rr:template "Document/{ID}/";
+        rr:class foaf:Document;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Document #{ID}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dc:title;
+        rr:objectMap [ rr:column "dc_title" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dc:date;
+        rr:objectMap [ rr:column "dc_date" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dcterms:abstract;
+        rr:objectMap [ rr:column "dcterms_abstract" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate conf:conference;
+        rr:objectMap [            
+            rr:parentTriplesMap <#TriplesMapConference>;
+            rr:joinCondition [
+                rr:child "conf_conference";
+                rr:parent "ID";
+            ];
+        ];
+    ].
+
+<#TriplesMapDocument_subject>
+    rr:logicalTable [ rr:tableName "foaf_Document_skos_subject_view" ];
+    rr:subjectMap [
+        rr:template "Document/{ID_foaf_Document}/";
+        rr:class foaf:Document;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Document #{ID_foaf_Document}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate skos:subject;
+        rr:objectMap [            
+            rr:parentTriplesMap <#TriplesMapConcept>;
+            rr:joinCondition [
+                rr:child "skos_subject";
+                rr:parent "ID";
+            ];
+        ];
+    ].
+
+<#TriplesMapDocument_creator>
+    rr:logicalTable [ rr:tableName "foaf_Document_dc_creator_view" ];
+    rr:subjectMap [
+        rr:template "Document/{ID_foaf_Document}/";
+        rr:class foaf:Document;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Document #{ID_foaf_Document}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dc:creator;
+        rr:objectMap [            
+            rr:parentTriplesMap <#TriplesMapPerson>;
+            rr:joinCondition [
+                rr:child "dc_creator";
+                rr:parent "ID";
+            ];
+        ];
+    ].
+
+<#TriplesMapPostalAddress>
+    rr:logicalTable [ rr:tableName "conf_PostalAddress_view" ];
+    rr:subjectMap [
+        rr:template "PostalAddress/{ID}/{ID2}/{ID3}/{ID4}/";
+        rr:class conf:PostalAddress;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "PostalAddress #{ID} {ID2} {ID3} {ID4}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate vcard:country;
+        rr:objectMap [ rr:column "vcard_country" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate vcard:street;
+        rr:objectMap [ rr:column "vcard_street" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate vcard:locality;
+        rr:objectMap [ rr:column "vcard_locality" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate vcard:pcode;
+        rr:objectMap [ rr:column "vcard_pcode" ];
+    ].
+
+<#TriplesMapConcept>
+    rr:logicalTable [ rr:tableName "skos_Concept_view" ];
+    rr:subjectMap [
+        rr:template "Concept/{ID}/";
+        rr:class skos:Concept;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Concept #{ID}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate skos:prefLabel;
+        rr:objectMap [ rr:column "skos_prefLabel" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate skos:broader;
+        rr:objectMap [            
+            rr:parentTriplesMap <#TriplesMapConcept>;
+            rr:joinCondition [
+                rr:child "skos_broader";
+                rr:parent "ID";
+            ];
+        ];
+    ].
+
+<#TriplesMapConference>
+    rr:logicalTable [ rr:tableName "conf_Conference_view" ];
+    rr:subjectMap [
+        rr:template "Conference/{ID}/";
+        rr:class conf:Conference;
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:template "Conference #{ID}"; ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate dc:date;
+        rr:objectMap [ rr:column "dc_date" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate conf:location;
+        rr:objectMap [ rr:column "conf_location" ];
+    ];
+    rr:predicateObjectMap [
+        rr:predicate rdfs:label;
+        rr:objectMap [ rr:column "rdfs_label" ];
+    ].
 
 <#TriplesMapOrganization>
     rr:logicalTable [ rr:tableName "conf_Organization_view" ];
@@ -46,31 +263,4 @@
                 rr:parent "ID4";
             ];
         ];
-    ].
-
-<#TriplesMapPostalAddress>
-    rr:logicalTable [ rr:tableName "conf_PostalAddress_view" ];
-    rr:subjectMap [
-        rr:template "PostalAddress/{ID}/{ID2}/{ID3}/{ID4}/";
-        rr:class conf:PostalAddress;
-    ];
-    rr:predicateObjectMap [
-        rr:predicate rdfs:label;
-        rr:objectMap [ rr:template "PostalAddress #{ID} {ID2} {ID3} {ID4}"; ];
-    ];
-    rr:predicateObjectMap [
-        rr:predicate vcard:country;
-        rr:objectMap [ rr:column "vcard_country" ];
-    ];
-    rr:predicateObjectMap [
-        rr:predicate vcard:street;
-        rr:objectMap [ rr:column "vcard_street" ];
-    ];
-    rr:predicateObjectMap [
-        rr:predicate vcard:locality;
-        rr:objectMap [ rr:column "vcard_locality" ];
-    ];
-    rr:predicateObjectMap [
-        rr:predicate vcard:pcode;
-        rr:objectMap [ rr:column "vcard_pcode" ];
     ].

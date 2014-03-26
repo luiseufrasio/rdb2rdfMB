@@ -165,8 +165,8 @@ public class MainController implements Initializable {
         assert newMapping != null : "fx:id=\"newMapping\" was not injected: check your FXML file 'main.fxml'.";
         m = this;
 
-        rbtR2rmlViews.setToggleGroup(group);
-        rbtRelViews.setToggleGroup(group);
+//        rbtR2rmlViews.setToggleGroup(group);
+//        rbtRelViews.setToggleGroup(group);
 
         itemDbName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("databaseAlias"));
         itemOntoName.setCellValueFactory(new PropertyValueFactory<MappingConfigurationEntry, String>("ontologyAlias"));
@@ -636,18 +636,7 @@ public class MainController implements Initializable {
      * @param event the action event.
      */
     public void publishR2rmlFired(ActionEvent event) throws IOException, Exception {
-        File f = new File("r2rml.ttl");
-        FileUtils.writeStringToFile(f, r2rml.toString().replaceAll("&lt;", "<").replaceAll("&gt;", ">"));
-
-        server s = new server();
-        try {
-            s.process(new String[]{"-u", mc.getDatabaseUser(), "-pass", mc.getDatabasePassword(), "-d", DbConnection.getDriverClass(mc.getDatabaseDriver()), "-j", mc.getDatabaseUrl(), "r2rml.ttl"});
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "It was not possible to start D2RQ beacuse: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        URI u = new URI("http://localhost:2020/snorql/");
-        Desktop.getDesktop().browse(u);
+        // Mostrar uma mensagem indicando a criação das procedures no banco
     }
 
     /**
@@ -709,16 +698,9 @@ public class MainController implements Initializable {
     public void createSqlViewsFired(ActionEvent event) throws IOException, Exception {
         tabPane.getTabs().get(3).setDisable(false);
         tabPane.getSelectionModel().select(3);
-        listViews = ViewsGen.buildViews(assertionsList, mapFks, mc);
-
-        StringBuilder viewsStr = new StringBuilder("");
-        for (String view : listViews) {
-            viewsStr.append(view);
-            viewsStr.append("\n\n");
-        }
-
+        
         sqlViews.getEngine()
-                .loadContent("<pre>" + viewsStr.toString() + "</pre>");
+                .loadContent("<pre>" + "INCLUIR AQUI AS TRIGGERS" + "</pre>");
     }
 
     /**
@@ -730,36 +712,8 @@ public class MainController implements Initializable {
         tabPane.getTabs().get(4).setDisable(false);
         tabPane.getSelectionModel().select(4);
 
-        if (rbtR2rmlViews.isSelected()) {
-            btnPublishData.setDisable(true);
-        } else {
-            btnPublishData.setDisable(false);
-            // Criar views no banco de dados
-            Connection conn = DbConnection.connect(mc.getDatabaseDriver(), mc.getDatabaseUrl(), mc.getDatabaseUser(), mc.getDatabasePassword());
-            Statement stmt = conn.createStatement();
-
-            for (String view : listViews) {
-                if (view.startsWith("CREATE VIEW")) {
-                    // Testar se a view já existe para apagar
-                    String viewName = view.split("VIEW")[1].split("AS")[0];
-                    try {
-                        stmt.execute("select * from " + viewName);
-                        stmt.executeUpdate("drop view " + viewName);
-                    } catch (Exception e) {
-                    }
-                }
-
-                stmt.executeUpdate(view);
-            }
-
-            stmt.close();
-            conn.close();
-
-            r2rml = R2RMLGen.buildR2RML(assertionsList, mapFks, mapPrefixes);
-        }
-
         r2rmlContent.getEngine()
-                .loadContent("<pre>" + r2rml + "</pre>");
+                .loadContent("<pre>" + "INCLUIR AQUI AS PROCEDURES" + "</pre>");
     }
 
     private void tratarEventoMcTable() {

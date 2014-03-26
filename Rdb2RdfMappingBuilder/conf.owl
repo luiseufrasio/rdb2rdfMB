@@ -12,6 +12,10 @@
 foaf:Person  a       owl:Class , rdfs:Class ;
       rdfs:label "foaf:Person";
       rdfs:subClassOf [ a owl:Restriction ;
+                  owl:onProperty conf:has_affiliation ;
+                  owl:maxCardinality "1000"^^<http://www.w3.org/2001/XMLSchema#int>
+      ];
+      rdfs:subClassOf [ a owl:Restriction ;
             owl:onProperty conf:research_interests ;
             owl:maxCardinality "1000"^^<http://www.w3.org/2001/XMLSchema#int>
       ] .
